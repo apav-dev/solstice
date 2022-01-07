@@ -2,7 +2,7 @@ import { VerticalResultsDisplay } from "../components/VerticalResults";
 import { SectionComponent, SectionConfig } from "../models/sectionComponent";
 import { StandardCard } from "../components/cards/StandardCard";
 import { CompositionMethod, useComposedCssClasses } from "../hooks/useComposedCssClasses";
-import Mapbox from "../components/Mapbox";
+import Mapbox, { GeoData } from "../components/Mapbox";
 
 interface LocationSectionCssClasses {
   section?: string
@@ -27,7 +27,11 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
   const cardComponent = cardConfig?.CardComponent || StandardCard;
 
   const renderMap = () => {
-    return (<Mapbox />);
+    if(results.length === 0) return null;
+
+    const geoResults = results.map(r => r.rawData as unknown as GeoData);
+
+    return (<Mapbox markers={geoResults.map(r => ({ coord: [r.yextDisplayCoordinate?.longitude || 0, r.yextDisplayCoordinate?.latitude || 0] }))}/>);
   }
   
   return (
