@@ -1,3 +1,4 @@
+import { LocationCard } from '../components/cards/LocationCard';
 import { StandardCard } from '../components/cards/StandardCard';
 import { VerticalConfig } from '../components/UniversalResults';
 import LocationSection from '../sections/LocationSection';
@@ -10,7 +11,7 @@ export const universalResultsConfig: UniversalResultsConfig = {
     viewAllButton: true,
     SectionComponent: LocationSection,
     cardConfig: {
-      CardComponent: StandardCard,
+      CardComponent: LocationCard,
       showOrdinal: false
     }
   },
