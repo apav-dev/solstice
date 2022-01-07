@@ -3,8 +3,8 @@ import { AnswersHeadlessProvider } from '@yext/answers-headless-react';
 type HeadlessProviderProps = Parameters<typeof AnswersHeadlessProvider>[0];
 
 export const answersHeadlessConfig: HeadlessProviderProps = {
-  apiKey: '3517add824e992916861b76e456724d9',
-  experienceKey: 'answers-js-docs',
+  apiKey: '50706f70f096a4e7906985a583210869',
+  experienceKey: 'hackathon',
   locale: 'en',
   sessionTrackingEnabled: true
 };
