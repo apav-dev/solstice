@@ -28,6 +28,7 @@ export default function Mapbox(props: Props) {
     map.current = new mapboxgl.Map({
       container: mapContainer.current || '',
       style: 'mapbox://styles/mapbox/streets-v11',
+      interactive: false,
       zoom: 13
     });
   });
@@ -49,7 +50,7 @@ export default function Mapbox(props: Props) {
   return (
     <div>
       {/* TODO: remove inline style */}
-      <div ref={mapContainer} style={{ height: '364px',  }} />
+      <div ref={mapContainer}  style={{ height: '580px' }} />
     </div>
   );
 }

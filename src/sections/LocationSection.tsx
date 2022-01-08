@@ -37,12 +37,19 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
   return (
     <section className={cssClasses.section}>
       {header}
-      {renderMap()}
-      <VerticalResultsDisplay
-        results={results}
-        CardComponent={cardComponent}
-        {...(cardConfig && { cardConfig })}
-      />
+      <div className='flex'>
+        <div className='w-1/4' style={{ height: '580px', overflowY: 'scroll' }}>
+          <VerticalResultsDisplay
+            results={results}
+            CardComponent={cardComponent}
+            {...(cardConfig && { cardConfig })}
+          />
+        </div>
+        <div className='w-3/4'>
+          {renderMap()}
+        </div>
+      </div>
+      
     </section>
   );
 }

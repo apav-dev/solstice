@@ -44,15 +44,15 @@ export interface LocationData {
 }
 
 const builtInCssClasses: StandardCardCssClasses = {
-  container: 'flex flex-col justify-between border rounded-lg mb-4 p-4 shadow-sm ',
-  header: 'flex text-gray-800',
-  body: 'flex justify-end pt-2.5',
-  descriptionContainer: 'w-full text-base',
+  container: 'flex flex-col justify-between border   p-4 shadow-sm ',
+  header: 'flex text-base text-gray-800',
+  body: 'flex justify-end pt-2.5 text-sm font-body',
+  descriptionContainer: 'w-full text-sm',
   ctaContainer: 'flex flex-col justify-end ml-4',
   cta1: 'min-w-max bg-blue-600 text-white font-medium rounded-lg py-2 px-5 shadow',
   cta2: 'min-w-max bg-white text-blue-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
   ordinal: 'mr-1.5 text-lg font-medium',
-  title: 'text-lg font-medium'
+  title: 'text-base font-medium font-body font-bold'
 }
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -104,7 +104,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
       </div>
       <div className={cssClasses.body}>
         {renderAddress(location.address)}
-        {renderHours(location.hours)}
+        {/* {renderHours(location.hours)} */}
       </div>
     </div>);
 }
