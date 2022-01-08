@@ -2,7 +2,18 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    fontSize: {
+      sm: ['12px', '18px'],
+      base: ['16px', '22px'],
+      // base: ['24px', '30px'],
+      lg: ['28px', '34px'],
+      xl: ['96px', '102px']
+    },
+    fontFamily: {
+      'heading': ['IBM Plex Sans Condensed', 'sans-serif'],
+      'body': ['PT Sans', 'sans-serif']
+
+    }
   },
   variants: {
     extend: {},
