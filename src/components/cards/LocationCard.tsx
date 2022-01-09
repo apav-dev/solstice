@@ -44,8 +44,8 @@ export interface LocationData {
 }
 
 const builtInCssClasses: StandardCardCssClasses = {
-  container: 'flex flex-col justify-between border   p-4 shadow-sm ',
-  header: 'flex text-base text-gray-800',
+  container: 'flex flex-col justify-between border-b p-4 shadow-sm ',
+  header: 'flex text-base',
   body: 'flex justify-end pt-2.5 text-sm font-body',
   descriptionContainer: 'w-full text-sm',
   ctaContainer: 'flex flex-col justify-end ml-4',
