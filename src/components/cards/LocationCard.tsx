@@ -17,13 +17,14 @@ interface Address {
   region: string
 }
 
-interface Interval {
+export interface Interval {
   start: string,
   end: string
 }
 
 interface DayHours {
   isClosed: boolean,
+  // TODO: change to optional field 
   openIntervals: Interval[]
 }
 

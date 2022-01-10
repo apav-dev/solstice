@@ -3,6 +3,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontSize: {
+      xs: ['6px', '12px'],
       sm: ['12px', '18px'],
       base: ['16px', '22px'],
       // base: ['24px', '30px'],

@@ -1,7 +1,8 @@
 import { useComposedCssClasses } from "../../hooks/useComposedCssClasses";
 import { CardProps } from "../../models/cardComponent";
 import { Image } from "../cards/TrainerCard";
-import { Hours } from "../cards/LocationCard";
+import { Hours, Interval } from "../cards/LocationCard";
+import { start } from "repl";
 
 export interface ClassCardConfig {
   showOrdinal?: boolean
@@ -22,7 +23,7 @@ interface PrimaryPhoto {
 
 export interface ClassData {
   name?: string,
-  c_trainer?: Trainer,
+  c_trainer?: Trainer[],
   primaryPhoto: PrimaryPhoto,
   c_time?: Hours
 }
@@ -30,32 +31,111 @@ export interface ClassData {
 export interface TrainerCardCssClasses {
   container?: string,
   descriptionContainer?: string,
-  name?: string
+  title?: string,
+  body?: string
 }
 
 const builtInCssClasses: TrainerCardCssClasses = {
   container: 'flex flex-col justify-between border-b p-4 shadow-sm',
   descriptionContainer: 'w-full text-sm',
-  name: 'text-base font-medium font-body font-bold'
+  title: 'text-base font-medium font-body font-bold',
+  body: 'text-base font-medium font-body'
 }
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
 export function ClassCard(props: ClassCardProps): JSX.Element {
   const { result } = props;
   const workoutClass = result.rawData as unknown as ClassData;
-  // const smallestThumbnail = trainer.logo?.image?.thumbnails[trainer.logo?.image?.thumbnails.length - 1].url
+  const primaryTrainer = workoutClass.c_trainer && workoutClass.c_trainer.length ? workoutClass.c_trainer[0].name : "";
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
 
-  function renderName(name?: string) {
-    return <div className={cssClasses.name}>{name}</div>
+  function renderTitle(title?: string) {
+    if(!title) return;
+    return <div className={cssClasses.title}>{title}</div>
   };
+
+  function renderTrainerName(trainerName?: string) {
+    if(!trainerName) return;
+    return( 
+      <div className={cssClasses.body}>{trainerName}</div> 
+    );
+  }
+
+  function getClassInterval(intervals: Interval[]) {
+    const interval = intervals[0];
+    
+    const startTimeHour = interval.start.slice(0, 2);
+    const endTimeHour = interval.end.slice(0,2);
+
+    console.log(+startTimeHour)
+
+    const startAMPM = +startTimeHour < 12 ? 'AM' : 'PM';
+    const endAMPM = +endTimeHour < 12 ? 'AM' : 'PM';
+
+    const startHour = +startTimeHour % 12 || 12;
+    const endHour = +endTimeHour % 12 || 12;
+
+    return `${startHour}:${interval.start.slice(3,5)}${startAMPM} - ${endHour}:${interval.end.slice(3,5)}${endAMPM}`
+  }
+
+  function renderClassInterval(hours?: Hours) {
+    // if day has openIntervals
+    let classTime = '';
+    switch (new Date().getDay())
+    {
+      case 0:
+        if(hours?.monday.openIntervals){
+          classTime = getClassInterval(hours.monday.openIntervals);
+        }
+        break;
+      case 1:
+        if(hours?.tuesday.openIntervals){
+          classTime = getClassInterval(hours.tuesday.openIntervals);
+        }
+        break;
+      case 2:
+        if(hours?.wednesday.openIntervals){
+          classTime = getClassInterval(hours.wednesday.openIntervals);
+        }
+        break;
+      case 3:
+        if(hours?.thursday.openIntervals){
+          classTime = getClassInterval(hours.thursday.openIntervals);
+        }
+        break;
+      case 4:
+        if(hours?.friday.openIntervals){
+          classTime = getClassInterval(hours.friday.openIntervals);
+        }
+        break;
+      case 5:
+        if(hours?.saturday.openIntervals){
+          classTime = getClassInterval(hours.saturday.openIntervals);
+        }
+        break;
+      case 6:
+        if(hours?.sunday.openIntervals){
+          classTime = getClassInterval(hours.sunday.openIntervals);
+        }
+        break;
+    }
+    
+    if(!classTime) return;
+
+    return <div className={cssClasses.body}>{classTime}</div>
+  }
 
   return (
     <div className={cssClasses.container}>
-      <div className='flex' style={{ height: "253px", width: "253px" }}>
+      <div className='flex mb-2' style={{ height: "253px", width: "253px" }}>
         <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class"/>
       </div>
-      <div>{renderName(workoutClass.name)}</div>
+      <div className="flex space-x-2">
+        {renderTitle(workoutClass.name)}
+        <div className="text-xs bg-[#C4C4C4] self-center ">{`\u2B24`}</div>
+        {renderTrainerName(primaryTrainer)}
+      </div>
+      {renderClassInterval(workoutClass.c_time)}
     </div>);
 }
