@@ -27,7 +27,7 @@ interface DayHours {
   openIntervals: Interval[]
 }
 
-interface Hours {
+export interface Hours {
   monday: DayHours,
   tuesday: DayHours,
   wednesday: DayHours,

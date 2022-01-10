@@ -1,33 +1,30 @@
 import { useComposedCssClasses } from "../../hooks/useComposedCssClasses";
 import { CardProps } from "../../models/cardComponent";
+import { Image } from "../cards/TrainerCard";
+import { Hours } from "../cards/LocationCard";
 
-export interface TrainerCardConfig {
+export interface ClassCardConfig {
   showOrdinal?: boolean
 }
 
-export interface TrainerCardProps extends CardProps {
-  configuration: TrainerCardConfig
+export interface ClassCardProps extends CardProps {
+  configuration: ClassCardConfig
 }
 
-export interface SimpleImage {
-  url: string,
-  width: number,
-  height: number
+interface Trainer {
+  entityId: string,
+  name: string
 }
 
-export interface Image extends SimpleImage {
-  sourceUrl: string,
-  thumbnails: SimpleImage[]
+interface PrimaryPhoto {
+  image: Image
 }
 
-interface Logo {
-  image?: Image
-}
-
-export interface TrainerData {
+export interface ClassData {
   name?: string,
-  c_inspirationalQuote?: string,
-  logo?: Logo
+  c_trainer?: Trainer,
+  primaryPhoto: PrimaryPhoto,
+  c_time?: Hours
 }
 
 export interface TrainerCardCssClasses {
@@ -43,9 +40,9 @@ const builtInCssClasses: TrainerCardCssClasses = {
 }
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
-export function TrainerCard(props: TrainerCardProps): JSX.Element {
+export function ClassCard(props: ClassCardProps): JSX.Element {
   const { result } = props;
-  const trainer = result.rawData as unknown as TrainerData;
+  const workoutClass = result.rawData as unknown as ClassData;
   // const smallestThumbnail = trainer.logo?.image?.thumbnails[trainer.logo?.image?.thumbnails.length - 1].url
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
@@ -54,16 +51,11 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
     return <div className={cssClasses.name}>{name}</div>
   };
 
-  function renderQuote(quote?: string) {
-    return <div className={cssClasses.descriptionContainer}>{quote}</div>
-  }
-
   return (
     <div className={cssClasses.container}>
       <div className='flex' style={{ height: "253px", width: "253px" }}>
-        <img src={trainer.logo?.image?.url} alt="Trainer Headshot"/>
+        <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class"/>
       </div>
-      <div>{renderName(trainer.name)}</div>
-      <div>{renderQuote(trainer.c_inspirationalQuote)}</div>
+      <div>{renderName(workoutClass.name)}</div>
     </div>);
 }

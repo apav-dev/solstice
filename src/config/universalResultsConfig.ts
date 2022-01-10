@@ -1,5 +1,5 @@
+import { ClassCard } from '../components/cards/ClassCard';
 import { LocationCard } from '../components/cards/LocationCard';
-import { StandardCard } from '../components/cards/StandardCard';
 import { TrainerCard } from '../components/cards/TrainerCard';
 import { VerticalConfig } from '../components/UniversalResults';
 import CarouselSection from '../sections/CarouselSection';
@@ -9,7 +9,7 @@ export type UniversalResultsConfig = Record<string, VerticalConfig>;
 
 export const universalResultsConfig: UniversalResultsConfig = {
   locations: {
-    label: 'Locations',
+    label: 'Location',
     viewAllButton: true,
     SectionComponent: LocationSection,
     cardConfig: {
@@ -17,10 +17,11 @@ export const universalResultsConfig: UniversalResultsConfig = {
       showOrdinal: false
     }
   },
-  events: {
+  classes: {
     label: 'Classes',
+    SectionComponent: CarouselSection,
     cardConfig: {
-      CardComponent: StandardCard,
+      CardComponent: ClassCard,
       showOrdinal: false
     }
   },
