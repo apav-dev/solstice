@@ -1,6 +1,8 @@
 import { LocationCard } from '../components/cards/LocationCard';
 import { StandardCard } from '../components/cards/StandardCard';
+import { TrainerCard } from '../components/cards/TrainerCard';
 import { VerticalConfig } from '../components/UniversalResults';
+import CarouselSection from '../sections/CarouselSection';
 import LocationSection from '../sections/LocationSection';
 
 export type UniversalResultsConfig = Record<string, VerticalConfig>;
@@ -24,9 +26,10 @@ export const universalResultsConfig: UniversalResultsConfig = {
   },
   trainers: {
     label: 'Trainers',
+    SectionComponent: CarouselSection,
     cardConfig: {
-      CardComponent: StandardCard,
+      CardComponent: TrainerCard,
       showOrdinal: false
-    }
+    },
   }
 }
