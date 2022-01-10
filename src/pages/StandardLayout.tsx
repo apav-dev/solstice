@@ -23,14 +23,17 @@ const StandardLayout: LayoutComponent = ({ page }) => {
   const isVertical = useAnswersState(s => s.meta.searchType) === SearchTypeEnum.Vertical;
   return (
     <>
-      {isVertical
-        ? <SearchBar
-          placeholder='Search...'
-          screenReaderInstructionsId='SearchBar__srInstructions'
-        />
-        : <SampleVisualSearchBar />
-      }
-      <Navigation links={navLinks} />
+      <div className="flex items-center space-x-40">
+        <div style={{ paddingLeft: '12px' }} className='font-heading font-black text-xl'>Search Results</div>
+        {isVertical
+          ? <SearchBar
+            placeholder='Search...'
+            screenReaderInstructionsId='SearchBar__srInstructions'
+          />
+          : <SampleVisualSearchBar />
+        }
+      </div>
+      {/* <Navigation links={navLinks} /> */}
       {page}
     </>
   )

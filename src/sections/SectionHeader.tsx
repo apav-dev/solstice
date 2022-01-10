@@ -18,7 +18,7 @@ interface SectionHeaderCssClasses {
 const builtInCssClasses: SectionHeaderCssClasses = {
   sectionHeaderContainer: 'flex items-center w-full pl-1 mb-4',
   sectionHeaderIconContainer: 'w-5 h-5',
-  sectionHeaderLabel: 'font-bold text-gray-800 text-base pl-3', 
+  sectionHeaderLabel: 'font-bold font-body text-lg pl-3', 
   viewMoreContainer: 'flex justify-end flex-grow ml-auto font-medium text-gray-800',
   viewMoreLink: 'text-blue-600 pr-1 pl-3',
   appliedFiltersContainer: 'ml-3'
@@ -49,9 +49,9 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
 
   return (
     <div className={cssClasses.sectionHeaderContainer}>
-      <div className={cssClasses.sectionHeaderIconContainer}> 
+      {/* <div className={cssClasses.sectionHeaderIconContainer}> 
         <CollectionIcon></CollectionIcon>
-      </div>
+      </div> */}
       <h2 className={cssClasses.sectionHeaderLabel}>{label}</h2>
       {/* TODO (cea2aj): Add support for ResultsCountDisplay once we get the mocks from UX
         {resultsCountConfig &&

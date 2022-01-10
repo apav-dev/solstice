@@ -38,7 +38,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
     <section className={cssClasses.section}>
       {header}
       <div className='flex'>
-        <div className='w-1/4' style={{ height: '580px', overflowY: 'scroll' }}>
+        <div className='w-1/4 border' style={{ height: '580px', overflowY: 'scroll' }}>
           <VerticalResultsDisplay
             results={results}
             CardComponent={cardComponent}
