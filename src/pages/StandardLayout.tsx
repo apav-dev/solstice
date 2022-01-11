@@ -4,6 +4,7 @@ import { universalResultsConfig } from '../config/universalResultsConfig';
 import { LayoutComponent } from '../PageRouter';
 import SearchBar from '../components/SearchBar';
 import SampleVisualSearchBar from '../components/VisualAutocomplete/SampleVisualSearchBar';
+import { SolsticeHeader } from '../components/SolsticeHeader';
 
 const navLinks = [
   {
@@ -23,6 +24,7 @@ const StandardLayout: LayoutComponent = ({ page }) => {
   const isVertical = useAnswersState(s => s.meta.searchType) === SearchTypeEnum.Vertical;
   return (
     <>
+      <SolsticeHeader />
       <div className="flex items-center space-x-40">
         <div style={{ paddingLeft: '12px' }} className='font-heading font-black text-xl'>Search Results</div>
         {isVertical
