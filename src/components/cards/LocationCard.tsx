@@ -2,6 +2,9 @@ import { useComposedCssClasses } from "../../hooks/useComposedCssClasses";
 import { CardProps } from "../../models/cardComponent";
 import { StandardCardCssClasses } from "./StandardCard";
 
+import { useContext } from "react";
+import { LocationContext } from '../../sections/LocationSection'
+
 export interface LocationCardConfig {
   showOrdinal?: boolean
 }
@@ -39,13 +42,14 @@ export interface Hours {
 }
 
 export interface LocationData {
+  id?: string,
   address?: Address,
   name?: string,
   hours?: Hours
 }
 
 const builtInCssClasses: StandardCardCssClasses = {
-  container: 'flex flex-col justify-between border-b p-4 shadow-sm ',
+  container: 'flex flex-col justify-between border-b p-4 shadow-sm hover:bg-gray-700',
   header: 'flex text-base',
   body: 'flex justify-end pt-2.5 text-sm font-body',
   descriptionContainer: 'w-full text-sm',
@@ -62,6 +66,8 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
   const location = result.rawData as unknown as LocationData;
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
+
+  const locationContext = useContext(LocationContext);
 
   function renderTitle(title: string) {
     return <div className={cssClasses.title}>{title}</div>
@@ -95,10 +101,14 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
 
   function formatDayHours(dayHours: DayHours){
     return `${dayHours.openIntervals[0].start} - ${dayHours.openIntervals[0].end}`
-  }
+  };
+
+  function updateLocationId(id?: string){
+    if(locationContext?.dispatch) locationContext?.dispatch(id || '');
+  };
 
   return (
-    <div className={cssClasses.container}>
+    <div className={cssClasses.container} onMouseOver={() => updateLocationId(location.id)} onMouseLeave={() => updateLocationId()}>
       <div className={cssClasses.header}>
         {/* {configuration.showOrdinal && result.index && renderOrdinal(result.index)} */}
         {renderTitle(location.name || '')}
