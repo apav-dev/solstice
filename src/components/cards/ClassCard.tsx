@@ -68,8 +68,6 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     const startTimeHour = interval.start.slice(0, 2);
     const endTimeHour = interval.end.slice(0,2);
 
-    console.log(+startTimeHour)
-
     const startAMPM = +startTimeHour < 12 ? 'AM' : 'PM';
     const endAMPM = +endTimeHour < 12 ? 'AM' : 'PM';
 
@@ -137,5 +135,9 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
         {renderTrainerName(primaryTrainer)}
       </div>
       {renderClassInterval(workoutClass.c_time)}
-    </div>);
+      <div className="flex justify-center border w-full rounded-md self-center align-middle mt-4 bg-white">
+        <div className="align-middle font-heading font-bold text-black">SIGN UP</div>
+      </div>
+    </div>
+  );
 }
