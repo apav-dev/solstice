@@ -2,22 +2,8 @@
   "artifactStructure": {
       "assets": [
           {
-              "root": "assets"
+              "root": "build"
           }
-      ],
-      "hbsTemplates": [
-          { 
-              "root": "templates",
-              "pattern": "*.hbs"
-          },
-          { 
-              "root": "partials",
-              "pattern": "*.hbs"
-          },
-          { 
-              "root": "pages",
-              "pattern": "*.hbs"
-          } 
       ]
   },
   "base_image_tag": "node-12.18",
@@ -32,6 +18,5 @@
   "livePreview": {
       "serve_setup_cmd": "echo setup",
       "serve_cmd": "echo serve"
-  },
-  "watch_cmd": "npm run watch"
+  }
 }
