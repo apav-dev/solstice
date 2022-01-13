@@ -11,8 +11,8 @@ export const routeConfig = [
     exact: true,
     page: <UniversalSearchPage universalResultsConfig={universalResultsConfig} />
   },
-  {
-    path: '/locations',
-    page: <LocationsPage verticalKey='locations' />
-  },
+  // {
+  //   path: '/locations',
+  //   page: <LocationsPage verticalKey='locations' />
+  // },
 ];

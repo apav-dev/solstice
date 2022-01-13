@@ -64,7 +64,7 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
         <img src={trainer.logo?.image?.url} alt="Trainer Headshot"/>
       </div>
       <div>{renderName(trainer.name)}</div>
-      <div>{renderQuote(trainer.c_inspirationalQuote)}</div>
+      <div className="h-6">{renderQuote(trainer.c_inspirationalQuote)}</div>
       <div className="flex justify-between text-black">
         <div className="flex justify-center border rounded-md self-center	align-middle mt-4 px-4 bg-white">
           <div className="align-middle font-heading font-bold">VIEW SCHEDULE</div>
