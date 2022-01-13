@@ -44,12 +44,11 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
   const cardComponent = cardConfig?.CardComponent || StandardCard;
 
   const renderMap = () => {
-    console.log(state.locationId)
     if(results.length === 0) return null;
 
     const geoResults = results.map(r => r.rawData as unknown as GeoData);
 
-    return (<Mapbox markers={geoResults.map(r => ({ id: r.id, coord: [r.yextDisplayCoordinate?.longitude || 0, r.yextDisplayCoordinate?.latitude || 0], active: r.id === state.locationId }))}/>);
+    return (<Mapbox markers={geoResults.map(r => ({ id: r.id, coord: [r.yextDisplayCoordinate?.longitude || 0, r.yextDisplayCoordinate?.latitude || 0] }))} activeMarkerId={state.locationId}/>);
   }
   
   return (

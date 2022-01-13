@@ -20,16 +20,15 @@ export interface GeoData {
 interface Props {
 	markers?: {
     id: string,
-		coord: [number, number],
-    active: boolean
-	}[]
+		coord: [number, number]
+	}[],
+  activeMarkerId?: string
 }
 
 type MapMarkers = { [locationId: string]: { marker: mapboxgl.Marker, activeMarker: mapboxgl.Marker } };
 
 export default function Mapbox(props: Props) {
-  const [markers, setMarkers] = useState<MapMarkers>();
-  const [initialRender, setInitialRender] = useState(true);
+  const [markers, setMarkers] = useState<MapMarkers>({});
 
   const mapContainer = useRef(null);
   const map = useRef<Map | null>(null); 
@@ -40,64 +39,66 @@ export default function Mapbox(props: Props) {
       container: mapContainer.current || '',
       style: 'mapbox://styles/mapbox/dark-v10',
       interactive: false,
-      zoom: 12
+      zoom: 9
     });
   });
 
   useEffect(() => {
     if (map === null || map.current === null || !props.markers || props.markers.length === 0) return;
-    const bounds = new mapboxgl.LngLatBounds();
-    const center = props.markers[0].coord;
-    
 
-    if(initialRender){
-      let markerRecord: MapMarkers = {};
+    let markerRecord: MapMarkers = markers;
+    const bounds = new mapboxgl.LngLatBounds();    
 
-      for (const marker of (props.markers || []).values()) {
+    for (const marker of (props.markers || []).values()) {
+      marker.coord && bounds.extend(marker.coord);
+
+      if(!markers[marker.id]){
+
         const pin_el = document.createElement('div');
         const activePin_el = document.createElement('div');
-
+  
         pin_el.setAttribute('id', `${marker.id}_pin`);
         activePin_el.setAttribute('id', `${marker.id}_activePin`);
-
+  
         ReactDOM.render(<PinIcon />, pin_el);
         ReactDOM.render(<ActivePinIcon /> , activePin_el);
-          
-        bounds.extend(marker.coord);
-  
+            
         const mapMarker = new mapboxgl.Marker(pin_el);
         const activeMapMarker = new mapboxgl.Marker(activePin_el);
         activeMapMarker.getElement().style.visibility = 'hidden';
-
-        markerRecord = { ...markerRecord, [marker.id]: { marker: mapMarker, activeMarker: activeMapMarker } }
   
+        markerRecord = { ...markerRecord, [marker.id]: { marker: mapMarker, activeMarker: activeMapMarker } }
+    
         new mapboxgl.Marker(pin_el).setLngLat(marker.coord).addTo(map.current);
         new mapboxgl.Marker(activePin_el).setLngLat(marker.coord).addTo(map.current);
-      } 
+      }
+    } 
 
-      setMarkers(markerRecord);
-      setInitialRender(false);
-    }
-    else {
-      props.markers.forEach(marker => {
-        if(marker.active){
-          if(markers){
-            markers[marker.id].marker.getElement().style.visibility = 'hidden';
-            markers[marker.id].activeMarker.getElement().style.visibility = 'visible';
-          } 
-        } else {
-          if(markers){
-            markers[marker.id].marker.getElement().style.visibility = 'visible';
-            markers[marker.id].activeMarker.getElement().style.visibility = 'hidden';
-          } 
-        }
-      });
-    }
+    map.current.setCenter(bounds.getCenter());
+    map.current.fitBounds(bounds);
 
-    map.current.setCenter(center);
-    // map.current.fitBounds(bounds);
+    setMarkers(markerRecord);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.markers])
+
+  // TODO: Cleanup
+  useEffect(() => {
+    props.markers && props.markers.forEach(marker => {
+      if(marker.id === props.activeMarkerId){
+        if(markers){
+          if(markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'hidden';
+          if(markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'visible';
+        } 
+      } else {
+        if(markers){
+          if(markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'visible';
+          if(markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'hidden';
+        } 
+      }
+    });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.activeMarkerId])
 
   return (
     <div>
