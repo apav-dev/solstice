@@ -1,21 +1,21 @@
-import Navigation from '../components/Navigation';
+// import Navigation from '../components/Navigation';
 import { SearchTypeEnum, useAnswersState } from '@yext/answers-headless-react';
-import { universalResultsConfig } from '../config/universalResultsConfig';
+// import { universalResultsConfig } from '../config/universalResultsConfig';
 import { LayoutComponent } from '../PageRouter';
 import SearchBar from '../components/SearchBar';
 import SampleVisualSearchBar from '../components/VisualAutocomplete/SampleVisualSearchBar';
 import { SolsticeHeader } from '../components/SolsticeHeader';
 
-const navLinks = [
-  {
-    to: '/',
-    label: 'All'
-  },
-  ...Object.entries(universalResultsConfig).map(([verticalKey, config]) => ({
-    to: verticalKey,
-    label: config.label || verticalKey
-  }))
-]
+// const navLinks = [
+//   {
+//     to: '/',
+//     label: 'All'
+//   },
+//   ...Object.entries(universalResultsConfig).map(([verticalKey, config]) => ({
+//     to: verticalKey,
+//     label: config.label || verticalKey
+//   }))
+// ]
 
 /**
  * A LayoutComponent that provides a SearchBar and Navigation tabs to a given page.

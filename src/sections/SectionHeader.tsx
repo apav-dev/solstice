@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { AppliedFiltersDisplay, AppliedFiltersProps } from "../components/AppliedFilters";
 import { ResultsCountConfig } from "../components/ResultsCount";
 import { useComposedCssClasses, CompositionMethod } from "../hooks/useComposedCssClasses";
-import { ReactComponent as CollectionIcon } from '../icons/collection.svg';
+// import { ReactComponent as CollectionIcon } from '../icons/collection.svg';
 import { useAnswersState } from '@yext/answers-headless-react';
 import { DisplayableFilter } from "../models/displayableFilter";
 

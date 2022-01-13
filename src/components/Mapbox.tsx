@@ -96,6 +96,7 @@ export default function Mapbox(props: Props) {
 
     map.current.setCenter(center);
     // map.current.fitBounds(bounds);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.markers])
 
   return (
