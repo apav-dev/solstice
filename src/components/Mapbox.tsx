@@ -43,6 +43,7 @@ export default function Mapbox(props: Props) {
     });
   });
 
+  // TODO: Hide pins that aren't in marker list
   useEffect(() => {
     if (map === null || map.current === null || !props.markers || props.markers.length === 0) return;
 
