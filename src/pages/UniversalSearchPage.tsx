@@ -3,6 +3,7 @@ import DirectAnswer from '../components/DirectAnswer';
 import { UniversalResultsConfig } from '../config/universalResultsConfig';
 import SpellCheck from '../components/SpellCheck';
 import usePageSetupEffect from '../hooks/usePageSetupEffect';
+import LocationBias from '../components/LocationBias';
 
 const universalResultsFilterConfig = {
   show: true
@@ -20,6 +21,7 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
         appliedFiltersConfig={universalResultsFilterConfig}
         verticalConfigs={universalResultsConfig}
       />
+      <LocationBias />
     </div>
   );
 }
