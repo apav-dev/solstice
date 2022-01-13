@@ -2,7 +2,6 @@ import { useComposedCssClasses } from "../../hooks/useComposedCssClasses";
 import { CardProps } from "../../models/cardComponent";
 import { Image } from "../cards/TrainerCard";
 import { Hours, Interval } from "../cards/LocationCard";
-import { start } from "repl";
 
 export interface ClassCardConfig {
   showOrdinal?: boolean
