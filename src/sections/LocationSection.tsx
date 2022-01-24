@@ -57,7 +57,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
         {header}
         <div className='flex'>
           {/* TODO: remove inline styles */}
-          <div className='w-1/4 border' style={{ height: '580px', overflowY: 'scroll' }}>
+          <div className='w-1/4 border overflow-auto scrollbar pl-1' style={{ maxHeight: '580px' }}>
             <VerticalResultsDisplay
               results={results}
               CardComponent={cardComponent}
