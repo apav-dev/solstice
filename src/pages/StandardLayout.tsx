@@ -26,7 +26,7 @@ const StandardLayout: LayoutComponent = ({ page }) => {
     <>
       <SolsticeHeader />
       <div className="flex items-center space-x-40">
-        <div style={{ paddingLeft: '12px' }} className='font-heading font-black text-xl'>Search Results</div>
+        <div className='font-heading font-black text-xl'>Search Results</div>
         {isVertical
           ? <SearchBar
             placeholder='Search...'

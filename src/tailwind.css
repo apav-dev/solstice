@@ -1,5 +1,7 @@
-/* Header Font */
-@import url("https://fonts.googleapis.com/css2?family=Exo&family=IBM+Plex+Sans+Condensed:wght@100&display=swap");
+@font-face {
+  font-family: "IBM Plex Sans Condensed";
+  src: url(./fonts/IBMPlexSansCondensed-SemiBold.ttf);
+}
 
 @tailwind base;
 @tailwind components;
