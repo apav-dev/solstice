@@ -18,7 +18,7 @@ const CarouselSection: SectionComponent = function (props: SectionConfig): JSX.E
         CardComponent={cardComponent}
         {...(cardConfig && { cardConfig })}
         customCssClasses={{
-          results: 'flex flex-row overflow-x-scroll snap-x'
+          results: 'flex flex-row overflow-auto scrollbar snap-x pb-1'
         }}
       />
     </section>
