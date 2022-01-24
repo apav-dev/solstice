@@ -29,7 +29,7 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
         appliedFiltersConfig={universalResultsFilterConfig}
         verticalConfigs={universalResultsConfig}
       />
-      <LocationBias />
+      <LocationBias customCssClasses={{ container: 'p-8' }}/>
     </div>
   );
 }
