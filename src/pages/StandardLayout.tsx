@@ -5,6 +5,8 @@ import { LayoutComponent } from '../PageRouter';
 import SearchBar from '../components/SearchBar';
 import SampleVisualSearchBar from '../components/VisualAutocomplete/SampleVisualSearchBar';
 import { SolsticeHeader } from '../components/SolsticeHeader';
+import { ResponsiveContext } from '../App';
+import { useContext } from 'react';
 
 // const navLinks = [
 //   {
@@ -21,12 +23,15 @@ import { SolsticeHeader } from '../components/SolsticeHeader';
  * A LayoutComponent that provides a SearchBar and Navigation tabs to a given page.
  */
 const StandardLayout: LayoutComponent = ({ page }) => {
+  const isMobile = useContext(ResponsiveContext);
+
   const isVertical = useAnswersState(s => s.meta.searchType) === SearchTypeEnum.Vertical;
   return (
     <>
       <SolsticeHeader />
+      {!isMobile && 
       <div className="flex items-center space-x-40">
-        <div className='font-heading font-black text-xl'>Search Results</div>
+        <div className='font-heading font-black text-8xl'>Search Results</div>
         {isVertical
           ? <SearchBar
             placeholder='Search...'
@@ -35,7 +40,8 @@ const StandardLayout: LayoutComponent = ({ page }) => {
           : <SampleVisualSearchBar />
         }
       </div>
-      {/* <Navigation links={navLinks} /> */}
+      // {/* <Navigation links={navLinks} /> */}
+      }
       {page}
     </>
   )

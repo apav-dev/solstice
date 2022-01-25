@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { ResponsiveContext } from "../../App";
 import { useComposedCssClasses } from "../../hooks/useComposedCssClasses";
 import { CardProps } from "../../models/cardComponent";
 
@@ -33,13 +35,19 @@ export interface TrainerData {
 export interface TrainerCardCssClasses {
   container?: string,
   descriptionContainer?: string,
-  name?: string
+  name?: string,
+  // TODO: why can't I use the tailwind pixels here
+  trainerPhoto?: string,
+  ctaButton?: string,
+  ctaButtonText?: string
 }
 
 const builtInCssClasses: TrainerCardCssClasses = {
   container: 'flex flex-col justify-between border-b p-4 shadow-sm',
-  descriptionContainer: 'w-full text-sm',
-  name: 'text-base font-medium font-body font-bold'
+  descriptionContainer: 'w-full sm:text-sm text-2xl',
+  name: 'sm:text-base text-3xl font-medium font-body font-bold',
+  ctaButton: "flex border rounded-md mt-4 px-4 bg-white",
+  ctaButtonText: "font-heading font-bold sm:text-base text-3xl"
 }
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -47,6 +55,8 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
   const { result } = props;
   const trainer = result.rawData as unknown as TrainerData;
   // const smallestThumbnail = trainer.logo?.image?.thumbnails[trainer.logo?.image?.thumbnails.length - 1].url
+
+  const isMobile = useContext(ResponsiveContext);
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
 
@@ -60,17 +70,17 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
 
   return (
     <div className={cssClasses.container}>
-      <div className='flex' style={{ height: "253px", width: "253px" }}>
+      <div style={{ height: isMobile ? "512px" : "256px", width: isMobile ? "512px" : "256px" }}>
         <img src={trainer.logo?.image?.url} alt="Trainer Headshot"/>
       </div>
       <div>{renderName(trainer.name)}</div>
       <div className="h-6">{renderQuote(trainer.c_inspirationalQuote)}</div>
       <div className="flex justify-between text-black">
-        <div className="flex justify-center border rounded-md self-center	align-middle mt-4 px-4 bg-white">
-          <div className="align-middle font-heading font-bold">VIEW SCHEDULE</div>
+        <div className={cssClasses.ctaButton}>
+          <div className={cssClasses.ctaButtonText}>VIEW SCHEDULE</div>
         </div>
-        <div className="flex justify-center border rounded-md self-center	align-middle mt-4 px-4 bg-white">
-          <div className="align-middle font-heading font-bold ">CONTACT</div>
+        <div className={cssClasses.ctaButton}>
+          <div className={cssClasses.ctaButtonText}>CONTACT</div>
         </div>
       </div>
     </div>);

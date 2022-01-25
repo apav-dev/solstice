@@ -3,7 +3,8 @@ import { SectionComponent, SectionConfig } from "../models/sectionComponent";
 import { StandardCard } from "../components/cards/StandardCard";
 import { CompositionMethod, useComposedCssClasses } from "../hooks/useComposedCssClasses";
 import Mapbox, { GeoData } from "../components/Mapbox";
-import React, { useReducer } from "react";
+import React, { useContext, useReducer } from "react";
+import { ResponsiveContext } from "../App";
 
 interface LocationSectionCssClasses {
   section?: string
@@ -37,6 +38,8 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
   const cssClasses = useComposedCssClasses(builtInCssClasses, props.customCssClasses, props.compositionmethod )
   const { results,  cardConfig, header } = props;
   const [state, dispatch] = useReducer(reducer, locationContext);
+
+  const isMobile = useContext(ResponsiveContext);
   
   if (results.length === 0) {
     return null;
@@ -57,16 +60,18 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
         {header}
         <div className='flex'>
           {/* TODO: remove inline styles */}
-          <div className='w-1/4 border overflow-auto scrollbar pl-1' style={{ maxHeight: '580px' }}>
+          <div className='sm:w-1/4 w-full border overflow-auto scrollbar pl-1' style={{ maxHeight: '580px' }}>
             <VerticalResultsDisplay
               results={results}
               CardComponent={cardComponent}
               {...(cardConfig && { cardConfig })}
             />
           </div>
+          {!isMobile &&
           <div className='w-3/4'>
             {renderMap()}
           </div>
+          }
         </div>
       
       </section>

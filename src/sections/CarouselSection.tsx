@@ -11,7 +11,7 @@ const CarouselSection: SectionComponent = function (props: SectionConfig): JSX.E
   const cardComponent = cardConfig?.CardComponent || StandardCard;
   
   return (
-    <section className=''>
+    <section>
       {header}
       <VerticalResultsDisplay
         results={results}

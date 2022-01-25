@@ -18,7 +18,7 @@ interface SectionHeaderCssClasses {
 const builtInCssClasses: SectionHeaderCssClasses = {
   sectionHeaderContainer: 'flex items-center w-full pl-1 mb-4',
   sectionHeaderIconContainer: 'w-5 h-5',
-  sectionHeaderLabel: 'font-bold font-body text-lg', 
+  sectionHeaderLabel: 'font-bold font-body sm:text-3xl text-4xl', 
   viewMoreContainer: 'flex justify-end flex-grow ml-auto font-medium text-gray-800',
   viewMoreLink: 'text-blue-600 pr-1 pl-3',
   appliedFiltersContainer: 'ml-3'

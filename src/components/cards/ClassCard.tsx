@@ -2,6 +2,8 @@ import { useComposedCssClasses } from "../../hooks/useComposedCssClasses";
 import { CardProps } from "../../models/cardComponent";
 import { Image } from "../cards/TrainerCard";
 import { Hours, Interval } from "../cards/LocationCard";
+import { ResponsiveContext } from "../../App";
+import { useContext } from "react";
 
 export interface ClassCardConfig {
   showOrdinal?: boolean
@@ -31,14 +33,18 @@ export interface TrainerCardCssClasses {
   container?: string,
   descriptionContainer?: string,
   title?: string,
-  body?: string
+  body?: string,
+  ctaButton?: string,
+  ctaButtonText?: string
 }
 
 const builtInCssClasses: TrainerCardCssClasses = {
   container: 'flex flex-col justify-between border-b p-4 shadow-sm',
   descriptionContainer: 'w-full text-sm',
-  title: 'text-base font-medium font-body font-bold',
-  body: 'text-base font-medium font-body'
+  title: 'sm:text-base text-3xl font-medium font-body font-bold',
+  body: 'sm:text-base text-2xl font-medium font-body',
+  ctaButton: 'flex justify-center border w-full rounded-md self-center align-middle mt-4 bg-white',
+  ctaButtonText: 'align-middle font-heading font-bold text-black sm:text-base text-3xl'
 }
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -46,6 +52,8 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
   const { result } = props;
   const workoutClass = result.rawData as unknown as ClassData;
   const primaryTrainer = workoutClass.c_trainer && workoutClass.c_trainer.length ? workoutClass.c_trainer[0].name : "";
+
+  const isMobile = useContext(ResponsiveContext);
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
 
@@ -125,17 +133,17 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   return (
     <div className={cssClasses.container}>
-      <div className='flex mb-2' style={{ height: "253px", width: "253px" }}>
+      <div className='mb-4' style={{ height: isMobile ? "512px" : "256px", width: isMobile ? "512px" : "256px" }}>
         <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class"/>
       </div>
-      <div className="flex space-x-2">
+      <div className="sm:flex sm:space-x-2">
         {renderTitle(workoutClass.name)}
-        <div className="text-xs bg-[#C4C4C4] self-center ">{`\u2B24`}</div>
+        {!isMobile && <div className="text-xs bg-[#C4C4C4] self-center ">{`\u2B24`}</div>}
         {renderTrainerName(primaryTrainer)}
       </div>
       {renderClassInterval(workoutClass.c_time)}
-      <div className="flex justify-center border w-full rounded-md self-center align-middle mt-4 bg-white">
-        <div className="align-middle font-heading font-bold text-black">SIGN UP</div>
+      <div className={cssClasses.ctaButton}>
+        <div className={cssClasses.ctaButtonText}>SIGN UP</div>
       </div>
     </div>
   );

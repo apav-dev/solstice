@@ -1,6 +1,5 @@
 import { useComposedCssClasses } from "../../hooks/useComposedCssClasses";
 import { CardProps } from "../../models/cardComponent";
-import { StandardCardCssClasses } from "./StandardCard";
 
 import { useContext } from "react";
 import { LocationContext } from '../../sections/LocationSection'
@@ -48,16 +47,17 @@ export interface LocationData {
   hours?: Hours
 }
 
-const builtInCssClasses: StandardCardCssClasses = {
+const builtInCssClasses = {
   container: 'flex flex-col justify-between border-b p-4 shadow-sm hover:bg-gray-700',
   header: 'flex text-base',
   body: 'flex justify-between pt-2.5 text-sm font-body',
-  descriptionContainer: 'text-sm',
+  descriptionContainer: 'sm:text-sm text-2xl',
   ctaContainer: 'flex flex-col justify-between ml-4',
   cta1: 'min-w-max bg-blue-600 text-white font-medium rounded-lg py-2 px-5 shadow',
   cta2: 'min-w-max bg-white text-blue-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
   ordinal: 'mr-1.5 text-lg font-medium',
-  title: 'text-base font-medium font-body font-bold'
+  title: 'sm:text-base text-3xl font-medium font-body font-bold',
+  ctaButton: 'flex justify-center border w-2/5 rounded-md self-center	align-middle mt-4 bg-white'
 }
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -139,7 +139,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
 
   function getGymText(isClosed: boolean, time?: string){
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col sm:text-sm text-2xl">
         <div className="font-bold">{isClosed ? 'Closed' : 'Open'}</div>
         <div>{isClosed ? `Opens at ${time}` : `Closes at ${formatTime(time)}`}</div>
       </div>
@@ -169,8 +169,8 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
         {renderAddress(location.address)}
         {renderIsGymOpen(location.hours)}
       </div>
-      <div className="flex justify-center border w-2/5 rounded-md self-center	align-middle mt-4 bg-white">
-        <div className="align-middle text-black font-heading font-bold">JOIN US</div>
+      <div className={cssClasses.ctaButton}>
+        <div className="align-middle text-black font-heading font-bold sm:text-body text-3xl">JOIN US</div>
       </div>
     </div>
   );

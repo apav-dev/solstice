@@ -2,15 +2,17 @@ import { useContext, useState } from "react";
 import { ResponsiveContext } from "../App";
 import { ReactComponent as HamburgerMenuIcon } from '../icons/hamburger_menu.svg';
 import { ReactComponent as CloseMenuIcon } from '../icons/close_menu.svg';
+import { ReactComponent as SunIcon } from '../icons/sun.svg';
+import SearchBar from "./SearchBar";
 
 const cssClasses = {
-  container: "flex px-4 h-24 items-center justify-between",
+  container: "flex px-4 sm:h-24 h-7.5 items-center justify-between",
   topContainer: "flex items-center",
-  solsticeLabel: "font-heading text-lg",
+  solsticeLabel: "sm:flex sm:space-x-2 font-heading text-3xl",
   headerContainer: "flex  items-center font-heading",
   headingsContainer: "flex space-x-16 font-heading",
   membershipButtonsContainer: 'flex items-center space-x-4 float-right font-heading',
-  dropdownModal: 'fixed top-24 left-0 right-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full'
+  dropdownModal: 'fixed sm:top-24 top-7.5 left-0 right-0 bg-black h-full w-full z-10'
 }
 
 const options = ['ABOUT US', 'OUR COMMITMENT TO CLEAN', 'BLOG', 'SIGN IN', 'SIGN UP'];
@@ -46,7 +48,7 @@ export function SolsticeHeader(): JSX.Element {
   }
 
   const renderDropdownModal = () => (
-    <div className="fixed top-24 left-0 right-0 bg-black h-full w-full z-10">
+    <div className={cssClasses.dropdownModal}>
       <div className="px-12 py-4" >
         {options.map(option => renderDropdownOption(option))}
       </div>
@@ -54,15 +56,24 @@ export function SolsticeHeader(): JSX.Element {
   );
 
   const renderDropdownOption = (option: string) => (
-    <div className="py-8 border-t-2">{option}</div>
+    <div className="py-8 border-t-2 font-heading text-3xl">{option}</div>
   );
 
   return (
     <div>
       <div className={cssClasses.container}>
         <div className={cssClasses.topContainer}>
-          <div className={cssClasses.solsticeLabel}>Solstice</div>
+          <div className={cssClasses.solsticeLabel}>
+            {!isMobile && <div>Solstice</div>}
+            <SunIcon width={isMobile ? 120 : 40} height={isMobile ? 120 : 40}/>
+          </div>
         </div>
+        {isMobile && <SearchBar
+          placeholder='Search...'
+          screenReaderInstructionsId='SearchBar__srInstructions'
+          customCssClasses={{ container: 'w-3/5 mt-0' }}
+          cssCompositionMethod="assign"
+        />}
         {isMobile && renderDropdownMenuIcon() }
         {!isMobile && renderHeadings()}
         {!isMobile && renderMembershipButtons()}

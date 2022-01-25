@@ -32,7 +32,7 @@ const builtInCssClasses: StandardCardCssClasses = {
   cta1: 'min-w-max bg-blue-600 text-white font-medium rounded-lg py-2 px-5 shadow',
   cta2: 'min-w-max bg-white text-blue-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
   ordinal: 'mr-1.5 text-lg font-medium',
-  title: 'text-lg font-medium'
+  title: 'text-3xl font-medium'
 }
 
 interface CtaData { 
