@@ -40,12 +40,13 @@ export interface TrainerCardCssClasses {
 }
 
 const builtInCssClasses: TrainerCardCssClasses = {
-  container: 'flex sm:flex-col sm:justify-between border-b p-4 shadow-sm',
+  container: 'flex sm:justify-between border-b p-4 shadow-sm',
   descriptionContainer: 'w-full text-sm',
   title: 'sm:text-base text-3xl font-medium font-body font-bold',
   body: 'sm:text-base text-2xl font-medium font-body',
-  ctaButton: 'flex justify-center border sm:w-full rounded-md self-center align-middle bg-white mt-4',
-  ctaButtonText: 'align-middle font-heading font-bold text-black sm:text-base text-3xl'
+  ctaButton: 'flex justify-center border w-full rounded-md self-center align-middle bg-white mt-4',
+  ctaButtonText: 'align-middle font-heading font-bold text-black sm:text-base text-3xl',
+
 }
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -85,8 +86,6 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
     return `${startHour}:${interval.start.slice(3,5)}${startAMPM} - ${endHour}:${interval.end.slice(3,5)}${endAMPM}`
   }
-
-  const mobileVerticalLayout  = ''
 
   function renderClassInterval(hours?: Hours) {
     // if day has openIntervals
@@ -136,12 +135,12 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
   }
 
   return (
-    <div className={cssClasses.container}>
+    <div className={isMobile && searchType === 'vertical' ? cssClasses.container + ' flex-row' : cssClasses.container + ' flex-col' }>
       <div 
          // TODO: Cleanup with tailwind
         style={{ 
-          width: searchType === 'universal' ? "256px" : isMobile ? '10rem' : "24rem",
-          height: searchType === 'universal' ? "256px" : isMobile ? '10rem' : "24rem"
+          width: searchType === 'universal' ? "16rem" : isMobile ? '10rem' : "24rem",
+          height: searchType === 'universal' ? "16rem" : isMobile ? '10rem' : "24rem"
         }}
       >
         <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class" style={{ height: '100%', width: '100%' }}/>
@@ -153,11 +152,11 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
           {!isMobile && <div style={{ fontSize: '6px' }} className="text-[6px] bg-[#C4C4C4] self-center ">{`\u2B24`}</div>}
           {renderTrainerName(primaryTrainer)}
         </div>
-        <div className="h-1/3 relative">
+        <div className="h-1/3 mt-2 relative">
           {renderClassInterval(workoutClass.c_time)}
         </div>
       </div>
-      {!isMobile &&
+      {(searchType === 'universal' || !isMobile) &&
           <div className={cssClasses.ctaButton}>
             <div className={cssClasses.ctaButtonText}>SIGN UP</div>
           </div>
