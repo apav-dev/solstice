@@ -10,6 +10,7 @@ import usePageSetupEffect from '../hooks/usePageSetupEffect';
 import Facets from '../components/Facets';
 import FilterSearch from '../components/FilterSearch';
 import { Divider } from '../components/StaticFilters';
+import { LocationCard } from '../components/cards/LocationCard';
 
 const filterSearchFields = [{
   fieldApiName: 'name',
@@ -29,7 +30,7 @@ export default function LocationsPage({ verticalKey }: {
 
   return (
     <div className='flex'> 
-      <div>
+      {/* <div>
         <FilterSearch
           label='Filter Search'
           sectioned={true}
@@ -41,8 +42,8 @@ export default function LocationsPage({ verticalKey }: {
           searchable={true}
           collapsible={true}
           defaultExpanded={true}/>
-      </div>
-      <div className='ml-10 flex-grow'>
+      </div> */}
+      <div className='flex-grow'>
         <DirectAnswer />
         <SpellCheck />
         <ResultsCount />
@@ -62,7 +63,7 @@ export default function LocationsPage({ verticalKey }: {
           ]}
         />
         <VerticalResults
-          CardComponent={StandardCard}
+          CardComponent={LocationCard}
           displayAllResults={true}
         />
         <LocationBias />

@@ -68,12 +68,7 @@ export function SolsticeHeader(): JSX.Element {
             <SunIcon width={isMobile ? 120 : 40} height={isMobile ? 120 : 40}/>
           </div>
         </div>
-        {isMobile && <SearchBar
-          placeholder='Search...'
-          screenReaderInstructionsId='SearchBar__srInstructions'
-          customCssClasses={{ container: 'w-3/5 mt-0' }}
-          cssCompositionMethod="assign"
-        />}
+
         {isMobile && renderDropdownMenuIcon() }
         {!isMobile && renderHeadings()}
         {!isMobile && renderMembershipButtons()}

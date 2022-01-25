@@ -4,6 +4,7 @@ import { Image } from "../cards/TrainerCard";
 import { Hours, Interval } from "../cards/LocationCard";
 import { ResponsiveContext } from "../../App";
 import { useContext } from "react";
+import { useAnswersState } from "@yext/answers-headless-react";
 
 export interface ClassCardConfig {
   showOrdinal?: boolean
@@ -39,11 +40,11 @@ export interface TrainerCardCssClasses {
 }
 
 const builtInCssClasses: TrainerCardCssClasses = {
-  container: 'flex flex-col justify-between border-b p-4 shadow-sm',
+  container: 'flex sm:flex-col sm:justify-between border-b p-4 shadow-sm',
   descriptionContainer: 'w-full text-sm',
   title: 'sm:text-base text-3xl font-medium font-body font-bold',
   body: 'sm:text-base text-2xl font-medium font-body',
-  ctaButton: 'flex justify-center border w-full rounded-md self-center align-middle mt-4 bg-white',
+  ctaButton: 'flex justify-center border sm:w-full rounded-md self-center align-middle bg-white mt-4',
   ctaButtonText: 'align-middle font-heading font-bold text-black sm:text-base text-3xl'
 }
 
@@ -54,6 +55,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
   const primaryTrainer = workoutClass.c_trainer && workoutClass.c_trainer.length ? workoutClass.c_trainer[0].name : "";
 
   const isMobile = useContext(ResponsiveContext);
+  const searchType = useAnswersState(state => state.meta.searchType);
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
 
@@ -83,6 +85,8 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
     return `${startHour}:${interval.start.slice(3,5)}${startAMPM} - ${endHour}:${interval.end.slice(3,5)}${endAMPM}`
   }
+
+  const mobileVerticalLayout  = ''
 
   function renderClassInterval(hours?: Hours) {
     // if day has openIntervals
@@ -128,23 +132,36 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     
     if(!classTime) return;
 
-    return <div className={cssClasses.body}>{classTime}</div>
+    return <span className='sm:text-base whitespace-pre h-1/3 text-2xl font-medium font-body absolute bottom-2'>{classTime}</span>
   }
 
   return (
     <div className={cssClasses.container}>
-      <div className='mb-4' style={{ height: isMobile ? "512px" : "256px", width: isMobile ? "512px" : "256px" }}>
-        <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class"/>
+      <div 
+         // TODO: Cleanup with tailwind
+        style={{ 
+          width: searchType === 'universal' ? "256px" : isMobile ? '10rem' : "24rem",
+          height: searchType === 'universal' ? "256px" : isMobile ? '10rem' : "24rem"
+        }}
+      >
+        <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class" style={{ height: '100%', width: '100%' }}/>
       </div>
-      <div className="sm:flex sm:space-x-2">
-        {renderTitle(workoutClass.name)}
-        {!isMobile && <div className="text-xs bg-[#C4C4C4] self-center ">{`\u2B24`}</div>}
-        {renderTrainerName(primaryTrainer)}
+      <div className="flex flex-col my-2 sm:space-y-2">
+        <div className='flex flex-col sm:flex-row h-2/3 justify-between sm:justify-start sm:space-x-2 '>
+          {renderTitle(workoutClass.name)}
+          {/* TODO: why doesn't tailwind work here? */}
+          {!isMobile && <div style={{ fontSize: '6px' }} className="text-[6px] bg-[#C4C4C4] self-center ">{`\u2B24`}</div>}
+          {renderTrainerName(primaryTrainer)}
+        </div>
+        <div className="h-1/3 relative">
+          {renderClassInterval(workoutClass.c_time)}
+        </div>
       </div>
-      {renderClassInterval(workoutClass.c_time)}
-      <div className={cssClasses.ctaButton}>
-        <div className={cssClasses.ctaButtonText}>SIGN UP</div>
-      </div>
+      {!isMobile &&
+          <div className={cssClasses.ctaButton}>
+            <div className={cssClasses.ctaButtonText}>SIGN UP</div>
+          </div>
+      }
     </div>
   );
 }

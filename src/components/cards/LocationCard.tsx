@@ -170,7 +170,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
         {renderIsGymOpen(location.hours)}
       </div>
       <div className={cssClasses.ctaButton}>
-        <div className="align-middle text-black font-heading font-bold sm:text-body text-3xl">JOIN US</div>
+        <div className="align-middle text-black font-heading font-bold sm:text-body text-3xl sm:text-base">JOIN US</div>
       </div>
     </div>
   );

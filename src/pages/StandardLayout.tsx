@@ -25,13 +25,15 @@ import { useContext } from 'react';
 const StandardLayout: LayoutComponent = ({ page }) => {
   const isMobile = useContext(ResponsiveContext);
 
-  const isVertical = useAnswersState(s => s.meta.searchType) === SearchTypeEnum.Vertical;
+  const isVertical = useAnswersState(state => state.meta.searchType) === SearchTypeEnum.Vertical;
+  const verticalKey = useAnswersState(state => state.vertical.verticalKey );
+
   return (
     <>
       <SolsticeHeader />
       {!isMobile && 
       <div className="flex items-center space-x-40">
-        <div className='font-heading font-black text-8xl'>Search Results</div>
+        <div className='font-heading font-black text-8xl'>{`Search ${isVertical ? verticalKey : 'Results'}`}</div>
         {isVertical
           ? <SearchBar
             placeholder='Search...'
