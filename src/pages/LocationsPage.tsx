@@ -12,38 +12,37 @@ import FilterSearch from '../components/FilterSearch';
 import { Divider } from '../components/StaticFilters';
 import { LocationCard } from '../components/cards/LocationCard';
 
-const filterSearchFields = [{
-  fieldApiName: 'name',
-  entityType: 'location'
-}, {
-  fieldApiName: 'paymentOptions',
-  entityType: 'location'
-}, {
-  fieldApiName: 'services',
-  entityType: 'location'
-}];
+const filterSearchFields = [
+  {
+    fieldApiName: 'name',
+    entityType: 'location',
+  },
+  {
+    fieldApiName: 'paymentOptions',
+    entityType: 'location',
+  },
+  {
+    fieldApiName: 'services',
+    entityType: 'location',
+  },
+];
 
-export default function LocationsPage({ verticalKey }: {
-  verticalKey: string
-}) {
+export default function LocationsPage({ verticalKey }: { verticalKey: string }) {
   usePageSetupEffect(verticalKey);
 
   return (
-    <div className='flex'> 
+    <div className="flex">
       {/* <div>
         <FilterSearch
-          label='Filter Search'
+          label="Filter Search"
           sectioned={true}
           searchFields={filterSearchFields}
-          screenReaderInstructionsId='FilterSearchId'/>
+          screenReaderInstructionsId="FilterSearchId"
+        />
         <Divider />
-        <Facets
-          searchOnChange={true}
-          searchable={true}
-          collapsible={true}
-          defaultExpanded={true}/>
+        <Facets searchOnChange={true} searchable={true} collapsible={true} defaultExpanded={true} />
       </div> */}
-      <div className='flex-grow'>
+      <div className="flex-grow">
         <DirectAnswer />
         <SpellCheck />
         <ResultsCount />
@@ -51,23 +50,20 @@ export default function LocationsPage({ verticalKey }: {
           hiddenFields={['builtin.entityType']}
           customCssClasses={{
             nlpFilter: 'mb-4',
-            removableFilter: 'mb-4'
+            removableFilter: 'mb-4',
           }}
         />
         <AlternativeVerticals
-          currentVerticalLabel='Locations'
+          currentVerticalLabel="Locations"
           verticalsConfig={[
             { label: 'FAQs', verticalKey: 'faqs' },
             { label: 'Jobs', verticalKey: 'jobs' },
-            { label: 'Events', verticalKey: 'events' }
+            { label: 'Events', verticalKey: 'events' },
           ]}
         />
-        <VerticalResults
-          CardComponent={LocationCard}
-          displayAllResults={true}
-        />
+        <VerticalResults CardComponent={LocationCard} displayAllResults={true} />
         <LocationBias />
       </div>
     </div>
-  )
+  );
 }

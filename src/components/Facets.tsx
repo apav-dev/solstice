@@ -1,9 +1,9 @@
-import { useAnswersState, useAnswersActions, DisplayableFacetOption } from '@yext/answers-headless-react'
+import { useAnswersState, useAnswersActions, DisplayableFacetOption } from '@yext/answers-headless-react';
 import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCssClasses';
-import Facet,{ FacetConfig, FacetCssClasses } from './Facet';
+import Facet, { FacetConfig, FacetCssClasses } from './Facet';
 import { Divider } from './StaticFilters';
 
-
+//prettier-ignore
 interface FacetsProps {
   searchOnChange?: boolean,
   searchable?: boolean,
@@ -14,6 +14,7 @@ interface FacetsProps {
   cssCompositionMethod?: CompositionMethod
 }
 
+//prettier-ignore
 interface FacetsCssClasses extends FacetCssClasses {
   container?: string,
   divider?: string,
@@ -22,74 +23,75 @@ interface FacetsCssClasses extends FacetCssClasses {
 }
 
 const builtInCssClasses: FacetsCssClasses = {
-  searchableInputElement: 'text-sm bg-white h-9 w-full outline-none p-2 mb-2 rounded-md border border-gray-300 focus:border-blue-600',
+  searchableInputElement:
+    'text-sm bg-white h-9 w-full outline-none p-2 mb-2 rounded-md border border-gray-300 focus:border-blue-600',
   container: 'md:w-40',
   buttonsContainer: 'flex justify-between mt-5',
-  button: 'border border-gray-300 px-2.5 py-1 rounded-md'
-}
+  button: 'border border-gray-300 px-2.5 py-1 rounded-md',
+};
 
-export default function Facets (props: FacetsProps): JSX.Element {
-  const { 
+export default function Facets(props: FacetsProps): JSX.Element {
+  const {
     searchOnChange,
     searchable,
     collapsible,
     defaultExpanded,
     facetConfigs = {},
     customCssClasses,
-    cssCompositionMethod
+    cssCompositionMethod,
   } = props;
   const cssClasses = useComposedCssClasses(builtInCssClasses, customCssClasses, cssCompositionMethod);
-  const facets = useAnswersState(state => state.filters?.facets) || [];
+  const facets = useAnswersState((state) => state.filters?.facets) || [];
 
   const answersActions = useAnswersActions();
   const executeSearch = () => answersActions.executeVerticalQuery();
 
   const handleResetFacets = () => {
     answersActions.resetFacets();
-    if (searchOnChange) { 
+    if (searchOnChange) {
       executeSearch();
     }
-  }
+  };
 
   const handleFacetOptionChange = (fieldId: string, option: DisplayableFacetOption) => {
     answersActions.setFacetOption(fieldId, option, !option.selected);
-    if (searchOnChange) { 
+    if (searchOnChange) {
       executeSearch();
     }
-  }
+  };
 
   const facetComponents = facets
-    .filter(facet => facet.options?.length > 0)
+    .filter((facet) => facet.options?.length > 0)
     .map((facet, index, facetArray) => {
-      const isLastFacet = index === facetArray.length -1;
+      const isLastFacet = index === facetArray.length - 1;
       const overrideConfig = facetConfigs?.[facet.fieldId] ?? {};
       const config = {
         searchable,
         collapsible,
         defaultExpanded,
-        ...overrideConfig
-      }
+        ...overrideConfig,
+      };
       return (
         <div key={facet.fieldId}>
-          <Facet
-            facet={facet}
-            {...config}
-            customCssclasses={cssClasses}
-            onToggle={handleFacetOptionChange} />
-          {!isLastFacet && <Divider customCssClasses={{ divider: cssClasses.divider }}/>}
+          <Facet facet={facet} {...config} customCssclasses={cssClasses} onToggle={handleFacetOptionChange} />
+          {!isLastFacet && <Divider customCssClasses={{ divider: cssClasses.divider }} />}
         </div>
       );
     });
 
   return (
     <div className={cssClasses.container}>
-      <div>
-        {facetComponents}
-      </div>
+      <div>{facetComponents}</div>
       <div className={cssClasses.buttonsContainer}>
-        {!searchOnChange && <button onClick={executeSearch} className={cssClasses.button}>Apply</button>}
-        <button onClick={handleResetFacets} className={cssClasses.button}>Reset all</button>
+        {!searchOnChange && (
+          <button onClick={executeSearch} className={cssClasses.button}>
+            Apply
+          </button>
+        )}
+        <button onClick={handleResetFacets} className={cssClasses.button}>
+          Reset all
+        </button>
       </div>
     </div>
-  )
+  );
 }

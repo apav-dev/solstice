@@ -5,6 +5,7 @@ import { Hours, Interval } from '../cards/LocationCard';
 import { ResponsiveContext } from '../../App';
 import { useContext } from 'react';
 import { useAnswersState } from '@yext/answers-headless-react';
+import classNames from 'classnames';
 
 //prettier-ignore
 export interface ClassCardConfig {
@@ -148,12 +149,12 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
       <div
         // TODO: Cleanup with tailwind
         style={{
-          width: searchType === 'universal' ? '16rem' : isMobile ? '10rem' : '24rem',
-          height: searchType === 'universal' ? '16rem' : isMobile ? '10rem' : '24rem',
+          width: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
+          height: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
         }}>
         <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class" style={{ height: '100%', width: '100%' }} />
       </div>
-      <div className="my-2 flex flex-col sm:space-y-2">
+      <div className={classNames('my-2 flex flex-col sm:space-y-2', { 'ml-4': searchType === 'vertical' && isMobile })}>
         <div className="flex h-2/3 flex-col justify-between sm:flex-row sm:justify-start sm:space-x-2">
           {renderTitle(workoutClass.name)}
           {/* TODO: why doesn't tailwind work here? */}

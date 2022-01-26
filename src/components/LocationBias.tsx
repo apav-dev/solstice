@@ -13,7 +13,7 @@ interface LocationBiasCssClasses {
 const builtInCssClasses: LocationBiasCssClasses = {
   container: 'text-sm text-gray-500 text-center m-auto',
   location: 'font-semibold',
-  button: 'text-blue-600 cursor-pointer hover:underline focus:underline'
+  button: 'text-blue-600 cursor-pointer hover:underline focus:underline',
 };
 
 //prettier-ignore
@@ -26,7 +26,7 @@ interface Props {
 export default function LocationBias({
   geolocationOptions,
   customCssClasses,
-  cssCompositionMethod
+  cssCompositionMethod,
 }: Props): JSX.Element | null {
   const answersActions = useAnswersActions();
   const isVertical = useAnswersState((s) => s.meta.searchType) === 'vertical';
@@ -47,7 +47,7 @@ export default function LocationBias({
       const position = await getUserLocation(geolocationOptions);
       answersActions.setUserLocation({
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+        longitude: position.coords.longitude,
       });
     } catch (e) {
       console.error(e);

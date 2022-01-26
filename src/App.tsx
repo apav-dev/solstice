@@ -10,32 +10,27 @@ export const ResponsiveContext = createContext(false);
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => { 
-
+  useEffect(() => {
     updateDimensions();
 
     window.addEventListener('resize', updateDimensions);
-    return () => 
-      window.removeEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   const updateDimensions = () => {
     const width = window.innerWidth;
     setIsMobile(width < 1024);
-  }
+  };
 
   return (
     <ResponsiveContext.Provider value={isMobile}>
-      <div 
-      // TODO: need better way to do this
-        style={{  margin: 0, padding: 0, minHeight: '100vh', minWidth:'100vh', backgroundColor: 'black' }}>
+      <div
+        // TODO: need better way to do this
+        style={{ margin: 0, padding: 0, minHeight: '100vh', minWidth: '100vh', backgroundColor: 'black' }}>
         <AnswersHeadlessProvider {...answersHeadlessConfig}>
-          <div className='flex justify-center px-8 py-6 bg-black text-white w-full'  >
-            <div className='w-full max-w-7xl' >
-              <PageRouter
-                Layout={StandardLayout}
-                routes={routeConfig}
-              />
+          <div className="flex w-full justify-center bg-black px-8 py-6 text-white">
+            <div className="w-full max-w-7xl">
+              <PageRouter Layout={StandardLayout} routes={routeConfig} />
             </div>
           </div>
         </AnswersHeadlessProvider>

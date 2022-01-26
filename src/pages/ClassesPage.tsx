@@ -7,71 +7,64 @@ import SpellCheck from '../components/SpellCheck';
 import LocationBias from '../components/LocationBias';
 import { StandardCard } from '../components/cards/StandardCard';
 import usePageSetupEffect from '../hooks/usePageSetupEffect';
-import StaticFilters from '../components/StaticFilters';
+import StaticFilters, { Divider } from '../components/StaticFilters';
 import { ClassCard } from '../components/cards/ClassCard';
 import SearchBar from '../components/SearchBar';
 import { ResponsiveContext } from '../App';
 import { useContext } from 'react';
+import Facets from '../components/Facets';
+import MobileFilterButton from '../components/MobileFilterButton';
+import MobileFilterLayout from '../components/MobileFilterLayout';
 
-const staticFiltersConfig = [{
-  title: 'Venue',
-  options: [
-    {
-      label: 'West End Avenue',
-      fieldId: 'venueName',
-      value: 'West End Avenue'
-    },
-    {
-      label: 'Peaceful Coffee',
-      fieldId: 'venueName',
-      value: 'Peaceful Coffee',
-    },
-  ]
-}]
+const staticFiltersConfig = [
+  {
+    title: 'Venue',
+    options: [
+      {
+        label: 'West End Avenue',
+        fieldId: 'venueName',
+        value: 'West End Avenue',
+      },
+      {
+        label: 'Peaceful Coffee',
+        fieldId: 'venueName',
+        value: 'Peaceful Coffee',
+      },
+    ],
+  },
+];
 
-export default function ClassesPage({ verticalKey }: {
-  verticalKey: string
-}) {
+export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
   usePageSetupEffect(verticalKey);
   const isMobile = useContext(ResponsiveContext);
 
-
   return (
-    <div >
-      {/* <div>
-        <StaticFilters
-          filterConfig={staticFiltersConfig}
-        />
-      </div> */}
-      {/* {isMobile && <SearchBar
-        placeholder='Search...'
-        screenReaderInstructionsId='SearchBar__srInstructions'
-        customCssClasses={{ container: 'w-3/5 mt-0' }}
-        cssCompositionMethod="assign"
-      />} */}
-      <div className='mt-2 ml-10 flex-grow'>
-        {isMobile && <div className='font-heading text-7xl'>Search Classes</div>}
-        {isMobile && <SearchBar
-          placeholder='Search...'
-          screenReaderInstructionsId='SearchBar__srInstructions'
-          customCssClasses={{ container: 'my-8 m-auto w-full' }}
-          cssCompositionMethod="assign"
-        />}
+    <div>
+      <div className="mt-2 ml-10 flex-grow">
+        {isMobile && <div className="font-heading text-7xl">Search Classes</div>}
+        {isMobile && (
+          <SearchBar
+            placeholder="Search..."
+            screenReaderInstructionsId="SearchBar__srInstructions"
+            customCssClasses={{ container: 'my-8 m-auto w-full' }}
+            cssCompositionMethod="assign"
+          />
+        )}
         <DirectAnswer />
         <SpellCheck />
         <ResultsCount />
+        {/* <Divider />
+        <Facets searchOnChange={true} defaultExpanded={true} />
         <AppliedFilters
           hiddenFields={['builtin.entityType']}
           customCssClasses={{
             nlpFilter: 'mb-4',
-            removableFilter: 'mb-4'
+            removableFilter: 'mb-4',
           }}
-        />
+        /> */}
         <AlternativeVerticals
-          currentVerticalLabel='Classes'
-          verticalsConfig={[
-            { label: 'Locations', verticalKey: 'locations' }
-          ]}
+          currentVerticalLabel="Classes"
+          verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
         />
         <VerticalResults
           CardComponent={ClassCard}
@@ -80,6 +73,7 @@ export default function ClassesPage({ verticalKey }: {
         />
         <LocationBias />
       </div>
+      {isMobile && <MobileFilterLayout />}
     </div>
-  )
+  );
 }
