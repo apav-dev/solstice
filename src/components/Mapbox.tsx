@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXBhdmxpY2siLCJhIjoiY2t5NHJkODFvMGV3ZDJ0bzRnNDI1ZTNtZiJ9.VA2eTvz6Cf9jX_MG2r6u0g';
 
+// prettier-ignore
 export interface GeoData {
   id: string,
   yextDisplayCoordinate: {
@@ -17,21 +18,25 @@ export interface GeoData {
   }
 }
 
+// prettier-ignore
 interface Props {
-	markers?: {
+  markers?: {
     id: string,
-		coord: [number, number]
-	}[],
+    coord: [number, number]
+  }[],
   activeMarkerId?: string
 }
 
-type MapMarkers = { [locationId: string]: { marker: mapboxgl.Marker, activeMarker: mapboxgl.Marker } };
+// prettier-ignore
+type MapMarkers = {
+  [locationId: string]: { marker: mapboxgl.Marker, activeMarker: mapboxgl.Marker }
+};
 
-export default function Mapbox(props: Props) {
+export default function Mapbox(props: Props): JSX.Element {
   const [markers, setMarkers] = useState<MapMarkers>({});
 
   const mapContainer = useRef(null);
-  const map = useRef<Map | null>(null); 
+  const map = useRef<Map | null>(null);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -39,7 +44,7 @@ export default function Mapbox(props: Props) {
       container: mapContainer.current || '',
       style: 'mapbox://styles/mapbox/dark-v10',
       interactive: false,
-      zoom: 9
+      zoom: 9,
     });
   });
 
@@ -48,32 +53,34 @@ export default function Mapbox(props: Props) {
     if (map === null || map.current === null || !props.markers || props.markers.length === 0) return;
 
     let markerRecord: MapMarkers = markers;
-    const bounds = new mapboxgl.LngLatBounds();    
+    const bounds = new mapboxgl.LngLatBounds();
 
     for (const marker of (props.markers || []).values()) {
       marker.coord && bounds.extend(marker.coord);
 
-      if(!markers[marker.id]){
-
+      if (!markers[marker.id]) {
         const pin_el = document.createElement('div');
         const activePin_el = document.createElement('div');
-  
+
         pin_el.setAttribute('id', `${marker.id}_pin`);
         activePin_el.setAttribute('id', `${marker.id}_activePin`);
-  
+
         ReactDOM.render(<PinIcon />, pin_el);
-        ReactDOM.render(<ActivePinIcon /> , activePin_el);
-            
+        ReactDOM.render(<ActivePinIcon />, activePin_el);
+
         const mapMarker = new mapboxgl.Marker(pin_el);
         const activeMapMarker = new mapboxgl.Marker(activePin_el);
         activeMapMarker.getElement().style.visibility = 'hidden';
-  
-        markerRecord = { ...markerRecord, [marker.id]: { marker: mapMarker, activeMarker: activeMapMarker } }
-    
+
+        markerRecord = {
+          ...markerRecord,
+          [marker.id]: { marker: mapMarker, activeMarker: activeMapMarker },
+        };
+
         new mapboxgl.Marker(pin_el).setLngLat(marker.coord).addTo(map.current);
         new mapboxgl.Marker(activePin_el).setLngLat(marker.coord).addTo(map.current);
       }
-    } 
+    }
 
     map.current.setCenter(bounds.getCenter());
     map.current.fitBounds(bounds);
@@ -81,30 +88,31 @@ export default function Mapbox(props: Props) {
     setMarkers(markerRecord);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.markers])
+  }, [props.markers]);
 
   // TODO: Cleanup
   useEffect(() => {
-    props.markers && props.markers.forEach(marker => {
-      if(marker.id === props.activeMarkerId){
-        if(markers){
-          if(markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'hidden';
-          if(markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'visible';
-        } 
-      } else {
-        if(markers){
-          if(markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'visible';
-          if(markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'hidden';
-        } 
-      }
-    });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.activeMarkerId])
+    props.markers &&
+      props.markers.forEach((marker) => {
+        if (marker.id === props.activeMarkerId) {
+          if (markers) {
+            if (markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'hidden';
+            if (markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'visible';
+          }
+        } else {
+          if (markers) {
+            if (markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'visible';
+            if (markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'hidden';
+          }
+        }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.activeMarkerId]);
 
   return (
     <div>
       {/* TODO: remove inline style */}
-      <div ref={mapContainer}  style={{ height: '580px' }} />
+      <div ref={mapContainer} style={{ height: '580px' }} />
     </div>
   );
 }
