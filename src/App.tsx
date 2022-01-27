@@ -24,9 +24,17 @@ export default function App() {
 
   return (
     <ResponsiveContext.Provider value={isMobile}>
-      <AnswersHeadlessProvider {...answersHeadlessConfig}>
-        <PageRouter Layout={StandardLayout} routes={routeConfig} />
-      </AnswersHeadlessProvider>
+      <div
+        // TODO: need better way to do this
+        style={{ margin: 0, padding: 0, minHeight: '100vh', minWidth: '100vh', backgroundColor: 'black' }}>
+        <AnswersHeadlessProvider {...answersHeadlessConfig}>
+          <div className="flex w-full justify-center bg-black px-8 py-6 text-white">
+            <div className="w-full max-w-7xl">
+              <PageRouter Layout={StandardLayout} routes={routeConfig} />
+            </div>
+          </div>
+        </AnswersHeadlessProvider>
+      </div>
     </ResponsiveContext.Provider>
   );
 }

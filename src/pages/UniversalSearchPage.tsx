@@ -4,32 +4,47 @@ import { UniversalResultsConfig } from '../config/universalResultsConfig';
 import SpellCheck from '../components/SpellCheck';
 import usePageSetupEffect from '../hooks/usePageSetupEffect';
 import LocationBias from '../components/LocationBias';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useAnswersActions } from '@yext/answers-headless-react';
+import { ResponsiveContext } from '../App';
+import SearchBar from '../components/SearchBar';
 
 const universalResultsFilterConfig = {
-  show: true
+  show: true,
 };
 
-export default function UniversalSearchPage(props: { universalResultsConfig: UniversalResultsConfig}) {
+export default function UniversalSearchPage(props: { universalResultsConfig: UniversalResultsConfig }) {
   const { universalResultsConfig } = props;
   usePageSetupEffect();
 
   // TODO: remove after adding landing page
   const answersActions = useAnswersActions();
   useEffect(() => {
-    answersActions.setQuery('manhattan')
-  })
+    answersActions.setQuery('manhattan');
+  });
+
+  const isMobile = useContext(ResponsiveContext);
 
   return (
     <div>
+      {isMobile && <div className="font-heading text-7xl">Search Results</div>}
+      {isMobile && (
+        <SearchBar
+          placeholder="Search..."
+          screenReaderInstructionsId="SearchBar__srInstructions"
+          customCssClasses={{ container: 'my-8 m-auto w-full' }}
+          cssCompositionMethod="assign"
+        />
+      )}
       <SpellCheck />
       <DirectAnswer />
       <UniversalResults
         appliedFiltersConfig={universalResultsFilterConfig}
         verticalConfigs={universalResultsConfig}
+        customCssClasses={{ container: 'space-y-8  mt-6' }}
+        cssCompositionMethod="assign"
       />
-      <LocationBias customCssClasses={{ container: 'p-8' }}/>
+      <LocationBias customCssClasses={{ container: 'p-8' }} />
     </div>
   );
 }

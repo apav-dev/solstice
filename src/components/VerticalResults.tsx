@@ -5,12 +5,12 @@ import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCs
 
 interface VerticalResultsCssClasses {
   results___loading?: string,
-  results?: string
+  container?: string
 }
 
 const builtInCssClasses: VerticalResultsCssClasses = {
-  results___loading: 'opacity-50'
-}
+  results___loading: 'opacity-50',
+};
 
 interface VerticalResultsDisplayProps {
   CardComponent: CardComponent,
@@ -23,7 +23,7 @@ interface VerticalResultsDisplayProps {
 
 /**
  * A Component that displays all the search results for a given vertical.
- * 
+ *
  * @param props - The props for the Component, including the results and the card type
  *                to be used.
  */
@@ -36,25 +36,25 @@ export function VerticalResultsDisplay(props: VerticalResultsDisplayProps): JSX.
   }
 
   const resultsClassNames = cssClasses.results___loading
-    ? classNames({ [cssClasses.results___loading]: isLoading }, cssClasses.results)
+    ? classNames({ [cssClasses.results___loading]: isLoading }, cssClasses.container)
     : '';
 
   return (
     <div className={resultsClassNames}>
-      {results && results.map(result => renderResult(CardComponent, cardConfig, result))}
+      {results && results.map((result) => renderResult(CardComponent, cardConfig, result))}
     </div>
-  )
+  );
 }
 
 /**
  * Renders a single result using the specified card type and configuration.
- * 
+ *
  * @param CardComponent - The card for the vertical.
  * @param cardConfig - Any card-specific configuration.
  * @param result - The result to render.
  */
 function renderResult(CardComponent: CardComponent, cardConfig: CardConfigTypes, result: Result): JSX.Element {
-  return <CardComponent result={result} configuration={cardConfig} key={result.id || result.index}/>;
+  return <CardComponent result={result} configuration={cardConfig} key={result.id || result.index} />;
 }
 
 interface VerticalResultsProps {
@@ -68,13 +68,12 @@ interface VerticalResultsProps {
 export default function VerticalResults(props: VerticalResultsProps): JSX.Element | null {
   const { displayAllResults = true, ...otherProps } = props;
 
-  const verticalResults = useAnswersState(state => state.vertical.results) || [];
-  const allResultsForVertical = useAnswersState(state => state.vertical?.noResults?.allResultsForVertical.results) || [];
-  const isLoading = useAnswersState(state => state.searchStatus.isLoading);
+  const verticalResults = useAnswersState((state) => state.vertical.results) || [];
+  const allResultsForVertical =
+    useAnswersState((state) => state.vertical?.noResults?.allResultsForVertical.results) || [];
+  const isLoading = useAnswersState((state) => state.searchStatus.isLoading);
 
-  const results = verticalResults.length === 0 && displayAllResults
-    ? allResultsForVertical
-    : verticalResults
+  const results = verticalResults.length === 0 && displayAllResults ? allResultsForVertical : verticalResults;
 
-  return <VerticalResultsDisplay results={results} isLoading={isLoading} {...otherProps}/>
+  return <VerticalResultsDisplay results={results} isLoading={isLoading} {...otherProps} />;
 }

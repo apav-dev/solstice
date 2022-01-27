@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { AppliedFiltersDisplay, AppliedFiltersProps } from "../components/AppliedFilters";
-import { ResultsCountConfig } from "../components/ResultsCount";
-import { useComposedCssClasses, CompositionMethod } from "../hooks/useComposedCssClasses";
+import { Link } from 'react-router-dom';
+import { AppliedFiltersDisplay, AppliedFiltersProps } from '../components/AppliedFilters';
+import { ResultsCountConfig } from '../components/ResultsCount';
+import { useComposedCssClasses, CompositionMethod } from '../hooks/useComposedCssClasses';
 // import { ReactComponent as CollectionIcon } from '../icons/collection.svg';
 import { useAnswersState } from '@yext/answers-headless-react';
-import { DisplayableFilter } from "../models/displayableFilter";
+import { DisplayableFilter } from '../models/displayableFilter';
 
 interface SectionHeaderCssClasses {
   sectionHeaderContainer?: string,
@@ -15,14 +15,15 @@ interface SectionHeaderCssClasses {
   appliedFiltersContainer?: string
 }
 
+// TODO: change back to default classes and pass in custom
 const builtInCssClasses: SectionHeaderCssClasses = {
   sectionHeaderContainer: 'flex items-center w-full pl-1 mb-4',
   sectionHeaderIconContainer: 'w-5 h-5',
-  sectionHeaderLabel: 'font-bold font-body sm:text-3xl text-4xl', 
+  sectionHeaderLabel: 'font-bold font-body sm:text-xl text-5xl',
   viewMoreContainer: 'flex justify-end flex-grow ml-auto font-medium text-gray-800',
   viewMoreLink: 'text-blue-600 pr-1 pl-3',
-  appliedFiltersContainer: 'ml-3'
-}
+  appliedFiltersContainer: 'ml-3',
+};
 
 interface SectionHeaderConfig {
   label: string,
@@ -35,17 +36,25 @@ interface SectionHeaderConfig {
 }
 
 export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
-  const { label, verticalKey, viewAllButton = false, appliedFiltersConfig, customCssClasses, cssCompositionMethod } = props;
-  const cssClasses = useComposedCssClasses(builtInCssClasses, customCssClasses, cssCompositionMethod)
-  const latestQuery = useAnswersState(state => state.query.mostRecentSearch); 
-  const displayableFilters = appliedFiltersConfig?.appliedQueryFilters?.map((appliedQueryFilter): DisplayableFilter => {
-    return {
-      filterType: 'NLP_FILTER',
-      filter: appliedQueryFilter.filter,
-      groupLabel: appliedQueryFilter.displayKey,
-      label: appliedQueryFilter.displayValue
-    }
-  }) ?? [];
+  const {
+    label,
+    verticalKey,
+    viewAllButton = false,
+    appliedFiltersConfig,
+    customCssClasses,
+    cssCompositionMethod,
+  } = props;
+  const cssClasses = useComposedCssClasses(builtInCssClasses, customCssClasses, cssCompositionMethod);
+  const latestQuery = useAnswersState((state) => state.query.mostRecentSearch);
+  const displayableFilters =
+    appliedFiltersConfig?.appliedQueryFilters?.map((appliedQueryFilter): DisplayableFilter => {
+      return {
+        filterType: 'NLP_FILTER',
+        filter: appliedQueryFilter.filter,
+        groupLabel: appliedQueryFilter.displayKey,
+        label: appliedQueryFilter.displayValue,
+      };
+    }) ?? [];
 
   return (
     <div className={cssClasses.sectionHeaderContainer}>
@@ -56,16 +65,18 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
       {/* TODO (cea2aj): Add support for ResultsCountDisplay once we get the mocks from UX
         {resultsCountConfig &&
            <ResultsCountDisplay resultsLength={resultsCountConfig.resultsLength} resultsCount={resultsCountConfig.resultsCount} />} */}
-      {appliedFiltersConfig &&
+      {appliedFiltersConfig && (
         <div className={cssClasses.appliedFiltersContainer}>
-          <AppliedFiltersDisplay displayableFilters={displayableFilters}/>
-        </div>}
-      {viewAllButton && 
+          <AppliedFiltersDisplay displayableFilters={displayableFilters} />
+        </div>
+      )}
+      {viewAllButton && (
         <div className={cssClasses.viewMoreContainer}>
           <Link className={cssClasses.viewMoreLink} to={`/${verticalKey}?query=${latestQuery}`}>
             View all
           </Link>
-        </div>}
+        </div>
+      )}
     </div>
   );
 }

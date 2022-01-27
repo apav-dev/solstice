@@ -10,18 +10,21 @@ import useSearchWithNearMeHandling from '../hooks/useSearchWithNearMeHandling';
 import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCssClasses';
 import renderAutocompleteResult, {
   AutocompleteResultCssClasses,
-  builtInCssClasses as AutocompleteResultBuiltInCssClasses
+  builtInCssClasses as AutocompleteResultBuiltInCssClasses,
 } from './utils/renderAutocompleteResult';
 import { ReactComponent as MagnifyingGlassIcon } from '../icons/magnifying_glass.svg';
 
-const SCREENREADER_INSTRUCTIONS = 'When autocomplete results are available, use up and down arrows to review and enter to select.'
+const SCREENREADER_INSTRUCTIONS =
+  'When autocomplete results are available, use up and down arrows to review and enter to select.';
 
+// TODO: add back default classes
 export const builtInCssClasses: SearchBarCssClasses = {
   container: 'h-12 mb-3 mt-10',
   divider: 'border-t border-gray-200 mx-2.5',
   dropdownContainer: 'relative bg-white pt-4 pb-3 z-10',
   inputContainer: 'inline-flex items-center justify-between w-full text-black',
-  inputDropdownContainer: 'bg-white border rounded-xl sm:rounded-xl border-gray-200 w-full overflow-hidden text-black font-heading text-2xl',
+  inputDropdownContainer:
+    'bg-white border rounded-full border-gray-200 w-full overflow-hidden text-black font-heading text-2xl',
   inputDropdownContainer___active: 'shadow-lg',
   inputElement: 'outline-none flex-grow border-none h-full pl-0.5 pr-2 my-4',
   logoContainer: 'w-7 mx-2.5 my-2',
@@ -30,25 +33,25 @@ export const builtInCssClasses: SearchBarCssClasses = {
   searchButtonContainer: ' w-8 h-full mx-2 flex flex-col justify-center items-center',
   submitButton: 'h-7 w-7',
   focusedOption: 'bg-gray-100',
-  ...AutocompleteResultBuiltInCssClasses
-}
+  ...AutocompleteResultBuiltInCssClasses,
+};
 
-
-export interface SearchBarCssClasses 
-  extends InputDropdownCssClasses, DropdownSectionCssClasses, AutocompleteResultCssClasses 
-{
-  container?: string,
-  inputDropdownContainer?: string,
-  resultIconContainer?: string,
-  submitButton?: string
+export interface SearchBarCssClasses
+  extends InputDropdownCssClasses,
+    DropdownSectionCssClasses,
+    AutocompleteResultCssClasses {
+  container?: string;
+  inputDropdownContainer?: string;
+  resultIconContainer?: string;
+  submitButton?: string;
 }
 
 interface Props {
-  placeholder?: string,
-  geolocationOptions?: PositionOptions,
-  screenReaderInstructionsId: string,
-  customCssClasses?: SearchBarCssClasses,
-  cssCompositionMethod?: CompositionMethod
+  placeholder?: string;
+  geolocationOptions?: PositionOptions;
+  screenReaderInstructionsId: string;
+  customCssClasses?: SearchBarCssClasses;
+  cssCompositionMethod?: CompositionMethod;
 }
 
 /**
@@ -59,44 +62,41 @@ export default function SearchBar({
   geolocationOptions,
   screenReaderInstructionsId,
   customCssClasses,
-  cssCompositionMethod
+  cssCompositionMethod,
 }: Props) {
   const cssClasses = useComposedCssClasses(builtInCssClasses, customCssClasses, cssCompositionMethod);
   const answersActions = useAnswersActions();
-  const query = useAnswersState(state => state.query.input);
-  const isLoading = useAnswersState(state => state.searchStatus.isLoading);
-  const isVertical = useAnswersState(s => s.meta.searchType) === SearchTypeEnum.Vertical;
+  const query = useAnswersState((state) => state.query.input);
+  const isLoading = useAnswersState((state) => state.searchStatus.isLoading);
+  const isVertical = useAnswersState((s) => s.meta.searchType) === SearchTypeEnum.Vertical;
   const [autocompleteResponse, executeAutocomplete] = useSynchronizedRequest(() => {
-    return isVertical
-      ? answersActions.executeVerticalAutocomplete()
-      : answersActions.executeUniversalAutocomplete();
+    return isVertical ? answersActions.executeVerticalAutocomplete() : answersActions.executeUniversalAutocomplete();
   });
   const [executeQuery, autocompletePromiseRef] = useSearchWithNearMeHandling(answersActions, geolocationOptions);
 
-  const options: Option[] = autocompleteResponse?.results.map(result => {
-    return {
-      value: result.value,
-      onSelect: () => {
-        autocompletePromiseRef.current = undefined;
-        answersActions.setQuery(result.value);
-        executeQuery();
-      },
-      display: renderAutocompleteResult(result, cssClasses, MagnifyingGlassIcon)
-    }
-  }) ?? [];
+  const options: Option[] =
+    autocompleteResponse?.results.map((result) => {
+      return {
+        value: result.value,
+        onSelect: () => {
+          autocompletePromiseRef.current = undefined;
+          answersActions.setQuery(result.value);
+          executeQuery();
+        },
+        display: renderAutocompleteResult(result, cssClasses, MagnifyingGlassIcon),
+      };
+    }) ?? [];
 
   const screenReaderText = processTranslation({
     phrase: `${options.length} autocomplete option found.`,
     pluralForm: `${options.length} autocomplete options found.`,
-    count: options.length
+    count: options.length,
   });
 
   function renderSearchButton() {
-    return <SearchButton
-      className={cssClasses.submitButton}
-      handleClick={executeQuery}
-      isLoading={isLoading || false}
-    />
+    return (
+      <SearchButton className={cssClasses.submitButton} handleClick={executeQuery} isLoading={isLoading || false} />
+    );
   }
   return (
     <div className={cssClasses.container}>
@@ -107,7 +107,7 @@ export default function SearchBar({
         screenReaderInstructionsId={screenReaderInstructionsId}
         screenReaderText={screenReaderText}
         onSubmit={executeQuery}
-        onInputChange={value => {
+        onInputChange={(value) => {
           answersActions.setQuery(value);
         }}
         onInputFocus={() => {
@@ -116,20 +116,18 @@ export default function SearchBar({
         renderLogo={() => <YextLogoIcon />}
         renderSearchButton={renderSearchButton}
         cssClasses={cssClasses}
-        forceHideDropdown={options.length === 0}
-      >
-        {
-          options.length > 0 &&
+        forceHideDropdown={options.length === 0}>
+        {options.length > 0 && (
           <DropdownSection
             options={options}
-            optionIdPrefix='0'
-            onFocusChange={value => {
+            optionIdPrefix="0"
+            onFocusChange={(value) => {
               answersActions.setQuery(value);
             }}
             cssClasses={cssClasses}
           />
-        }
+        )}
       </InputDropdown>
     </div>
-  )
+  );
 }

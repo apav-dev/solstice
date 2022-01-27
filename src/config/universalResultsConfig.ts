@@ -9,27 +9,27 @@ export type UniversalResultsConfig = Record<string, VerticalConfig>;
 
 export const universalResultsConfig: UniversalResultsConfig = {
   locations: {
-    label: 'Location',
+    label: 'LOCATIONS',
     SectionComponent: LocationSection,
     cardConfig: {
       CardComponent: LocationCard,
-      showOrdinal: false
-    }
+      showOrdinal: false,
+    },
   },
   classes: {
-    label: 'Classes',
+    label: 'CLASSES',
     SectionComponent: CarouselSection,
     cardConfig: {
       CardComponent: ClassCard,
-      showOrdinal: false
-    }
+      showOrdinal: false,
+    },
   },
   trainers: {
-    label: 'Trainers',
+    label: 'TRAINERS',
     SectionComponent: CarouselSection,
     cardConfig: {
       CardComponent: TrainerCard,
-      showOrdinal: false
+      showOrdinal: false,
     },
-  }
-}
+  },
+};
