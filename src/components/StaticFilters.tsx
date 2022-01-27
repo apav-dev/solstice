@@ -1,7 +1,7 @@
 import { useAnswersActions, useAnswersState, Filter, Matcher } from '@yext/answers-headless-react';
 import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCssClasses';
 import { isDuplicateFilter } from '../utils/filterutils';
-import renderCheckboxOption, { CheckboxOptionCssClasses } from './utils/renderCheckboxOption';
+import CheckboxOption, { CheckboxOptionCssClasses } from './CheckboxOption';
 
 //prettier-ignore
 interface FilterOption {
@@ -74,11 +74,11 @@ export default function StaticFilters(props: StaticFiltersProps): JSX.Element {
                   matcher: Matcher.Equals,
                   value: option.value,
                 };
-                return renderCheckboxOption({
-                  option: { id: `${index}`, label: option.label },
-                  onClick: (selected) => handleFilterOptionChange(filter, selected),
-                  selected: getOptionSelectStatus(option),
-                });
+                <CheckboxOption
+                  option={{ id: `${index}`, label: option.label }}
+                  onClick={(selected) => handleFilterOptionChange(filter, selected)}
+                  selected={getOptionSelectStatus(option)}
+                />;
               })}
             </div>
             {!isLastFilterSet && <Divider customCssClasses={{ divider: cssClasses.divider }} />}

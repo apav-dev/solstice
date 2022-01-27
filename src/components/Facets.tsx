@@ -73,8 +73,16 @@ export default function Facets(props: FacetsProps): JSX.Element {
       };
       return (
         <div key={facet.fieldId}>
-          <Facet facet={facet} {...config} customCssclasses={cssClasses} onToggle={handleFacetOptionChange} />
-          {!isLastFacet && <Divider customCssClasses={{ divider: cssClasses.divider }} />}
+          <Facet
+            facet={facet}
+            {...config}
+            customCssclasses={cssClasses}
+            cssCompositionMethod={cssCompositionMethod}
+            onToggle={handleFacetOptionChange}
+          />
+          {!isLastFacet && (
+            <Divider cssCompositionMethod={cssCompositionMethod} customCssClasses={{ divider: cssClasses.divider }} />
+          )}
         </div>
       );
     });
@@ -88,9 +96,9 @@ export default function Facets(props: FacetsProps): JSX.Element {
             Apply
           </button>
         )}
-        <button onClick={handleResetFacets} className={cssClasses.button}>
+        {/* <button onClick={handleResetFacets} className={cssClasses.button}>
           Reset all
-        </button>
+        </button> */}
       </div>
     </div>
   );

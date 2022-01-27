@@ -1,5 +1,7 @@
+import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCssClasses';
+
 //prettier-ignore
-interface CheckboxOption {
+interface CheckboxOptionLabel {
   id: string,
   label: string
 }
@@ -13,21 +15,29 @@ export interface CheckboxOptionCssClasses {
 
 //prettier-ignore
 interface CheckBoxOptionProps {
-  option: CheckboxOption,
+  option: CheckboxOptionLabel,
   onClick: (isChecked: boolean) => void,
   selected?: boolean,
-  customCssClasses?: CheckboxOptionCssClasses
+  customCssClasses?: CheckboxOptionCssClasses,
+  cssCompositionMethod?: CompositionMethod
 }
 
-const builtInCssClasses: CheckboxOptionCssClasses = {
+export const builtInCssClasses: CheckboxOptionCssClasses = {
   option: 'flex items-center space-x-3',
   optionInput:
     'w-3.5 h-3.5 form-checkbox cursor-pointer border border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500',
   optionLabel: 'text-gray-500 text-sm font-normal cursor-pointer',
 };
 
-export default function renderCheckboxOption({ option, selected, onClick, customCssClasses }: CheckBoxOptionProps) {
-  const cssClasses = { ...builtInCssClasses, ...customCssClasses };
+export default function CheckboxOption({
+  option,
+  selected,
+  onClick,
+  customCssClasses,
+  cssCompositionMethod,
+}: CheckBoxOptionProps) {
+  const cssClasses = useComposedCssClasses(builtInCssClasses, customCssClasses, cssCompositionMethod);
+
   return (
     <div className={cssClasses.option} key={option.id}>
       <input
