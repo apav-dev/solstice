@@ -2,8 +2,8 @@ import { useAnswersUtilities, DisplayableFacet, DisplayableFacetOption } from '@
 import { useState } from 'react';
 import useCollapse from 'react-collapsed';
 import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCssClasses';
-import CheckboxOption, { CheckboxOptionCssClasses } from './CheckboxOption';
 import { ReactComponent as DropdownIcon } from '../icons/chevron.svg';
+import renderCheckboxOption, { CheckboxOptionCssClasses } from '../utils/renderCheckboxOption';
 
 export type onFacetChangeFn = (fieldId: string, option: DisplayableFacetOption) => void;
 
@@ -84,15 +84,14 @@ export default function Facet(props: FacetProps): JSX.Element {
           />
         )}
         <div className={cssClasses.optionsContainer}>
-          {facetOptions.map((option) => (
-            <CheckboxOption
-              option={{ id: option.displayName, label: `${option.displayName} (${option.count})` }}
-              onClick={() => onToggle(facet.fieldId, option)}
-              selected={option.selected}
-              cssCompositionMethod={cssCompositionMethod}
-              customCssClasses={cssClasses}
-            />
-          ))}
+          {facetOptions.map((option) =>
+            renderCheckboxOption({
+              option: { id: option.displayName, label: `${option.displayName} (${option.count})` },
+              onClick: () => onToggle(facet.fieldId, option),
+              selected: option.selected,
+              customCssClasses: cssClasses,
+            })
+          )}
         </div>
       </div>
     </fieldset>
