@@ -143,14 +143,17 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   return (
     <div
-      className={
-        isMobile && searchType === 'vertical' ? cssClasses.container + ' flex-row' : cssClasses.container + ' flex-col'
-      }>
+      // className={
+      //   // isMobile && searchType === 'vertical' ? cssClasses.container + ' flex-row' : cssClasses.container + ' flex-col'
+      // }
+      className="my-4 flex space-x-8 sm:flex-col">
       <div
         // TODO: Cleanup with tailwind
         style={{
-          width: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
-          height: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
+          // width: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
+          width: isMobile ? '10rem' : '32rem',
+          // height: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
+          height: isMobile ? '10rem' : '32rem',
         }}>
         <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class" style={{ height: '100%', width: '100%' }} />
       </div>
@@ -165,7 +168,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
         </div>
         <div className="relative mt-2 h-1/3">{renderClassInterval(workoutClass.c_time)}</div>
       </div>
-      {(searchType === 'universal' || !isMobile) && (
+      {!isMobile && (
         <div className={cssClasses.ctaButton}>
           <div className={cssClasses.ctaButtonText}>SIGN UP</div>
         </div>
