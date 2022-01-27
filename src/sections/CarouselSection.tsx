@@ -22,7 +22,7 @@ const CarouselSection: SectionComponent = function (props: SectionConfig): JSX.E
         CardComponent={cardComponent}
         {...(cardConfig && { cardConfig })}
         customCssClasses={{
-          container: 'flex flex-col sm:flex-row sm:overflow-auto overflow-hidden sm:scrollbar snap-x pb-1',
+          container: 'flex flex-col sm:flex-row sm:overflow-auto overflow-hidden max-h-screen sm:scrollbar snap-x pb-1',
         }}
       />
       {/* TODO: Link to classes Vertical */}
