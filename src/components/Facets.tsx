@@ -76,7 +76,7 @@ export default function Facets(props: FacetsProps): JSX.Element {
           <Facet
             facet={facet}
             {...config}
-            customCssclasses={cssClasses}
+            customCssclasses={customCssClasses}
             cssCompositionMethod={cssCompositionMethod}
             onToggle={handleFacetOptionChange}
           />

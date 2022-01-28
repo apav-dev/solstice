@@ -4,8 +4,11 @@ import useCollapse from 'react-collapsed';
 import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCssClasses';
 import { ReactComponent as DropdownIcon } from '../icons/chevron.svg';
 import renderCheckboxOption, { CheckboxOptionCssClasses } from '../utils/renderCheckboxOption';
+import renderImageOption from '../utils/renderImageOption';
 
 export type onFacetChangeFn = (fieldId: string, option: DisplayableFacetOption) => void;
+
+export type FacetType = 'checkbox' | 'image';
 
 //prettier-ignore
 export interface FacetConfig {
@@ -13,11 +16,15 @@ export interface FacetConfig {
   placeholderText?: string,
   label?: string,
   collapsible?: boolean,
-  defaultExpanded?: boolean
+  defaultExpanded?: boolean,
+  type?: FacetType,
+  //TODO: change type from any
+  facetImages?: Record<string, JSX.Element | undefined>,
+  facetCss?: FacetCssClasses 
 }
 
 //prettier-ignore
-interface FacetProps extends FacetConfig {
+export interface FacetProps extends FacetConfig {
   facet: DisplayableFacet,
   onToggle: onFacetChangeFn,
   customCssclasses?: FacetCssClasses,
@@ -51,8 +58,11 @@ export default function Facet(props: FacetProps): JSX.Element {
     placeholderText = 'Search here...',
     customCssclasses,
     cssCompositionMethod,
+    type = 'checkbox',
+    facetImages,
+    facetCss,
   } = props;
-  const cssClasses = useComposedCssClasses(builtInCssClasses, customCssclasses, cssCompositionMethod);
+  const cssClasses = useComposedCssClasses(builtInCssClasses, facetCss ?? customCssclasses, cssCompositionMethod);
   const answersUtilities = useAnswersUtilities();
   const hasSelectedFacet = !!facet.options.find((o) => o.selected);
   const [filterValue, setFilterValue] = useState('');
@@ -84,14 +94,27 @@ export default function Facet(props: FacetProps): JSX.Element {
           />
         )}
         <div className={cssClasses.optionsContainer}>
-          {facetOptions.map((option) =>
-            renderCheckboxOption({
-              option: { id: option.displayName, label: `${option.displayName} (${option.count})` },
-              onClick: () => onToggle(facet.fieldId, option),
-              selected: option.selected,
-              customCssClasses: cssClasses,
-            })
-          )}
+          {facetOptions.map((option) => {
+            if (type === 'checkbox') {
+              return renderCheckboxOption({
+                option: { id: option.displayName, label: `${option.displayName} (${option.count})` },
+                onClick: () => onToggle(facet.fieldId, option),
+                selected: option.selected,
+                customCssClasses: cssClasses,
+              });
+            } else if (type === 'image') {
+              let image;
+              if (facetImages) {
+                image = facetImages[option.displayName];
+              }
+              return renderImageOption({
+                option: { id: option.displayName, label: `${option.displayName}` },
+                selected: option.selected,
+                onClick: () => onToggle(facet.fieldId, option),
+                image: image,
+              });
+            }
+          })}
         </div>
       </div>
     </fieldset>

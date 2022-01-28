@@ -1,19 +1,22 @@
-interface CheckboxOption {
-  id: string;
-  label: string;
+//prettier-ignore
+export interface CheckboxOption {
+  id: string,
+  label: string
 }
 
+//prettier-ignore
 export interface CheckboxOptionCssClasses {
-  option?: string;
-  optionLabel?: string;
-  optionInput?: string;
+  option?: string,
+  optionLabel?: string,
+  optionInput?: string
 }
 
+//prettier-ignore
 interface CheckBoxOptionProps {
-  option: CheckboxOption;
-  onClick: (isChecked: boolean) => void;
-  selected?: boolean;
-  customCssClasses?: CheckboxOptionCssClasses;
+  option: CheckboxOption,
+  onClick: (isChecked: boolean) => void,
+  selected?: boolean,
+  customCssClasses?: CheckboxOptionCssClasses
 }
 
 const builtInCssClasses: CheckboxOptionCssClasses = {
