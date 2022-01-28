@@ -40,7 +40,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
 
   return (
     <div>
-      <div className="mt-2 ml-10 flex-grow">
+      <div className="mt-2  flex-grow">
         {isMobile && <div className="font-heading text-7xl">Search Classes</div>}
         {isMobile && (
           <SearchBar

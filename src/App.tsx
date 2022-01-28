@@ -29,7 +29,7 @@ export default function App() {
         style={{ margin: 0, padding: 0, minHeight: '100vh', minWidth: '100vh', backgroundColor: 'black' }}>
         <AnswersHeadlessProvider {...answersHeadlessConfig}>
           <div className="flex w-full justify-center bg-black px-8 py-6 text-white">
-            <div className="w-full max-w-7xl">
+            <div className="w-full max-w-7xl sm:max-w-full">
               <PageRouter Layout={StandardLayout} routes={routeConfig} />
             </div>
           </div>

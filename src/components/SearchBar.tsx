@@ -19,7 +19,7 @@ const SCREENREADER_INSTRUCTIONS =
 
 // TODO: add back default classes
 export const builtInCssClasses: SearchBarCssClasses = {
-  container: 'h-12 mb-3 mt-10',
+  container: 'h-12 sm:mb-12 mt-10 sm:w-5/12',
   divider: 'border-t border-gray-200 mx-2.5',
   dropdownContainer: 'relative bg-white pt-4 pb-3 z-10',
   inputContainer: 'inline-flex items-center justify-between w-full text-black',

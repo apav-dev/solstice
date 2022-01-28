@@ -26,7 +26,7 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
   const isMobile = useContext(ResponsiveContext);
 
   return (
-    <div>
+    <div className="">
       {isMobile && <div className="font-heading text-7xl">Search Results</div>}
       {isMobile && (
         <SearchBar
