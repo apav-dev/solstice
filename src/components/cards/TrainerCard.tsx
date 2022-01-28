@@ -70,8 +70,20 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
 
   return (
     <div className={cssClasses.container}>
-      <div style={{ height: isMobile ? '512px' : '256px', width: isMobile ? '512px' : '256px' }}>
-        <img src={trainer.logo?.image?.url} alt="Trainer Headshot" />
+      <div
+        // style={{ height: isMobile ? '512px' : '256px', width: isMobile ? '512px' : '256px' }
+        style={{
+          height: isMobile ? '15rem' : '16rem',
+          // width: isMobile ? '22rem' : '16rem',
+          width: isMobile ? '36rem' : '20rem',
+        }}>
+        <img
+          src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+          alt="Trainer Headshot"
+          style={{ objectFit: 'cover', width: '500px', height: '250px' }}
+          height="512"
+          width="512"
+        />
       </div>
       <div className="my-6 sm:my-2">
         <div>{renderName(trainer.name)}</div>

@@ -1,12 +1,14 @@
-import { Result } from "@yext/answers-headless-react";
+import { Result } from '@yext/answers-headless-react';
 import { CardConfig } from './cardComponent';
 
+//prettier-ignore
 export interface SectionConfig {
   results: Result[],
   verticalKey: string,
   header?: JSX.Element,
   cardConfig?: CardConfig,
-  viewMore?: boolean
+  viewMore?: boolean,
+  label?: string
 }
 
 /**

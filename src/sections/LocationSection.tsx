@@ -5,9 +5,11 @@ import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCs
 import Mapbox, { GeoData } from '../components/Mapbox';
 import React, { useContext, useReducer } from 'react';
 import { ResponsiveContext } from '../App';
+import { useAnswersState } from '@yext/answers-headless-react';
+import renderViewAllLink from '../utils/renderViewAllLink';
 
 interface LocationSectionCssClasses {
-  section?: string;
+  section?: string
 }
 
 const builtInCssClasses: LocationSectionCssClasses = {
@@ -15,13 +17,13 @@ const builtInCssClasses: LocationSectionCssClasses = {
 };
 
 interface LocationSectionConfig extends SectionConfig {
-  customCssClasses?: LocationSectionCssClasses;
-  compositionmethod?: CompositionMethod;
+  customCssClasses?: LocationSectionCssClasses,
+  compositionmethod?: CompositionMethod
 }
 
 interface LocationContextInterface {
-  locationId: string;
-  dispatch?: React.Dispatch<string>;
+  locationId: string,
+  dispatch?: React.Dispatch<string>
 }
 
 const locationContext = {
@@ -38,6 +40,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
   const cssClasses = useComposedCssClasses(builtInCssClasses, props.customCssClasses, props.compositionmethod);
   const { results, cardConfig, header } = props;
   const [state, dispatch] = useReducer(reducer, locationContext);
+  const latestQuery = useAnswersState((state) => state.query.mostRecentSearch);
 
   const isMobile = useContext(ResponsiveContext);
 
@@ -80,8 +83,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
           </div>
           {!isMobile && <div className="w-3/4">{renderMap()}</div>}
         </div>
-        {/* TODO: Link to Locations Vertical */}
-        {isMobile && <div className="flex justify-center py-8 font-heading text-3xl text-gold">VIEW ALL LOCATIONS</div>}
+        {isMobile && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
       </section>
     </LocationContext.Provider>
   );

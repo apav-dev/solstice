@@ -7,9 +7,10 @@ import { CardConfig } from '../models/cardComponent';
 import { useComposedCssClasses, CompositionMethod } from '../hooks/useComposedCssClasses';
 import classNames from 'classnames';
 
+//prettier-ignore
 interface UniversalResultsCssClasses {
-  container?: string;
-  results___loading?: string;
+  container?: string,
+  results___loading?: string
 }
 
 const builtInCssClasses: UniversalResultsCssClasses = {
@@ -17,22 +18,25 @@ const builtInCssClasses: UniversalResultsCssClasses = {
   results___loading: 'opacity-50',
 };
 
+//prettier-ignore
 export interface VerticalConfig {
-  SectionComponent?: SectionComponent;
-  cardConfig?: CardConfig;
-  label?: string;
-  viewAllButton?: boolean;
+  SectionComponent?: SectionComponent,
+  cardConfig?: CardConfig,
+  label?: string,
+  viewAllButton?: boolean
 }
 
+//prettier-ignore
 interface AppliedFiltersConfig extends Omit<AppliedFiltersProps, 'appliedQueryFilters'> {
-  show: boolean;
+  show: boolean
 }
 
+//prettier-ignore
 interface UniversalResultsProps {
-  appliedFiltersConfig?: AppliedFiltersConfig;
-  verticalConfigs: Record<string, VerticalConfig>;
-  customCssClasses?: UniversalResultsCssClasses;
-  cssCompositionMethod?: CompositionMethod;
+  appliedFiltersConfig?: AppliedFiltersConfig,
+  verticalConfigs: Record<string, VerticalConfig>,
+  customCssClasses?: UniversalResultsCssClasses,
+  cssCompositionMethod?: CompositionMethod
 }
 
 /**
@@ -63,8 +67,9 @@ export default function UniversalResults({
   );
 }
 
+//prettier-ignore
 interface VerticalSectionsProps extends UniversalResultsProps {
-  resultsFromAllVerticals: VerticalResults[];
+  resultsFromAllVerticals: VerticalResults[]
 }
 
 /**
@@ -100,6 +105,7 @@ function renderVerticalSections(props: VerticalSectionsProps): JSX.Element {
             <SectionComponent
               results={results}
               verticalKey={verticalKey}
+              label={label}
               header={
                 <SectionHeader
                   {...{

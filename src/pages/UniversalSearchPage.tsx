@@ -30,7 +30,7 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
       {isMobile && <div className="font-heading text-7xl">Search Results</div>}
       {isMobile && (
         <SearchBar
-          placeholder="Search..."
+          placeholder="Search for Gyms, Classes, Trainers"
           screenReaderInstructionsId="SearchBar__srInstructions"
           customCssClasses={{ container: 'my-8 m-auto w-full' }}
           cssCompositionMethod="assign"
