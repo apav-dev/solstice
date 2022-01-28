@@ -2,10 +2,13 @@ import { Link } from 'react-router-dom';
 import { AppliedFiltersDisplay, AppliedFiltersProps } from '../components/AppliedFilters';
 import { ResultsCountConfig } from '../components/ResultsCount';
 import { useComposedCssClasses, CompositionMethod } from '../hooks/useComposedCssClasses';
-// import { ReactComponent as CollectionIcon } from '../icons/collection.svg';
+import { ReactComponent as MapIcon } from '../icons/map.svg';
 import { useAnswersState } from '@yext/answers-headless-react';
 import { DisplayableFilter } from '../models/displayableFilter';
+import { ResponsiveContext } from '../App';
+import { useContext } from 'react';
 
+//prettier-ignore
 interface SectionHeaderCssClasses {
   sectionHeaderContainer?: string,
   sectionHeaderIconContainer?: string,
@@ -25,6 +28,7 @@ const builtInCssClasses: SectionHeaderCssClasses = {
   appliedFiltersContainer: 'ml-3',
 };
 
+// prettier-ignore
 interface SectionHeaderConfig {
   label: string,
   resultsCountConfig?: ResultsCountConfig,
@@ -32,7 +36,8 @@ interface SectionHeaderConfig {
   customCssClasses?: SectionHeaderCssClasses,
   cssCompositionMethod?: CompositionMethod,
   verticalKey: string,
-  viewAllButton?: boolean
+  viewAllButton?: boolean,
+  viewMapButton?: boolean
 }
 
 export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
@@ -40,12 +45,14 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
     label,
     verticalKey,
     viewAllButton = false,
+    viewMapButton = false,
     appliedFiltersConfig,
     customCssClasses,
     cssCompositionMethod,
   } = props;
   const cssClasses = useComposedCssClasses(builtInCssClasses, customCssClasses, cssCompositionMethod);
   const latestQuery = useAnswersState((state) => state.query.mostRecentSearch);
+  const isMobile = useContext(ResponsiveContext);
   const displayableFilters =
     appliedFiltersConfig?.appliedQueryFilters?.map((appliedQueryFilter): DisplayableFilter => {
       return {
@@ -75,6 +82,13 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
           <Link className={cssClasses.viewMoreLink} to={`/${verticalKey}?query=${latestQuery}`}>
             View all
           </Link>
+        </div>
+      )}
+      {viewMapButton && isMobile && (
+        // TODO: add toggle to flip to map and back
+        <div className="ml-auto flex justify-center space-x-6 py-8 font-heading text-3xl text-gold hover:underline">
+          <MapIcon />
+          <div className="">SHOW MAP</div>
         </div>
       )}
     </div>

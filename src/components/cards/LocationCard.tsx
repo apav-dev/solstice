@@ -5,51 +5,59 @@ import { useContext } from 'react';
 import { LocationContext } from '../../sections/LocationSection';
 import { ResponsiveContext } from '../../App';
 
+//prettier-ignore
 export interface LocationCardConfig {
-  showOrdinal?: boolean;
+  showOrdinal?: boolean
 }
 
+//prettier-ignore
 export interface LocationCardProps extends CardProps {
-  configuration: LocationCardConfig;
+  configuration: LocationCardConfig
 }
+
+//prettier-ignore
 interface Address {
-  line1: string;
-  city: string;
-  countryCode: string;
-  postalCode: string;
-  region: string;
+  line1: string,
+  city: string,
+  countryCode: string,
+  postalCode: string,
+  region: string
 }
 
+//prettier-ignore
 export interface Interval {
-  start: string;
-  end: string;
+  start: string,
+  end: string
 }
 
+//prettier-ignore
 interface DayHours {
-  isClosed: boolean;
+  isClosed: boolean,
   // TODO: change to optional field
-  openIntervals: Interval[];
+  openIntervals: Interval[]
 }
 
+//prettier-ignore
 export interface Hours {
-  monday: DayHours;
-  tuesday: DayHours;
-  wednesday: DayHours;
-  thursday: DayHours;
-  friday: DayHours;
-  saturday: DayHours;
-  sunday: DayHours;
+  monday: DayHours,
+  tuesday: DayHours,
+  wednesday: DayHours,
+  thursday: DayHours,
+  friday: DayHours,
+  saturday: DayHours,
+  sunday: DayHours
 }
 
+//prettier-ignore
 export interface LocationData {
-  id?: string;
-  address?: Address;
-  name?: string;
-  hours?: Hours;
+  id?: string,
+  address?: Address,
+  name?: string,
+  hours?: Hours
 }
 
 const builtInCssClasses = {
-  container: 'flex flex-col justify-between border-b p-4 shadow-sm hover:bg-gray-700',
+  container: 'flex flex-col justify-between border-b p-4 shadow-sm hover:bg-gray-900',
   header: 'flex text-base',
   body: 'flex justify-between pt-2.5 text-sm font-body',
   descriptionContainer: 'sm:text-sm text-2xl',
@@ -58,7 +66,7 @@ const builtInCssClasses = {
   cta2: 'min-w-max bg-white text-blue-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
   ordinal: 'mr-1.5 text-lg font-medium',
   title: 'sm:text-base text-3xl font-medium font-body font-bold',
-  ctaButton: 'flex justify-center border w-2/5 rounded-md self-center	align-middle mt-4 bg-white',
+  ctaButton: 'flex justify-center border-2 w-2/5 rounded-md self-center	align-middle mt-4 hover:bg-gray-400',
 };
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -175,9 +183,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
       </div>
       {!isMobile && (
         <div className={cssClasses.ctaButton}>
-          <div className="sm:text-body align-middle font-heading text-3xl font-bold text-black sm:text-base">
-            JOIN US
-          </div>
+          <div className="sm:text-body align-middle font-heading text-3xl font-bold sm:text-base">JOIN US</div>
         </div>
       )}
     </div>

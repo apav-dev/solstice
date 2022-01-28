@@ -23,7 +23,8 @@ export interface VerticalConfig {
   SectionComponent?: SectionComponent,
   cardConfig?: CardConfig,
   label?: string,
-  viewAllButton?: boolean
+  viewAllButton?: boolean,
+  viewMapButton?: boolean
 }
 
 //prettier-ignore
@@ -114,6 +115,7 @@ function renderVerticalSections(props: VerticalSectionsProps): JSX.Element {
                     appliedFiltersConfig,
                     verticalKey,
                     viewAllButton: verticalConfig.viewAllButton,
+                    viewMapButton: verticalConfig.viewMapButton,
                   }}
                 />
               }

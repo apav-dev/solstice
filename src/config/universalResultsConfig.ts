@@ -11,6 +11,7 @@ export const universalResultsConfig: UniversalResultsConfig = {
   locations: {
     label: 'LOCATIONS',
     SectionComponent: LocationSection,
+    viewMapButton: true,
     cardConfig: {
       CardComponent: LocationCard,
       showOrdinal: false,

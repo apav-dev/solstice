@@ -9,7 +9,7 @@ const cssClasses = {
   topContainer: 'flex items-center',
   solsticeLabel: 'flex items-center space-x-8 sm:space-x-2 font-heading text-3xl',
   headerContainer: 'flex  items-center font-heading',
-  headingsContainer: 'flex space-x-16 font-heading',
+  headingsContainer: 'flex space-x-16 font-heading ',
   membershipButtonsContainer: 'flex items-center space-x-4 float-right font-heading',
   dropdownModal: 'fixed sm:top-24 top-7.5 left-0 right-0 bg-black h-full w-full z-10',
 };
@@ -23,17 +23,17 @@ export function SolsticeHeader(): JSX.Element {
 
   const renderHeadings = () => (
     <div className={cssClasses.headingsContainer}>
-      <div>ABOUT US</div>
-      <div>OUR COMMITMENT TO CLEAN</div>
-      <div>BLOG</div>
+      <div className="hover:underline">ABOUT US</div>
+      <div className="hover:underline">OUR COMMITMENT TO CLEAN</div>
+      <div className="hover:underline">BLOG</div>
     </div>
   );
 
   const renderMembershipButtons = () => (
     <div className={cssClasses.membershipButtonsContainer}>
-      <div className="align-middle">LOG IN</div>
+      <div className="align-middle hover:underline">LOG IN</div>
       <div className="rounded-md border">
-        <div className="py-4 px-10">JOIN US</div>
+        <div className="py-4 px-10 hover:bg-gray-400">JOIN US</div>
       </div>
     </div>
   );
@@ -69,7 +69,7 @@ export function SolsticeHeader(): JSX.Element {
         {!isMobile && renderMembershipButtons()}
         {isMobile && (
           // TODO: Turn into reusable component with hover effect
-          <div className="mt-4 flex justify-center rounded-md border-2 bg-black px-4">
+          <div className="mt-4 flex justify-center rounded-md border-2 bg-black px-4 hover:bg-gray-400 ">
             <div className="py-3 px-12 font-heading text-3xl font-bold text-white sm:py-0 sm:text-base">JOIN US</div>
           </div>
         )}

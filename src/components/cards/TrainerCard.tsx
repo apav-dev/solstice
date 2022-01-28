@@ -3,35 +3,42 @@ import { ResponsiveContext } from '../../App';
 import { useComposedCssClasses } from '../../hooks/useComposedCssClasses';
 import { CardProps } from '../../models/cardComponent';
 
+//prettier-ignore
 export interface TrainerCardConfig {
   showOrdinal?: boolean
 }
 
+//prettier-ignore
 export interface TrainerCardProps extends CardProps {
   configuration: TrainerCardConfig
 }
 
+//prettier-ignore
 export interface SimpleImage {
   url: string,
   width: number,
   height: number
 }
 
+//prettier-ignore
 export interface Image extends SimpleImage {
   sourceUrl: string,
   thumbnails: SimpleImage[]
 }
 
+//prettier-ignore
 interface Logo {
   image?: Image
 }
 
+//prettier-ignore
 export interface TrainerData {
   name?: string,
   c_inspirationalQuote?: string,
   logo?: Logo
 }
 
+//prettier-ignore
 export interface TrainerCardCssClasses {
   container?: string,
   descriptionContainer?: string,
@@ -42,11 +49,12 @@ export interface TrainerCardCssClasses {
   ctaButtonText?: string
 }
 
+//prettier-ignore
 const builtInCssClasses: TrainerCardCssClasses = {
   container: 'flex flex-col justify-between border-b p-4 shadow-sm',
   descriptionContainer: 'w-full sm:text-sm text-3xl font-heading ',
   name: 'sm:text-base text-3xl font-medium font-body font-bold',
-  ctaButton: 'flex border rounded-md mt-4 px-4 bg-black justify-center',
+  ctaButton: 'flex border rounded-md mt-4 px-4 bg-black justify-center hover:bg-gray-400',
   ctaButtonText: 'font-heading text-white font-bold sm:text-base text-3xl py-3 sm:py-0',
 };
 

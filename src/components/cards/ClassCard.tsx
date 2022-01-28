@@ -51,8 +51,8 @@ const builtInCssClasses: TrainerCardCssClasses = {
   descriptionContainer: 'w-full text-sm',
   title: 'sm:text-base text-3xl font-medium font-body font-bold',
   body: 'sm:text-base text-2xl font-medium font-body',
-  ctaButton: 'flex justify-center border w-full rounded-md self-center align-middle bg-white mt-4',
-  ctaButtonText: 'align-middle font-heading font-bold text-black sm:text-base text-3xl',
+  ctaButton: 'flex justify-center border w-full rounded-md self-center align-middle mt-4 hover:bg-gray-400',
+  ctaButtonText: 'align-middle font-heading font-bold sm:text-base text-3xl',
 };
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
