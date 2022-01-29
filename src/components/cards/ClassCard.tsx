@@ -141,21 +141,16 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     );
   }
 
+  const thumbnailLength = workoutClass.primaryPhoto.image.thumbnails.length;
+
   return (
-    <div
-      // className={
-      //   // isMobile && searchType === 'vertical' ? cssClasses.container + ' flex-row' : cssClasses.container + ' flex-col'
-      // }
-      className="my-4 flex space-x-8 sm:flex-col">
-      <div
-        // TODO: Cleanup with tailwind
-        style={{
-          // width: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
-          width: isMobile ? '10rem' : '32rem',
-          // height: searchType === 'universal' ? (isMobile ? '32rem' : '16rem') : isMobile ? '10rem' : '24rem',
-          height: isMobile ? '10rem' : '32rem',
-        }}>
-        <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class" style={{ height: '100%', width: '100%' }} />
+    <div className="my-8 flex space-x-12 sm:flex-col">
+      <div>
+        <img
+          src={workoutClass.primaryPhoto.image.thumbnails[thumbnailLength - 1].url}
+          alt="Workout Class"
+          className=" h-48 w-96 object-cover"
+        />
       </div>
       <div className={classNames('my-2 flex flex-col sm:space-y-2', { 'ml-4': searchType === 'vertical' && isMobile })}>
         <div className="flex h-2/3 flex-col justify-between sm:flex-row sm:justify-start sm:space-x-2">

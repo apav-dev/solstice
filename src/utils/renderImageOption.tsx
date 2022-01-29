@@ -1,11 +1,13 @@
 import { CheckboxOption, CheckboxOptionCssClasses } from './renderCheckboxOption';
-import { ReactComponent as BoxingIcon } from '../icons/boxing.svg';
+
 import classnames from 'classnames';
+import { BoxingIcon } from './faceticons';
 
 //prettier-ignore
 interface ImageOptionProps {
   option: CheckboxOption,
-  image?: JSX.Element,
+  // TODO: rename here and other places it's referenced
+  image?: (fill?: string) => JSX.Element,
   onClick: (isChecked: boolean) => void,
   selected?: boolean,
   customCssClasses?: CheckboxOptionCssClasses
@@ -23,11 +25,11 @@ export default function renderImageOption({ option, image, selected, onClick, cu
   return (
     <div
       id={option.id}
-      className={classnames(cssClasses.option, { 'bg-gold': selected })}
+      className={classnames(cssClasses.option, { 'border-black bg-gold text-black': selected })}
       key={option.id}
       onClick={() => onClick(true)}>
       {/* {image} */}
-      {image}
+      <div className="h-18 my-2 w-24">{image ? image(selected ? 'black' : 'white') : BoxingIcon()}</div>
       <div className={cssClasses.optionLabel}>{option.label}</div>
       {/* <input
         type="checkbox"

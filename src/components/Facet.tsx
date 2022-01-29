@@ -19,7 +19,7 @@ export interface FacetConfig {
   defaultExpanded?: boolean,
   type?: FacetType,
   //TODO: change type from any
-  facetImages?: Record<string, JSX.Element | undefined>,
+  facetImages?: Record<string, ((fill?: string) => JSX.Element)>,
   facetCss?: FacetCssClasses 
 }
 
@@ -111,7 +111,7 @@ export default function Facet(props: FacetProps): JSX.Element {
                 option: { id: option.displayName, label: `${option.displayName}` },
                 selected: option.selected,
                 onClick: () => onToggle(facet.fieldId, option),
-                image: image,
+                image,
               });
             }
           })}
