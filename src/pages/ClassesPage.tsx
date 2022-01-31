@@ -15,6 +15,17 @@ import { useContext } from 'react';
 import Facets from '../components/Facets';
 import MobileFilterButton from '../components/MobileFilterButton';
 import MobileFilterLayout from '../components/MobileFilterLayout';
+import {
+  BarreIcon,
+  BootcampIcon,
+  BoxingIcon,
+  DanceIcon,
+  HiitIcon,
+  RunIcon,
+  SpinIcon,
+  YogaIcon,
+} from '../utils/faceticons';
+import ClassFacets from '../components/ClassFacets';
 
 const staticFiltersConfig = [
   {
@@ -66,11 +77,14 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
           currentVerticalLabel="Classes"
           verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
         />
-        <VerticalResults
-          CardComponent={ClassCard}
-          displayAllResults={true}
-          customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-3' }}
-        />
+        <div className="flex space-x-4">
+          {!isMobile && <ClassFacets />}
+          <VerticalResults
+            CardComponent={ClassCard}
+            displayAllResults={true}
+            customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-3 sm:w-4/5' }}
+          />
+        </div>
         <LocationBias />
       </div>
       {isMobile && <MobileFilterLayout />}

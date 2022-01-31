@@ -141,15 +141,23 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     );
   }
 
-  const thumbnailLength = workoutClass.primaryPhoto.image.thumbnails.length;
+  const isVertical = useAnswersState((s) => s.meta.searchType) === 'vertical';
+  // const thumbnailLength = workoutClass.primaryPhoto.image.thumbnails.length;
 
   return (
-    <div className="my-8 flex space-x-12 sm:flex-col">
-      <div>
+    <div className="my-8 flex p-4 sm:flex-col">
+      <div
+        // className="sm:h-16 sm:w-20"
+        style={{
+          height: !isMobile && !isVertical ? '16rem' : '',
+          // width: isMobile ? '22rem' : '16rem',
+          width: !isMobile && !isVertical ? '20rem' : '',
+        }}>
         <img
-          src={workoutClass.primaryPhoto.image.thumbnails[thumbnailLength - 1].url}
+          src={workoutClass.primaryPhoto.image.url}
           alt="Workout Class"
-          className=" h-48 w-96 object-cover"
+          // className=" sm:w-30 h-48 w-96 object-cover sm:h-16 "
+          style={{ objectFit: 'cover', width: '500px', height: '250px' }}
         />
       </div>
       <div className={classNames('my-2 flex flex-col sm:space-y-2', { 'ml-4': searchType === 'vertical' && isMobile })}>

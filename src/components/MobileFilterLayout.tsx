@@ -11,6 +11,7 @@ import {
   StrengthIcon,
   YogaIcon,
 } from '../utils/faceticons';
+import ClassFacets from './ClassFacets';
 import Facets from './Facets';
 import MobileFilterButton from './MobileFilterButton';
 import { Divider } from './StaticFilters';
@@ -27,7 +28,8 @@ export default function MobileFilterLayout() {
       <MobileFilterButton onClick={() => toggleFilterPopup()} />
       {isPopupUpOpen && (
         <div className="fixed top-0 left-0 right-0 z-10 h-full w-full bg-black sm:top-0">
-          <div className="my-8 flex w-full justify-center font-heading text-4xl text-white">Filter</div>
+          <ClassFacets filterTitle isMobile />
+          {/* <div className="my-8 flex w-full justify-center font-heading text-4xl text-white">Filter</div>
           <Divider />
           <Facets
             customCssClasses={{
@@ -67,7 +69,7 @@ export default function MobileFilterLayout() {
                 },
               },
             }}
-          />
+          /> */}
           <div className="absolute bottom-4 flex w-full flex-col items-center">
             <Divider />
             <div

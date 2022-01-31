@@ -2,6 +2,7 @@ import { CheckboxOption, CheckboxOptionCssClasses } from './renderCheckboxOption
 
 import classnames from 'classnames';
 import { BoxingIcon } from './faceticons';
+import classNames from 'classnames';
 
 //prettier-ignore
 interface ImageOptionProps {
@@ -10,17 +11,26 @@ interface ImageOptionProps {
   image?: (fill?: string) => JSX.Element,
   onClick: (isChecked: boolean) => void,
   selected?: boolean,
-  customCssClasses?: CheckboxOptionCssClasses
+  customCssClasses?: CheckboxOptionCssClasses,
+  isMobile?: boolean
 }
 
 const builtInCssClasses: CheckboxOptionCssClasses = {
-  option: 'flex flex-col border-4 rounded-xl justify-center items-center p-4',
+  option:
+    'flex flex-col sm:border-2 border-4 rounded-xl justify-center items-center py-2 px-2 sm:h-20 sm:w-20 h-40 w-40 sm:m-2',
   // optionInput:
   //   'w-3.5 h-3.5 form-checkbox cursor-pointer border border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500',
-  optionLabel: 'font-heading text-3xl',
+  optionLabel: 'font-heading text-3xl sm:text-sm',
 };
 
-export default function renderImageOption({ option, image, selected, onClick, customCssClasses }: ImageOptionProps) {
+export default function renderImageOption({
+  option,
+  image,
+  selected,
+  onClick,
+  customCssClasses,
+  isMobile,
+}: ImageOptionProps) {
   const cssClasses = { ...builtInCssClasses, ...customCssClasses };
   return (
     <div
@@ -29,7 +39,10 @@ export default function renderImageOption({ option, image, selected, onClick, cu
       key={option.id}
       onClick={() => onClick(true)}>
       {/* {image} */}
-      <div className="h-18 my-2 w-24">{image ? image(selected ? 'black' : 'white') : BoxingIcon()}</div>
+      <div className={classNames('', { 'h-18 my-2 w-24': isMobile })}>
+        {/* h-18 my-2 w-24 */}
+        {image ? image(selected ? 'black' : 'white') : BoxingIcon()}
+      </div>
       <div className={cssClasses.optionLabel}>{option.label}</div>
       {/* <input
         type="checkbox"

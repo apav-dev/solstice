@@ -20,7 +20,8 @@ export interface FacetConfig {
   type?: FacetType,
   //TODO: change type from any
   facetImages?: Record<string, ((fill?: string) => JSX.Element)>,
-  facetCss?: FacetCssClasses 
+  facetCss?: FacetCssClasses,
+  isMobile?: boolean 
 }
 
 //prettier-ignore
@@ -61,6 +62,7 @@ export default function Facet(props: FacetProps): JSX.Element {
     type = 'checkbox',
     facetImages,
     facetCss,
+    isMobile,
   } = props;
   const cssClasses = useComposedCssClasses(builtInCssClasses, facetCss ?? customCssclasses, cssCompositionMethod);
   const answersUtilities = useAnswersUtilities();
@@ -112,6 +114,7 @@ export default function Facet(props: FacetProps): JSX.Element {
                 selected: option.selected,
                 onClick: () => onToggle(facet.fieldId, option),
                 image,
+                isMobile,
               });
             }
           })}
