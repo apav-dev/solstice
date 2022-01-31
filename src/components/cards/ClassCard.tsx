@@ -68,12 +68,12 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   function renderTitle(title?: string) {
     if (!title) return;
-    return <div className={cssClasses.title}>{title}</div>;
+    return <span className={cssClasses.title}>{title}</span>;
   }
 
   function renderTrainerName(trainerName?: string) {
     if (!trainerName) return;
-    return <div className={cssClasses.body}>{trainerName}</div>;
+    return <span className={cssClasses.body}>{trainerName}</span>;
   }
 
   function getClassInterval(intervals: Interval[]) {
@@ -135,14 +135,36 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     if (!classTime) return;
 
     return (
-      <span className="absolute bottom-2 h-1/3 whitespace-pre font-body text-2xl font-medium sm:text-base">
+      <span className="font-body text-2xl font-medium sm:text-base">
+        {/* "absolute bottom-2 h-1/3 whitespace-pre font-body text-2xl font-medium sm:text-base" */}
         {classTime}
       </span>
     );
   }
 
   const isVertical = useAnswersState((s) => s.meta.searchType) === 'vertical';
-  // const thumbnailLength = workoutClass.primaryPhoto.image.thumbnails.length;
+
+  const renderLayout = () => (
+    <div className="flex flex-col ">
+      <div className="flex flex-col justify-between sm:flex-row sm:justify-start sm:space-x-2">
+        {renderTitle(workoutClass.name)}
+        {/* TODO: why doesn't tailwind work here? */}
+        <span style={{ fontSize: '6px' }} className="self-center bg-[#C4C4C4] text-[6px] ">{`\u2B24`}</span>
+        {renderTrainerName(primaryTrainer)}
+      </div>
+      <div className="relative ">{renderClassInterval(workoutClass.c_time)}</div>
+    </div>
+  );
+
+  const renderMobileLayout = () => {
+    return (
+      <div className="my-4 ml-4 flex flex-col justify-between sm:flex-row sm:justify-start sm:justify-start sm:space-x-2">
+        {renderTitle(workoutClass.name)}
+        {renderTrainerName(primaryTrainer)}
+        {renderClassInterval(workoutClass.c_time)}
+      </div>
+    );
+  };
 
   return (
     <div className="my-8 flex p-4 sm:flex-col">
@@ -156,21 +178,10 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
         <img
           src={workoutClass.primaryPhoto.image.url}
           alt="Workout Class"
-          // className=" sm:w-30 h-48 w-96 object-cover sm:h-16 "
           style={{ objectFit: 'cover', width: '500px', height: '250px' }}
         />
       </div>
-      <div className={classNames('my-2 flex flex-col sm:space-y-2', { 'ml-4': searchType === 'vertical' && isMobile })}>
-        <div className="flex h-2/3 flex-col justify-between sm:flex-row sm:justify-start sm:space-x-2">
-          {renderTitle(workoutClass.name)}
-          {/* TODO: why doesn't tailwind work here? */}
-          {!isMobile && (
-            <div style={{ fontSize: '6px' }} className="self-center bg-[#C4C4C4] text-[6px] ">{`\u2B24`}</div>
-          )}
-          {renderTrainerName(primaryTrainer)}
-        </div>
-        <div className="relative mt-2 h-1/3">{renderClassInterval(workoutClass.c_time)}</div>
-      </div>
+      {isMobile ? renderMobileLayout() : renderLayout()}
       {!isMobile && (
         <div className={cssClasses.ctaButton}>
           <div className={cssClasses.ctaButtonText}>SIGN UP</div>

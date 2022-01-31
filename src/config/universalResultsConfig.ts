@@ -12,6 +12,7 @@ export const universalResultsConfig: UniversalResultsConfig = {
     label: 'LOCATIONS',
     SectionComponent: LocationSection,
     viewMapButton: true,
+    viewAllButton: true,
     cardConfig: {
       CardComponent: LocationCard,
       showOrdinal: false,
@@ -19,6 +20,7 @@ export const universalResultsConfig: UniversalResultsConfig = {
   },
   classes: {
     label: 'CLASSES',
+    viewAllButton: true,
     SectionComponent: CarouselSection,
     cardConfig: {
       CardComponent: ClassCard,
@@ -27,6 +29,7 @@ export const universalResultsConfig: UniversalResultsConfig = {
   },
   trainers: {
     label: 'TRAINERS',
+    viewAllButton: true,
     SectionComponent: CarouselSection,
     cardConfig: {
       CardComponent: TrainerCard,

@@ -24,7 +24,7 @@ const builtInCssClasses: SectionHeaderCssClasses = {
   sectionHeaderIconContainer: 'w-5 h-5',
   sectionHeaderLabel: 'font-bold font-body sm:text-xl text-5xl',
   viewMoreContainer: 'flex justify-end flex-grow ml-auto font-medium text-gray-800',
-  viewMoreLink: 'text-blue-600 pr-1 pl-3',
+  viewMoreLink: 'text-gold pr-1 pl-3',
   appliedFiltersContainer: 'ml-3',
 };
 
@@ -77,7 +77,7 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
           <AppliedFiltersDisplay displayableFilters={displayableFilters} />
         </div>
       )}
-      {viewAllButton && (
+      {viewAllButton && !isMobile && (
         <div className={cssClasses.viewMoreContainer}>
           <Link className={cssClasses.viewMoreLink} to={`/${verticalKey}?query=${latestQuery}`}>
             View all
