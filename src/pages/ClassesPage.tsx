@@ -10,21 +10,11 @@ import usePageSetupEffect from '../hooks/usePageSetupEffect';
 import StaticFilters, { Divider } from '../components/StaticFilters';
 import { ClassCard } from '../components/cards/ClassCard';
 import SearchBar from '../components/SearchBar';
-import { ResponsiveContext } from '../App';
+import App, { ResponsiveContext } from '../App';
 import { useContext } from 'react';
 import Facets from '../components/Facets';
 import MobileFilterButton from '../components/MobileFilterButton';
 import MobileFilterLayout from '../components/MobileFilterLayout';
-import {
-  BarreIcon,
-  BootcampIcon,
-  BoxingIcon,
-  DanceIcon,
-  HiitIcon,
-  RunIcon,
-  SpinIcon,
-  YogaIcon,
-} from '../utils/faceticons';
 import ClassFacets from '../components/ClassFacets';
 
 const staticFiltersConfig = [
@@ -65,14 +55,15 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
         <SpellCheck />
         <ResultsCount />
         {/* <Divider />
-        <Facets searchOnChange={true} defaultExpanded={true} />
-        <AppliedFilters
+        <Facets searchOnChange={true} defaultExpanded={true} /> */}
+        {/* <AppliedFilters
           hiddenFields={['builtin.entityType']}
           customCssClasses={{
             nlpFilter: 'mb-4',
             removableFilter: 'mb-4',
           }}
         /> */}
+        <AppliedFilters filterBarType="sentence" />
         <AlternativeVerticals
           currentVerticalLabel="Classes"
           verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
