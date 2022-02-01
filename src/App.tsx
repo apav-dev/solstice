@@ -18,15 +18,15 @@ export default function App() {
   }, []);
 
   const updateDimensions = () => {
-    const width = window.innerWidth;
-    setIsMobile(width < 1024);
+    const width = window.outerWidth;
+    setIsMobile(width < 640);
   };
 
   return (
     <ResponsiveContext.Provider value={isMobile}>
       <div
         // TODO: need better way to do this
-        style={{ margin: 0, padding: 0, minHeight: '100vh', minWidth: '100vh', backgroundColor: 'black' }}>
+        style={{ margin: 0, padding: 0, height: '100vh', minWidth: '100vh', backgroundColor: 'black' }}>
         <AnswersHeadlessProvider {...answersHeadlessConfig}>
           <div className="flex w-full justify-center bg-black px-8 py-6 text-white">
             <div className="w-full max-w-7xl sm:max-w-full">

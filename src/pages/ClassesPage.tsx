@@ -41,43 +41,41 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
 
   return (
     <div>
-      <div className="mt-2  flex-grow">
-        {isMobile && <div className="font-heading text-7xl">Search Classes</div>}
-        {isMobile && (
-          <SearchBar
-            placeholder="Search..."
-            screenReaderInstructionsId="SearchBar__srInstructions"
-            customCssClasses={{ container: 'my-8 m-auto w-full' }}
-            cssCompositionMethod="assign"
-          />
-        )}
-        <DirectAnswer />
-        <SpellCheck />
-        <ResultsCount />
-        {/* <Divider />
+      {isMobile && <div className="font-heading text-7xl">Search Classes</div>}
+      {isMobile && (
+        <SearchBar
+          placeholder="Search..."
+          screenReaderInstructionsId="SearchBar__srInstructions"
+          customCssClasses={{ container: 'my-8 m-auto w-full' }}
+          cssCompositionMethod="assign"
+        />
+      )}
+      <DirectAnswer />
+      <SpellCheck />
+      <ResultsCount />
+      {/* <Divider />
         <Facets searchOnChange={true} defaultExpanded={true} /> */}
-        {/* <AppliedFilters
+      {/* <AppliedFilters
           hiddenFields={['builtin.entityType']}
           customCssClasses={{
             nlpFilter: 'mb-4',
             removableFilter: 'mb-4',
           }}
         /> */}
-        <AppliedFilters filterBarType="sentence" />
-        <AlternativeVerticals
-          currentVerticalLabel="Classes"
-          verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
+      <AppliedFilters filterBarType="sentence" />
+      <AlternativeVerticals
+        currentVerticalLabel="Classes"
+        verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
+      />
+      <div className="flex space-x-4">
+        {!isMobile && <ClassFacets />}
+        <VerticalResults
+          CardComponent={ClassCard}
+          displayAllResults={true}
+          customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-3 sm:w-4/5' }}
         />
-        <div className="flex space-x-4">
-          {!isMobile && <ClassFacets />}
-          <VerticalResults
-            CardComponent={ClassCard}
-            displayAllResults={true}
-            customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-3 sm:w-4/5' }}
-          />
-        </div>
-        <LocationBias />
       </div>
+      <LocationBias />
       {isMobile && <MobileFilterLayout />}
     </div>
   );

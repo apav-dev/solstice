@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { DisplayableFilter } from '../models/displayableFilter';
 
 //prettier-ignore
@@ -7,10 +6,6 @@ interface FilterSentence {
 }
 
 export default function FilterSentences({ displayableFilters }: FilterSentence): JSX.Element {
-  useEffect(() => {
-    console.log(displayableFilters);
-  });
-
   function renderClassTypeFilters() {
     let classesSegment = '';
 
