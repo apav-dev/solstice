@@ -158,7 +158,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   const renderMobileLayout = () => {
     return (
-      <div className="my-4 ml-4 flex flex-col justify-between sm:flex-row sm:justify-start sm:justify-start sm:space-x-2">
+      <div className="my-4 ml-4 flex w-2/5 flex-col justify-between">
         {renderTitle(workoutClass.name)}
         {renderTrainerName(primaryTrainer)}
         {renderClassInterval(workoutClass.c_time)}
@@ -167,7 +167,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
   };
 
   return (
-    <div className="my-8 flex p-4 sm:flex-col">
+    <div className="my-8 flex  p-4 sm:flex-col">
       <div
         // className="sm:h-16 sm:w-20"
         style={{
@@ -178,7 +178,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
         <img
           src={workoutClass.primaryPhoto.image.url}
           alt="Workout Class"
-          style={{ objectFit: 'cover', width: '500px', height: '250px' }}
+          style={{ objectFit: 'cover', width: '100vh', height: '250px' }}
         />
       </div>
       {isMobile ? renderMobileLayout() : renderLayout()}
