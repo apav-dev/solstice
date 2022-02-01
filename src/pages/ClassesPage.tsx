@@ -75,7 +75,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
           customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-3 sm:w-4/5' }}
         />
       </div>
-      <LocationBias />
+      {/* <LocationBias /> */}
       {isMobile && <MobileFilterLayout />}
     </div>
   );

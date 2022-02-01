@@ -59,7 +59,7 @@ export interface LocationData {
 const builtInCssClasses = {
   container: 'flex flex-col justify-between border-b p-4 shadow-sm hover:bg-gray-900',
   header: 'flex text-base',
-  body: 'flex justify-between pt-2.5 text-sm font-body',
+  body: 'flex justify-between pt-2.5 sm:text-sm font-body',
   descriptionContainer: 'sm:text-sm text-2xl',
   ctaContainer: 'flex flex-col justify-between ml-4',
   cta1: 'min-w-max bg-blue-600 text-white font-medium rounded-lg py-2 px-5 shadow',

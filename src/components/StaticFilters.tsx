@@ -31,7 +31,7 @@ interface StaticFiltersCssClasses extends CheckboxOptionCssClasses {
 //prettier-ignore
 const builtInCssClasses: StaticFiltersCssClasses = {
   container: 'md:w-40',
-  title: 'text-gray-900 text-sm font-medium mb-4',
+  title: 'text-gray-900 sm:text-sm font-medium mb-4',
   optionsContainer: 'flex flex-col space-y-3'
 }
 

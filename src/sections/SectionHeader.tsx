@@ -72,11 +72,11 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
       {/* TODO (cea2aj): Add support for ResultsCountDisplay once we get the mocks from UX
         {resultsCountConfig &&
            <ResultsCountDisplay resultsLength={resultsCountConfig.resultsLength} resultsCount={resultsCountConfig.resultsCount} />} */}
-      {appliedFiltersConfig && (
+      {/* {appliedFiltersConfig && (
         <div className={cssClasses.appliedFiltersContainer}>
           <AppliedFiltersDisplay displayableFilters={displayableFilters} />
         </div>
-      )}
+      )} */}
       {viewAllButton && !isMobile && (
         <div className={cssClasses.viewMoreContainer}>
           <Link className={cssClasses.viewMoreLink} to={`/${verticalKey}?query=${latestQuery}`}>

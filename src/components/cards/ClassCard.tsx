@@ -48,7 +48,7 @@ export interface TrainerCardCssClasses {
 
 const builtInCssClasses: TrainerCardCssClasses = {
   container: 'flex sm:justify-between border-b p-4 shadow-sm ',
-  descriptionContainer: 'w-full text-sm',
+  descriptionContainer: 'w-full sm:text-sm',
   title: 'sm:text-base text-3xl font-medium font-body font-bold',
   body: 'sm:text-base text-2xl font-medium font-body',
   ctaButton: 'flex justify-center border w-full rounded-md self-center align-middle mt-4 hover:bg-gray-400',

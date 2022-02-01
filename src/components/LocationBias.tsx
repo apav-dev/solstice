@@ -11,7 +11,7 @@ interface LocationBiasCssClasses {
 }
 
 const builtInCssClasses: LocationBiasCssClasses = {
-  container: 'text-sm text-gray-500 text-center m-auto',
+  container: 'sm:text-sm text-gray-500 text-center m-auto',
   location: 'font-semibold',
   button: 'text-blue-600 cursor-pointer hover:underline focus:underline',
 };
@@ -39,8 +39,8 @@ export default function LocationBias({
     locationBias?.method === LocationBiasMethod.Ip
       ? ' (based on your internet address) - '
       : locationBias?.method === LocationBiasMethod.Device
-      ? ' (based on your device) - '
-        : ' - ';
+        ? ' (based on your device) - '
+      : ' - ';
 
   async function handleGeolocationClick() {
     try {

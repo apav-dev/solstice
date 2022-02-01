@@ -46,13 +46,13 @@ export default function LocationsPage({ verticalKey }: { verticalKey: string }) 
         <DirectAnswer />
         <SpellCheck />
         <ResultsCount />
-        <AppliedFilters
+        {/* <AppliedFilters
           hiddenFields={['builtin.entityType']}
           customCssClasses={{
             nlpFilter: 'mb-4',
             removableFilter: 'mb-4',
           }}
-        />
+        /> */}
         <AlternativeVerticals
           currentVerticalLabel="Locations"
           verticalsConfig={[
@@ -62,7 +62,7 @@ export default function LocationsPage({ verticalKey }: { verticalKey: string }) 
           ]}
         />
         <VerticalResults CardComponent={LocationCard} displayAllResults={true} />
-        <LocationBias />
+        {/* <LocationBias /> */}
       </div>
     </div>
   );

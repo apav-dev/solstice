@@ -44,7 +44,7 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
         customCssClasses={{ container: 'space-y-8  mt-6' }}
         cssCompositionMethod="assign"
       />
-      <LocationBias customCssClasses={{ container: 'p-8' }} />
+      {/* <LocationBias customCssClasses={{ container: 'p-8' }} /> */}
     </div>
   );
 }
