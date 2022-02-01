@@ -149,7 +149,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
       <div className="flex flex-col justify-between sm:flex-row sm:justify-start sm:space-x-2">
         {renderTitle(workoutClass.name)}
         {/* TODO: why doesn't tailwind work here? */}
-        <span style={{ fontSize: '6px' }} className="self-center bg-[#C4C4C4] text-[6px] ">{`\u2B24`}</span>
+        {/* <span style={{ fontSize: '6px' }} className="self-center bg-[#C4C4C4] text-[6px] ">{`\u2B24`}</span> */}
         {renderTrainerName(primaryTrainer)}
       </div>
       <div className="relative ">{renderClassInterval(workoutClass.c_time)}</div>
