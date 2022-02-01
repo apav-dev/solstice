@@ -60,12 +60,12 @@ const builtInCssClasses = {
   container: 'flex flex-col justify-between border-b p-4 shadow-sm hover:bg-gray-900',
   header: 'flex text-base',
   body: 'flex justify-between pt-2.5 text-sm font-body',
-  descriptionContainer: 'sm:text-sm text-2xl',
+  descriptionContainer: 'text-sm',
   ctaContainer: 'flex flex-col justify-between ml-4',
   cta1: 'min-w-max bg-blue-600 text-white font-medium rounded-lg py-2 px-5 shadow',
   cta2: 'min-w-max bg-white text-blue-600 font-medium rounded-lg py-2 px-5 mt-2 shadow',
   ordinal: 'mr-1.5 text-lg font-medium',
-  title: 'sm:text-base text-3xl font-medium font-body font-bold',
+  title: 'text-lg font-medium font-body font-bold',
   ctaButton: 'flex justify-center border-2 w-2/5 rounded-md self-center	align-middle mt-4 hover:bg-gray-400',
 };
 
@@ -148,7 +148,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
 
   function getGymText(isClosed: boolean, time?: string) {
     return (
-      <div className="flex flex-col text-2xl sm:text-sm">
+      <div className="flex flex-col text-sm">
         <div className="font-bold">{isClosed ? 'Closed' : 'Open'}</div>
         <div>{isClosed ? `Opens at ${time}` : `Closes at ${formatTime(time)}`}</div>
       </div>

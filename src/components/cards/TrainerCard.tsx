@@ -53,10 +53,10 @@ export interface TrainerCardCssClasses {
 //prettier-ignore
 const builtInCssClasses: TrainerCardCssClasses = {
   container: 'flex flex-col border-b p-4 shadow-sm',
-  descriptionContainer: 'w-full sm:text-sm text-3xl font-heading ',
-  name: 'sm:text-base text-3xl font-medium font-body font-bold',
+  descriptionContainer: 'w-full text-sm font-heading ',
+  name: 'text-xl font-medium font-body font-bold',
   ctaButton: 'flex border rounded-md mt-4 px-4 bg-black justify-center hover:bg-gray-400',
-  ctaButtonText: 'font-heading text-white font-bold sm:text-base text-3xl py-3 sm:py-0',
+  ctaButtonText: 'font-heading text-white font-bold text-base  py-3 sm:py-0',
 };
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map

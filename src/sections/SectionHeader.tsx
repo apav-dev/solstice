@@ -22,7 +22,7 @@ interface SectionHeaderCssClasses {
 const builtInCssClasses: SectionHeaderCssClasses = {
   sectionHeaderContainer: 'flex items-center w-full pl-1 mb-4',
   sectionHeaderIconContainer: 'w-5 h-5',
-  sectionHeaderLabel: 'font-bold font-body sm:text-xl text-5xl',
+  sectionHeaderLabel: 'font-bold font-body text-3xl ',
   viewMoreContainer: 'flex justify-end flex-grow ml-auto font-medium text-gray-800',
   viewMoreLink: 'text-gold pr-1 pl-3',
   appliedFiltersContainer: 'ml-3',
@@ -86,7 +86,7 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
       )}
       {viewMapButton && isMobile && (
         // TODO: add toggle to flip to map and back
-        <div className="ml-auto flex justify-center space-x-6 py-8 font-heading text-3xl text-gold hover:underline">
+        <div className="ml-auto flex justify-center space-x-6 py-8 font-heading text-base text-gold hover:underline">
           <MapIcon />
           <div className="">SHOW MAP</div>
         </div>

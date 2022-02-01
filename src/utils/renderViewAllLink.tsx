@@ -10,7 +10,7 @@ interface ViewAllLinkProps {
 // TODO: add css as prop
 export default function renderViewAllLink({ verticalKey, latestQuery, label }: ViewAllLinkProps) {
   return (
-    <div className="flex justify-center py-8 font-heading text-3xl text-gold ">
+    <div className="flex justify-center py-8 font-heading text-xl text-gold ">
       <Link className="" to={`/${verticalKey}?query=${latestQuery}`}>
         {`VIEW ALL ${label}`}
       </Link>
