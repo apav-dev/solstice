@@ -45,7 +45,7 @@ export default function LocationsPage({ verticalKey }: { verticalKey: string }) 
       <div className="flex-grow">
         <DirectAnswer />
         <SpellCheck />
-        <ResultsCount />
+        {/* <ResultsCount /> */}
         {/* <AppliedFilters
           hiddenFields={['builtin.entityType']}
           customCssClasses={{

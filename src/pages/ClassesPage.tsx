@@ -52,7 +52,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
       )}
       <DirectAnswer />
       <SpellCheck />
-      <ResultsCount />
+      {/* <ResultsCount /> */}
       {/* <Divider />
         <Facets searchOnChange={true} defaultExpanded={true} /> */}
       {/* <AppliedFilters

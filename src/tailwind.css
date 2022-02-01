@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "IBM Plex Sans Condensed";
+  font-family: 'IBM Plex Sans Condensed';
   src: url(./fonts/IBMPlexSansCondensed-SemiBold.ttf);
 }
 
@@ -25,5 +25,13 @@
 
   .scrollbar:hover::-webkit-scrollbar-thumb:hover {
     background: #bdbdbd;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
   }
 }
