@@ -1,55 +1,52 @@
-import classNames from "classnames";
-import React, { useReducer, KeyboardEvent, useRef, useEffect, useState, FocusEvent, Children } from "react"
-import DropdownSection, { DropdownSectionProps } from "./DropdownSection";
-import ScreenReader from "./ScreenReader";
+import classNames from 'classnames';
+import React, { useReducer, KeyboardEvent, useRef, useEffect, useState, FocusEvent, Children } from 'react';
+import DropdownSection, { DropdownSectionProps } from './DropdownSection';
+import ScreenReader from './ScreenReader';
 import recursivelyMapChildren from './utils/recursivelyMapChildren';
 
 export interface InputDropdownCssClasses {
-  inputDropdownContainer?: string,
-  inputDropdownContainer___active?: string,
-  dropdownContainer?: string,
-  inputElement?: string,
-  inputContainer?: string,
-  divider?: string,
-  logoContainer?: string,
-  searchButtonContainer?: string
+  inputDropdownContainer?: string;
+  inputDropdownContainer___active?: string;
+  dropdownContainer?: string;
+  inputElement?: string;
+  inputContainer?: string;
+  divider?: string;
+  logoContainer?: string;
+  searchButtonContainer?: string;
 }
 
 interface Props {
-  inputValue?: string,
-  placeholder?: string,
-  screenReaderInstructions: string,
-  screenReaderInstructionsId: string,
-  screenReaderText: string,
-  onlyAllowDropdownOptionSubmissions?: boolean,
-  forceHideDropdown?: boolean,
-  onSubmit?: (value: string) => void,
-  renderSearchButton?: () => JSX.Element | null,
-  renderLogo?: () => JSX.Element | null,
-  onInputChange: (value: string) => void,
-  onInputFocus: (value: string) => void,
-  onDropdownLeave?: (value: string) => void,
-  cssClasses?: InputDropdownCssClasses
+  inputValue?: string;
+  placeholder?: string;
+  screenReaderInstructions: string;
+  screenReaderInstructionsId: string;
+  screenReaderText: string;
+  onlyAllowDropdownOptionSubmissions?: boolean;
+  forceHideDropdown?: boolean;
+  onSubmit?: (value: string) => void;
+  renderSearchButton?: () => JSX.Element | null;
+  renderLogo?: () => JSX.Element | null;
+  onInputChange: (value: string) => void;
+  onInputFocus: (value: string) => void;
+  onDropdownLeave?: (value: string) => void;
+  cssClasses?: InputDropdownCssClasses;
 }
 
 interface State {
-  focusedSectionIndex?: number,
-  dropdownHidden: boolean
+  focusedSectionIndex?: number;
+  dropdownHidden: boolean;
 }
 
-type Action =
-  | { type: 'HideSections' }
-  | { type: 'ShowSections' }
-  | { type: 'FocusSection', newIndex?: number }
+type Action = { type: 'HideSections' } | { type: 'ShowSections' } | { type: 'FocusSection'; newIndex?: number };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'HideSections':
-      return { focusedSectionIndex: undefined, dropdownHidden: true }
+      return { focusedSectionIndex: undefined, dropdownHidden: true };
     case 'ShowSections':
-      return { focusedSectionIndex: undefined, dropdownHidden: false }
+      return { focusedSectionIndex: undefined, dropdownHidden: false };
     case 'FocusSection':
-      return { focusedSectionIndex: action.newIndex, dropdownHidden: false }
+      return { focusedSectionIndex: action.newIndex, dropdownHidden: false };
   }
 }
 
@@ -71,12 +68,9 @@ export default function InputDropdown({
   onInputChange,
   onInputFocus,
   onDropdownLeave,
-  cssClasses = {}
+  cssClasses = {},
 }: React.PropsWithChildren<Props>): JSX.Element | null {
-  const [{
-    focusedSectionIndex,
-    dropdownHidden,
-  }, dispatch] = useReducer(reducer, {
+  const [{ focusedSectionIndex, dropdownHidden }, dispatch] = useReducer(reducer, {
     focusedSectionIndex: undefined,
     dropdownHidden: true,
   });
@@ -95,7 +89,7 @@ export default function InputDropdown({
   }
 
   let numSections = 0;
-  const childrenWithProps = recursivelyMapChildren(children, child => {
+  const childrenWithProps = recursivelyMapChildren(children, (child) => {
     if (!(React.isValidElement(child) && child.type === DropdownSection)) {
       return child;
     }
@@ -103,13 +97,13 @@ export default function InputDropdown({
     numSections++;
 
     let childProps = child.props as DropdownSectionProps;
-    const modifiedOptions = childProps.options.map(option => {
+    const modifiedOptions = childProps.options.map((option) => {
       const modifiedOnSelect = () => {
         setLatestUserInput(option.value);
         dispatch({ type: 'HideSections' });
-        option.onSelect?.(); 
-      }
-      return { ...option, onSelect: modifiedOnSelect }
+        option.onSelect?.();
+      };
+      return { ...option, onSelect: modifiedOnSelect };
     });
 
     const modifiedOnFocusChange = (value: string, focusedOptionId: string) => {
@@ -123,18 +117,17 @@ export default function InputDropdown({
         options: modifiedOptions,
         isFocused: true,
         key: `${currentSectionIndex}-${childrenKey}`,
-        onFocusChange: modifiedOnFocusChange
+        onFocusChange: modifiedOnFocusChange,
       });
     } else {
       return React.cloneElement(child, {
         onLeaveSectionFocus,
         options: modifiedOptions,
         isFocused: false,
-        key: `${currentSectionIndex}-${childrenKey}`
+        key: `${currentSectionIndex}-${childrenKey}`,
       });
     }
   });
-
 
   /**
    * Handles changing which section should become focused when focus leaves the currently-focused section.
@@ -144,9 +137,7 @@ export default function InputDropdown({
     if (focusedSectionIndex === undefined && pastSectionEnd) {
       dispatch({ type: 'FocusSection', newIndex: 0 });
     } else if (focusedSectionIndex !== undefined) {
-      let newSectionIndex: number | undefined = pastSectionEnd
-        ? focusedSectionIndex + 1
-        : focusedSectionIndex - 1;
+      let newSectionIndex: number | undefined = pastSectionEnd ? focusedSectionIndex + 1 : focusedSectionIndex - 1;
       if (newSectionIndex < 0) {
         newSectionIndex = undefined;
         onInputChange(latestUserInput);
@@ -160,7 +151,7 @@ export default function InputDropdown({
 
   function handleDocumentClick(evt: MouseEvent) {
     const target = evt.target as HTMLElement;
-    if (!(target.isSameNode(inputRef.current) || (dropdownRef.current?.contains(target)))) {
+    if (!(target.isSameNode(inputRef.current) || dropdownRef.current?.contains(target))) {
       dispatch({ type: 'HideSections' });
     }
   }
@@ -184,15 +175,16 @@ export default function InputDropdown({
       return () => {
         document.removeEventListener('click', handleDocumentClick);
         document.removeEventListener('keydown', handleDocumentKeydown);
-      }
+      };
     }
   });
 
   function handleInputElementKeydown(evt: KeyboardEvent<HTMLInputElement>) {
-    if (evt.key === 'Enter' 
-      && evt.target === inputRef.current
-      && focusedSectionIndex === undefined
-      && !onlyAllowDropdownOptionSubmissions
+    if (
+      evt.key === 'Enter' &&
+      evt.target === inputRef.current &&
+      focusedSectionIndex === undefined &&
+      !onlyAllowDropdownOptionSubmissions
     ) {
       setLatestUserInput(inputValue);
       onSubmit(inputValue);
@@ -210,17 +202,16 @@ export default function InputDropdown({
   }
 
   const inputDropdownContainerCssClasses = cssClasses.inputDropdownContainer___active
-    ? classNames(cssClasses.inputDropdownContainer, 
-      { [cssClasses.inputDropdownContainer___active]: shouldDisplayDropdown })
+    ? classNames(cssClasses.inputDropdownContainer, {
+        [cssClasses.inputDropdownContainer___active]: shouldDisplayDropdown,
+      })
     : cssClasses.inputDropdownContainer;
 
   return (
     <div className={inputDropdownContainerCssClasses} ref={inputDropdownRef} onBlur={handleBlur}>
       <div className={cssClasses?.inputContainer}>
-        <div className={cssClasses.logoContainer}>
-          {renderLogo()}
-        </div>
-        <input
+        <div className={cssClasses.logoContainer}>{renderLogo()}</div>
+        {/* <input
           className={cssClasses.inputElement}
           placeholder={placeholder}
           onChange={evt => {
@@ -245,28 +236,23 @@ export default function InputDropdown({
           ref={inputRef}
           aria-describedby={screenReaderInstructionsId}
           aria-activedescendant={focusedOptionId}
-        />
-        <div className={cssClasses.searchButtonContainer}>
-          {renderSearchButton()}
-        </div>
+        /> */}
+        <div className={cssClasses.searchButtonContainer}>{renderSearchButton()}</div>
       </div>
       <ScreenReader
         instructionsId={screenReaderInstructionsId}
         instructions={screenReaderInstructions}
         announcementKey={screenReaderKey}
-        announcementText={screenReaderKey
-          ? screenReaderText
-          : ''
-        }
+        announcementText={screenReaderKey ? screenReaderText : ''}
       />
-      {shouldDisplayDropdown && Children.count(children) !== 0 &&
+      {shouldDisplayDropdown && Children.count(children) !== 0 && (
         <>
           <div className={cssClasses.divider}></div>
           <div className={cssClasses.dropdownContainer} ref={dropdownRef}>
             {childrenWithProps}
           </div>
         </>
-      }
+      )}
     </div>
   );
-};
+}
