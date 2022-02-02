@@ -7,7 +7,7 @@ import { ReactComponent as SunIcon } from '../icons/sun.svg';
 const cssClasses = {
   container: 'flex px-4 sm:h-24 h-7.5 items-center justify-between',
   topContainer: 'flex items-center',
-  solsticeLabel: 'flex items-center space-x-8 sm:space-x-2 font-heading text-3xl',
+  solsticeLabel: 'flex items-center space-x-2 font-heading text-3xl',
   headerContainer: 'flex  items-center font-heading',
   headingsContainer: 'flex space-x-16 font-heading ',
   membershipButtonsContainer: 'flex items-center space-x-4 float-right font-heading',
@@ -53,7 +53,7 @@ export function SolsticeHeader(): JSX.Element {
   );
 
   const renderDropdownOption = (option: string) => (
-    <div className="border-t-2 py-8 font-heading text-3xl">{option}</div>
+    <div className="text-body border-t-2 py-8 font-heading">{option}</div>
   );
 
   return (
@@ -62,15 +62,15 @@ export function SolsticeHeader(): JSX.Element {
         <div className={cssClasses.topContainer}>
           <div className={cssClasses.solsticeLabel}>
             {isMobile ? renderDropdownMenuIcon() : <div>Solstice</div>}
-            <SunIcon width={isMobile ? 80 : 40} height={isMobile ? 80 : 40} />
+            <SunIcon width={60} height={60} />
           </div>
         </div>
         {!isMobile && renderHeadings()}
         {!isMobile && renderMembershipButtons()}
         {isMobile && (
           // TODO: Turn into reusable component with hover effect
-          <div className="mt-4 flex justify-center rounded-md border-2 bg-black px-4 hover:bg-gray-400 ">
-            <div className="py-3 px-12 font-heading text-3xl font-bold text-white sm:py-0 sm:text-base">JOIN US</div>
+          <div className="flex justify-center rounded-md border-2 bg-black px-4 hover:bg-gray-400 ">
+            <div className="py-3 px-12 font-heading text-base font-bold text-white sm:py-0">JOIN US</div>
           </div>
         )}
       </div>

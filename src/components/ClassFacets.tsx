@@ -23,20 +23,20 @@ export default function ClassFacets({ filterTitle, isMobile }: ClassFacetsProps)
     <div className="sm:w-1/5">
       {filterTitle && (
         <div>
-          <div className="my-8 flex w-full justify-center font-heading text-4xl text-white">Filter</div>
+          <div className="my-8 flex w-full justify-center font-heading text-2xl text-white">Filter</div>
           <Divider />
         </div>
       )}
       <Facets
         customCssClasses={{
-          label: 'sm:text-lg text-5xl font-heading text-gold text-left',
+          label: 'sm:text-lg text-2xl font-heading text-gold text-left',
           container: 'ml-8',
           divider: 'bg-transparent',
-          labelContainer: 'my-6 sm:mt-3 sm:mb-3',
+          labelContainer: 'my-3 sm:mt-3 sm:mb-3',
           option: 'flex items-center space-x-3 ml-8',
           optionInput:
             'w-8 h-8 sm:w-4 sm:h-4  form-checkbox cursor-pointer border border-gray-300 rounded-sm text-gold focus:ring-gold',
-          optionLabel: 'text-white text-heading sm:text-lg text-4xl my-4 sm:my-2',
+          optionLabel: 'text-white text-heading sm:text-lg text-xl my-4 sm:my-2',
           optionsContainer: 'sm:space-y-0',
         }}
         cssCompositionMethod="assign"
@@ -62,7 +62,7 @@ export default function ClassFacets({ filterTitle, isMobile }: ClassFacetsProps)
             facetCss: {
               // optionsContainer: 'grid grid-cols-2 sm:grid-cols-3 gap-16 sm:gap-4 mr-8 ml-8',
               optionsContainer: 'sm:flex sm:flex-wrap grid grid-cols-3 gap-8 sm:gap-0 sm:mr-0 mr-8 ml-8 sm:ml-0',
-              label: 'sm:text-lg text-5xl font-heading text-gold text-left',
+              label: 'sm:text-xl text-2xl font-heading text-gold text-left',
               labelContainer: 'my-8',
             },
             isMobile,

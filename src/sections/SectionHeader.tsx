@@ -86,7 +86,7 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
       )}
       {viewMapButton && isMobile && (
         // TODO: add toggle to flip to map and back
-        <div className="ml-auto flex justify-center space-x-6 py-8 font-heading text-base text-gold hover:underline">
+        <div className="ml-auto flex justify-center space-x-3 py-8 font-heading text-base text-gold hover:underline">
           <MapIcon />
           <div className="">SHOW MAP</div>
         </div>

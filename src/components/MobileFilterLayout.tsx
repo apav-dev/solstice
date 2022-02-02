@@ -24,12 +24,14 @@ export default function MobileFilterLayout() {
       {isPopupUpOpen && (
         <div className="fixed top-0 left-0 right-0 z-10 h-full w-full bg-black sm:top-0">
           <ClassFacets filterTitle isMobile />
-          <div className="absolute bottom-4 flex w-full flex-col items-center">
-            <Divider />
-            <div
-              className="flex h-20 w-5/6 items-center justify-center rounded-3xl border-4"
-              onClick={() => toggleFilterPopup()}>
-              <div className="text-center font-heading text-4xl text-white">{`VIEW ${resultsCount} RESULTS`}</div>
+          <div className="absolute bottom-0 w-full">
+            <div className="flex flex-col items-center bg-black pb-4">
+              <Divider customCssClasses={{ divider: 'w-full h-px bg-gray-200 mb-2' }} cssCompositionMethod="assign" />
+              <div
+                className="flex h-16 w-5/6 items-center justify-center rounded-3xl border-4 bg-black"
+                onClick={() => toggleFilterPopup()}>
+                <div className="text-center font-heading text-xl text-white">{`VIEW ${resultsCount} RESULTS`}</div>
+              </div>
             </div>
           </div>
         </div>

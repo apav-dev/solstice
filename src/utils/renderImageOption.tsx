@@ -16,11 +16,10 @@ interface ImageOptionProps {
 }
 
 const builtInCssClasses: CheckboxOptionCssClasses = {
-  option:
-    'flex flex-col sm:border-2 border-4 rounded-xl justify-center items-center py-2 px-2 sm:h-20 sm:w-20 h-40 w-40 sm:m-2',
+  option: 'flex flex-col border-2 rounded-xl justify-center items-center py-2 px-8 h-20 w-20  sm:m-2',
   // optionInput:
   //   'w-3.5 h-3.5 form-checkbox cursor-pointer border border-gray-300 rounded-sm text-blue-600 focus:ring-blue-500',
-  optionLabel: 'font-heading text-3xl sm:text-sm',
+  optionLabel: 'font-heading text-base sm:text-sm',
 };
 
 export default function renderImageOption({
@@ -39,7 +38,7 @@ export default function renderImageOption({
       key={option.id}
       onClick={() => onClick(true)}>
       {/* {image} */}
-      <div className={classNames('', { 'h-18 my-2 w-24': isMobile })}>
+      <div className={classNames('', { 'my-2 h-6 w-8': isMobile })}>
         {/* h-18 my-2 w-24 */}
         {image ? image(selected ? 'black' : 'white') : BoxingIcon()}
       </div>

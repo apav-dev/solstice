@@ -9,7 +9,7 @@ import { useAnswersState } from '@yext/answers-headless-react';
 import renderViewAllLink from '../utils/renderViewAllLink';
 
 interface LocationSectionCssClasses {
-  section?: string
+  section?: string;
 }
 
 const builtInCssClasses: LocationSectionCssClasses = {
@@ -17,13 +17,13 @@ const builtInCssClasses: LocationSectionCssClasses = {
 };
 
 interface LocationSectionConfig extends SectionConfig {
-  customCssClasses?: LocationSectionCssClasses,
-  compositionmethod?: CompositionMethod
+  customCssClasses?: LocationSectionCssClasses;
+  compositionmethod?: CompositionMethod;
 }
 
 interface LocationContextInterface {
-  locationId: string,
-  dispatch?: React.Dispatch<string>
+  locationId: string;
+  dispatch?: React.Dispatch<string>;
 }
 
 const locationContext = {
@@ -75,7 +75,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
             className="sm:scrollbar w-full overflow-hidden pl-1 sm:w-1/4 sm:overflow-auto sm:border"
             style={{ maxHeight: '580px' }}>
             <VerticalResultsDisplay
-              results={results}
+              results={isMobile ? results.slice(0, 4) : results}
               CardComponent={cardComponent}
               {...(cardConfig && { cardConfig })}
               customCssClasses={{ container: 'px-4 sm:px-0' }}

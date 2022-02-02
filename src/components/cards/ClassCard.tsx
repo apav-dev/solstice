@@ -135,7 +135,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     if (!classTime) return;
 
     return (
-      <span className="font-body text-2xl font-medium sm:text-base">
+      <span className="font-body  text-base font-medium">
         {/* "absolute bottom-2 h-1/3 whitespace-pre font-body text-2xl font-medium sm:text-base" */}
         {classTime}
       </span>
@@ -166,21 +166,27 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     );
   };
 
-  return (
-    <div className="my-8 flex  p-4 sm:flex-col">
+  const renderDesktopPic = (imgUrl: string) => {
+    return (
       <div
-        // className="sm:h-16 sm:w-20"
         style={{
           height: !isMobile && !isVertical ? '16rem' : '',
           // width: isMobile ? '22rem' : '16rem',
           width: !isMobile && !isVertical ? '20rem' : '',
         }}>
-        <img
-          src={workoutClass.primaryPhoto.image.url}
-          alt="Workout Class"
-          style={{ objectFit: 'cover', width: '100vh', height: '250px' }}
-        />
+        <img src={imgUrl} alt="Class" style={{ objectFit: 'cover', width: '100vh', height: '250px' }} />
       </div>
+    );
+  };
+
+  return (
+    <div className="my-8 flex  p-4 sm:flex-col">
+      {/* TODO: there has to be a better way to do this */}
+      {isMobile ? (
+        <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class" className=" h-40 w-64 object-cover" />
+      ) : (
+        renderDesktopPic(workoutClass.primaryPhoto.image.url)
+      )}
       {isMobile ? renderMobileLayout() : renderLayout()}
       {!isMobile && (
         <div className={cssClasses.ctaButton}>
