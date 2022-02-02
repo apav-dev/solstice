@@ -25,7 +25,7 @@ export default function App() {
   return (
     // <div style={{ minWidth: '100vh', backgroundColor: 'black' }}>
     <AnswersHeadlessProvider {...answersHeadlessConfig}>
-      <div className="flex justify-center bg-black px-8 py-6 text-white">
+      <div className="flex justify-center bg-black px-2 py-6 text-white sm:px-8">
         <div className="w-full">
           <ResponsiveContext.Provider value={isMobile}>
             <PageRouter Layout={StandardLayout} routes={routeConfig} />

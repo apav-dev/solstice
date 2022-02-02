@@ -41,7 +41,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
 
   return (
     <div>
-      {isMobile && <div className="font-heading text-7xl">Search Classes</div>}
+      {isMobile && <div className="font-heading text-5xl">Search Classes</div>}
       {isMobile && (
         <SearchBar
           placeholder="Search..."
