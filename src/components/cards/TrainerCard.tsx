@@ -66,7 +66,7 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
   const trainerImg = trainer.logo?.image?.url ?? '';
   // const smallestThumbnail = trainer.logo?.image?.thumbnails[trainer.logo?.image?.thumbnails.length - 1].url
 
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
 
@@ -85,9 +85,9 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
       <div
         // style={{ height: isMobile ? '512px' : '256px', width: isMobile ? '512px' : '256px' }
         style={{
-          height: !isMobile && !isVertical ? '16rem' : '',
+          height: screenSize !== 'sm' && !isVertical ? '16rem' : '',
           // width: isMobile ? '22rem' : '16rem',
-          width: !isMobile && !isVertical ? '20rem' : '',
+          width: screenSize !== 'sm' && !isVertical ? '20rem' : '',
         }}>
         <img src={trainerImg} alt="Trainer Headshot" style={{ objectFit: 'cover', width: '500px', height: '250px' }} />
       </div>

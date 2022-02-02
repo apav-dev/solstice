@@ -17,7 +17,7 @@ const cssClasses = {
 const options = ['ABOUT US', 'OUR COMMITMENT TO CLEAN', 'BLOG', 'SIGN IN', 'SIGN UP'];
 
 export function SolsticeHeader(): JSX.Element {
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -61,13 +61,13 @@ export function SolsticeHeader(): JSX.Element {
       <div className={cssClasses.container}>
         <div className={cssClasses.topContainer}>
           <div className={cssClasses.solsticeLabel}>
-            {isMobile ? renderDropdownMenuIcon() : <div>Solstice</div>}
+            {screenSize === 'sm' ? renderDropdownMenuIcon() : <div>Solstice</div>}
             <SunIcon width={60} height={60} />
           </div>
         </div>
-        {!isMobile && renderHeadings()}
-        {!isMobile && renderMembershipButtons()}
-        {isMobile && (
+        {screenSize !== 'sm' && renderHeadings()}
+        {screenSize !== 'sm' && renderMembershipButtons()}
+        {screenSize === 'sm' && (
           // TODO: Turn into reusable component with hover effect
           <div className="flex justify-center rounded-md border-2 bg-black px-4 hover:bg-gray-400 ">
             <div className="py-3 px-12 font-heading text-base font-bold text-white sm:py-0">JOIN US</div>

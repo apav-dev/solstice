@@ -42,7 +42,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
   const [state, dispatch] = useReducer(reducer, locationContext);
   const latestQuery = useAnswersState((state) => state.query.mostRecentSearch);
 
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   if (results.length === 0) {
     return null;
@@ -72,18 +72,18 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
         <div className="flex">
           {/* TODO: remove inline styles */}
           <div
-            className="sm:scrollbar w-full overflow-hidden pl-1 sm:w-1/4 sm:overflow-auto sm:border"
+            className=" w-full overflow-y-auto pl-1 sm:w-1/4 sm:overflow-auto sm:border"
             style={{ maxHeight: '580px' }}>
             <VerticalResultsDisplay
-              results={isMobile ? results.slice(0, 4) : results}
+              results={screenSize === 'sm' ? results.slice(0, 4) : results}
               CardComponent={cardComponent}
               {...(cardConfig && { cardConfig })}
               customCssClasses={{ container: 'px-4 sm:px-0' }}
             />
           </div>
-          {!isMobile && <div className="w-3/4">{renderMap()}</div>}
+          {screenSize !== 'sm' && <div className="w-3/4">{renderMap()}</div>}
         </div>
-        {isMobile && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
+        {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
       </section>
     </LocationContext.Provider>
   );

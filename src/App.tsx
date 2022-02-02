@@ -5,10 +5,12 @@ import { answersHeadlessConfig } from './config/answersHeadlessConfig';
 import { routeConfig } from './config/routeConfig';
 import { useEffect, useState, createContext } from 'react';
 
-export const ResponsiveContext = createContext(false);
+export type ScreenSize = 'sm' | 'md' | 'lg' | 'xl';
+
+export const ResponsiveContext = createContext<ScreenSize>('xl');
 
 export default function App() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [screenSize, setScreenSize] = useState<ScreenSize>('xl');
 
   useEffect(() => {
     updateDimensions();
@@ -19,7 +21,15 @@ export default function App() {
 
   const updateDimensions = () => {
     const width = window.outerWidth;
-    setIsMobile(width < 640);
+    if (width <= 640) {
+      setScreenSize('sm');
+    } else if (width > 640 && width <= 768) {
+      setScreenSize('md');
+    } else if (width > 768 && width <= 1024) {
+      setScreenSize('lg');
+    } else if (width > 1024) {
+      setScreenSize('lg');
+    }
   };
 
   return (
@@ -27,7 +37,7 @@ export default function App() {
     <AnswersHeadlessProvider {...answersHeadlessConfig}>
       <div className="flex justify-center bg-black px-2 py-6 text-white sm:px-8">
         <div className="w-full">
-          <ResponsiveContext.Provider value={isMobile}>
+          <ResponsiveContext.Provider value={screenSize}>
             <PageRouter Layout={StandardLayout} routes={routeConfig} />
           </ResponsiveContext.Provider>
         </div>

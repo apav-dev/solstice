@@ -23,12 +23,12 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
     answersActions.setQuery('manhattan');
   });
 
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   return (
     <div className="">
-      {isMobile && <div className="mt-8 font-heading text-5xl">Search Results</div>}
-      {isMobile && (
+      {screenSize === 'sm' && <div className="mt-8 font-heading text-5xl">Search Results</div>}
+      {screenSize === 'sm' && (
         <SearchBar
           placeholder="Search for Gyms, Classes, Trainers"
           screenReaderInstructionsId="SearchBar__srInstructions"

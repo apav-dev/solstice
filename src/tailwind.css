@@ -1,29 +1,8 @@
 @font-face {
-  font-family: "IBM Plex Sans Condensed";
+  font-family: 'IBM Plex Sans Condensed';
   src: url(./fonts/IBMPlexSansCondensed-SemiBold.ttf);
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer utilities {
-  .scrollbar::-webkit-scrollbar {
-    width: 0.25rem;
-    height: 0.25rem;
-  }
-
-  .scrollbar:hover::-webkit-scrollbar {
-    width: 0.25rem;
-    height: 0.25rem;
-  }
-
-  .scrollbar:hover::-webkit-scrollbar-thumb {
-    background: white;
-    border-radius: 100vh;
-  }
-
-  .scrollbar:hover::-webkit-scrollbar-thumb:hover {
-    background: #bdbdbd;
-  }
-}

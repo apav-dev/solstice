@@ -37,12 +37,12 @@ const staticFiltersConfig = [
 
 export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
   usePageSetupEffect(verticalKey);
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   return (
     <div>
-      {isMobile && <div className="font-heading text-5xl">Search Classes</div>}
-      {isMobile && (
+      {screenSize === 'sm' && <div className="font-heading text-5xl">Search Classes</div>}
+      {screenSize === 'sm' && (
         <SearchBar
           placeholder="Search..."
           screenReaderInstructionsId="SearchBar__srInstructions"
@@ -68,7 +68,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
         verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
       />
       <div className="flex space-x-4">
-        {!isMobile && <ClassFacets />}
+        {screenSize !== 'sm' && <ClassFacets />}
         <VerticalResults
           CardComponent={ClassCard}
           displayAllResults={true}
@@ -76,7 +76,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
         />
       </div>
       <LocationBias />
-      {isMobile && <MobileFilterLayout />}
+      {screenSize === 'sm' && <MobileFilterLayout />}
     </div>
   );
 }

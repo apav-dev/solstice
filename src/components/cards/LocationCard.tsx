@@ -77,7 +77,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
   const cssClasses = useComposedCssClasses(builtInCssClasses);
 
   const locationContext = useContext(LocationContext);
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   function renderTitle(title: string) {
     return <div className={cssClasses.title}>{title}</div>;
@@ -181,7 +181,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
         {renderAddress(location.address)}
         {renderIsGymOpen(location.hours)}
       </div>
-      {!isMobile && (
+      {screenSize !== 'sm' && (
         <div className={cssClasses.ctaButton}>
           <div className="sm:text-body align-middle font-heading text-3xl font-bold sm:text-base">JOIN US</div>
         </div>

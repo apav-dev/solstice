@@ -52,7 +52,7 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
   } = props;
   const cssClasses = useComposedCssClasses(builtInCssClasses, customCssClasses, cssCompositionMethod);
   const latestQuery = useAnswersState((state) => state.query.mostRecentSearch);
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
   const displayableFilters =
     appliedFiltersConfig?.appliedQueryFilters?.map((appliedQueryFilter): DisplayableFilter => {
       return {
@@ -77,14 +77,14 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
           <AppliedFiltersDisplay displayableFilters={displayableFilters} />
         </div>
       )}
-      {viewAllButton && !isMobile && (
+      {viewAllButton && screenSize !== 'sm' && (
         <div className={cssClasses.viewMoreContainer}>
           <Link className={cssClasses.viewMoreLink} to={`/${verticalKey}?query=${latestQuery}`}>
             View all
           </Link>
         </div>
       )}
-      {viewMapButton && isMobile && (
+      {viewMapButton && screenSize === 'sm' && (
         // TODO: add toggle to flip to map and back
         <div className="ml-auto flex justify-center space-x-3 py-8 font-heading text-base text-gold hover:underline">
           <MapIcon />

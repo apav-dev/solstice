@@ -8,7 +8,7 @@ import renderViewAllLink from '../utils/renderViewAllLink';
 
 const CarouselSection: SectionComponent = function (props: SectionConfig): JSX.Element | null {
   const { results, cardConfig, header } = props;
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
   const latestQuery = useAnswersState((state) => state.query.mostRecentSearch);
 
   if (results.length === 0) {
@@ -21,14 +21,14 @@ const CarouselSection: SectionComponent = function (props: SectionConfig): JSX.E
     <section>
       {header}
       <VerticalResultsDisplay
-        results={isMobile ? results.slice(0, 3) : results}
+        results={screenSize === 'sm' ? results.slice(0, 3) : results}
         CardComponent={cardComponent}
         {...(cardConfig && { cardConfig })}
         customCssClasses={{
-          container: 'flex flex-col sm:flex-row sm:overflow-auto overflow-hidden max-h-fit sm:scrollbar snap-x pb-1',
+          container: 'flex flex-col sm:flex-row overflow-x-auto  max-h-fit  snap-x pb-1',
         }}
       />
-      {isMobile && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
+      {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
     </section>
   );
 };

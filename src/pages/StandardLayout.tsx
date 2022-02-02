@@ -23,7 +23,7 @@ import { useContext } from 'react';
  * A LayoutComponent that provides a SearchBar and Navigation tabs to a given page.
  */
 const StandardLayout: LayoutComponent = ({ page }) => {
-  const isMobile = useContext(ResponsiveContext);
+  const screenSize = useContext(ResponsiveContext);
 
   const isVertical = useAnswersState((state) => state.meta.searchType) === SearchTypeEnum.Vertical;
   const verticalKey = useAnswersState((state) => state.vertical.verticalKey);
@@ -32,7 +32,7 @@ const StandardLayout: LayoutComponent = ({ page }) => {
     <>
       <SolsticeHeader />
       {
-        !isMobile && (
+        screenSize !== 'sm' && (
           <div className="flex items-center justify-between space-x-40">
             <div className="font-heading text-8xl font-black">{`Search ${
               isVertical ? verticalKey && verticalKey.charAt(0).toUpperCase() + verticalKey.slice(1) : 'Results'
