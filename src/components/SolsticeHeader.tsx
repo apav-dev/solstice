@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ResponsiveContext } from '../App';
 import { ReactComponent as HamburgerMenuIcon } from '../icons/hamburger_menu.svg';
 import { ReactComponent as CloseMenuIcon } from '../icons/close_menu.svg';
@@ -18,6 +18,12 @@ const options = ['ABOUT US', 'OUR COMMITMENT TO CLEAN', 'BLOG', 'SIGN IN', 'SIGN
 
 export function SolsticeHeader(): JSX.Element {
   const screenSize = useContext(ResponsiveContext);
+  const [isLarge, setIsLarge] = useState(true);
+
+  useEffect(() => {
+    console.log(screenSize);
+    setIsLarge(screenSize === 'lg' || screenSize === 'xl');
+  }, [screenSize]);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -61,13 +67,13 @@ export function SolsticeHeader(): JSX.Element {
       <div className={cssClasses.container}>
         <div className={cssClasses.topContainer}>
           <div className={cssClasses.solsticeLabel}>
-            {screenSize === 'sm' ? renderDropdownMenuIcon() : <div>Solstice</div>}
+            {screenSize !== 'xl' ? renderDropdownMenuIcon() : <div>Solstice</div>}
             <SunIcon width={60} height={60} />
           </div>
         </div>
-        {screenSize !== 'sm' && renderHeadings()}
-        {screenSize !== 'sm' && renderMembershipButtons()}
-        {screenSize === 'sm' && (
+        {screenSize === 'xl' && renderHeadings()}
+        {screenSize === 'xl' && renderMembershipButtons()}
+        {screenSize !== 'xl' && (
           // TODO: Turn into reusable component with hover effect
           <div className="flex justify-center rounded-md border-2 bg-black px-4 hover:bg-gray-400 ">
             <div className="py-3 px-12 font-heading text-base font-bold text-white sm:py-0">JOIN US</div>

@@ -77,14 +77,15 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
           <AppliedFiltersDisplay displayableFilters={displayableFilters} />
         </div>
       )}
-      {viewAllButton && screenSize !== 'sm' && (
+      {/* TODO: clean up logic */}
+      {viewAllButton && screenSize !== 'sm' && (!viewMapButton || (viewMapButton && screenSize === 'xl')) && (
         <div className={cssClasses.viewMoreContainer}>
           <Link className={cssClasses.viewMoreLink} to={`/${verticalKey}?query=${latestQuery}`}>
             View all
           </Link>
         </div>
       )}
-      {viewMapButton && screenSize === 'sm' && (
+      {viewMapButton && screenSize !== 'xl' && (
         // TODO: add toggle to flip to map and back
         <div className="ml-auto flex justify-center space-x-3 py-8 font-heading text-base text-gold hover:underline">
           <MapIcon />

@@ -28,7 +28,7 @@ export default function App() {
     } else if (width > 768 && width <= 1024) {
       setScreenSize('lg');
     } else if (width > 1024) {
-      setScreenSize('lg');
+      setScreenSize('xl');
     }
   };
 

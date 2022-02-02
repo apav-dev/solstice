@@ -9,7 +9,7 @@ import { useAnswersState } from '@yext/answers-headless-react';
 import renderViewAllLink from '../utils/renderViewAllLink';
 
 interface LocationSectionCssClasses {
-  section?: string;
+  section?: string
 }
 
 const builtInCssClasses: LocationSectionCssClasses = {
@@ -17,13 +17,13 @@ const builtInCssClasses: LocationSectionCssClasses = {
 };
 
 interface LocationSectionConfig extends SectionConfig {
-  customCssClasses?: LocationSectionCssClasses;
-  compositionmethod?: CompositionMethod;
+  customCssClasses?: LocationSectionCssClasses,
+  compositionmethod?: CompositionMethod
 }
 
 interface LocationContextInterface {
-  locationId: string;
-  dispatch?: React.Dispatch<string>;
+  locationId: string,
+  dispatch?: React.Dispatch<string>
 }
 
 const locationContext = {
@@ -72,7 +72,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
         <div className="flex">
           {/* TODO: remove inline styles */}
           <div
-            className=" w-full overflow-y-auto pl-1 sm:w-1/4 sm:overflow-auto sm:border"
+            className="w-full overflow-y-auto pl-1 sm:overflow-auto sm:border lg:w-1/4"
             style={{ maxHeight: '580px' }}>
             <VerticalResultsDisplay
               results={screenSize === 'sm' ? results.slice(0, 4) : results}
@@ -81,7 +81,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
               customCssClasses={{ container: 'px-4 sm:px-0' }}
             />
           </div>
-          {screenSize !== 'sm' && <div className="w-3/4">{renderMap()}</div>}
+          {screenSize === 'xl' && <div className="w-3/4">{renderMap()}</div>}
         </div>
         {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
       </section>
