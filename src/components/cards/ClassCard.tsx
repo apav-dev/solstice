@@ -47,7 +47,7 @@ export interface TrainerCardCssClasses {
 }
 
 const builtInCssClasses: TrainerCardCssClasses = {
-  container: 'flex sm:justify-between border-b p-4 shadow-sm ',
+  container: 'flex sm:justify-between border-b p-4 shadow-sm max-w-64',
   descriptionContainer: 'w-full text-sm',
   title: 'text-xl font-medium font-body font-bold',
   body: 'text-xl font-medium font-body',
@@ -145,10 +145,12 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   const renderLayout = () => (
     <div className="flex flex-col ">
-      <div className="flex flex-col justify-between sm:flex-row sm:justify-start sm:space-x-2">
+      <div className="flex flex-col  sm:justify-start xl:flex-row xl:space-x-2">
         {renderTitle(workoutClass.name)}
         {/* TODO: why doesn't tailwind work here? */}
-        <span style={{ fontSize: '6px' }} className="self-center bg-[#C4C4C4] text-[6px] ">{`\u2B24`}</span>
+        <span
+          style={{ fontSize: '6px' }}
+          className="invisible h-0 self-center bg-[#C4C4C4] text-[6px] xl:visible xl:h-2">{`\u2B24`}</span>
         {renderTrainerName(primaryTrainer)}
       </div>
       <div className="relative ">{renderClassInterval(workoutClass.c_time)}</div>
@@ -167,13 +169,19 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   return (
     <div className="my-8 flex  p-4 sm:flex-col">
-      {/* TODO: there has to be a better way to do this */}
-      <div className={classNames('h-auto  w-1/2', { 'sm:w-80': !isVertical, 'sm:w-full': isVertical })}>
+      <div className={classNames('group relative h-auto w-1/2', { 'sm:w-80': !isVertical, 'sm:w-full': isVertical })}>
+        <div className="absolute top-0 bottom-0 right-0 left-0 w-full bg-gray-900 object-cover opacity-0 sm:group-hover:opacity-90"></div>
         <img
           src={workoutClass.primaryPhoto.image.url}
           alt="Workout Class"
           className="w-full object-cover sm:object-fill"
         />
+        <div className="absolute top-4 w-full px-8 md:top-6 xl:top-1/4">
+          <div className="md:text-body w-full text-center font-heading text-sm opacity-0 sm:group-hover:opacity-100 xl:text-lg">
+            This is a class description about a class that is very difficult and will make you extremely sweaty and so
+            so so so sore.
+          </div>
+        </div>
       </div>
       {screenSize === 'sm' ? renderMobileLayout() : renderLayout()}
       {screenSize !== 'sm' && (

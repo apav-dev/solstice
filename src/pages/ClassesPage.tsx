@@ -72,7 +72,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
         <VerticalResults
           CardComponent={ClassCard}
           displayAllResults={true}
-          customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-3 sm:w-4/5' }}
+          customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:w-4/5' }}
         />
       </div>
       <LocationBias />

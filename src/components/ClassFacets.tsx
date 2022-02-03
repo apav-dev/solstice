@@ -19,17 +19,17 @@ interface ClassFacetsProps {
 
 export default function ClassFacets({ isMobile }: ClassFacetsProps): JSX.Element {
   return (
-    <div className="overflow-y-auto sm:w-1/5">
+    <div className="md:1/5 overflow-y-auto sm:w-1/6">
       <Facets
         customCssClasses={{
           label: 'sm:text-lg text-2xl font-heading text-gold text-left',
-          container: 'ml-8 overflow-y-auto',
+          container: 'lg:ml-8 overflow-y-auto',
           divider: 'bg-transparent',
           labelContainer: 'my-3 sm:mt-3 sm:mb-3',
-          option: 'flex items-center space-x-3 ml-8',
+          option: 'flex items-center space-x-3 ',
           optionInput:
             'w-3.5 h-3.5 sm:w-4 sm:h-4  form-checkbox cursor-pointer border border-gray-300 rounded-sm text-gold focus:ring-gold',
-          optionLabel: 'text-white text-heading sm:text-lg text-xl my-4 sm:my-2',
+          optionLabel: 'text-white text-heading text-base my-4 sm:my-2',
           optionsContainer: 'sm:space-y-0',
         }}
         cssCompositionMethod="assign"
