@@ -5,6 +5,7 @@ import { Hours, Interval } from '../cards/LocationCard';
 import { ResponsiveContext } from '../../App';
 import { useContext } from 'react';
 import { useAnswersState } from '@yext/answers-headless-react';
+import classNames from 'classnames';
 
 //prettier-ignore
 export interface ClassCardConfig {
@@ -164,27 +165,16 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     );
   };
 
-  const renderDesktopPic = (imgUrl: string) => {
-    return (
-      <div
-        style={{
-          height: screenSize !== 'sm' && !isVertical ? '16rem' : '',
-          // width: isMobile ? '22rem' : '16rem',
-          width: screenSize !== 'sm' && !isVertical ? '20rem' : '',
-        }}>
-        <img src={imgUrl} alt="Class" style={{ objectFit: 'cover', width: '100vh', height: '250px' }} />
-      </div>
-    );
-  };
-
   return (
     <div className="my-8 flex  p-4 sm:flex-col">
       {/* TODO: there has to be a better way to do this */}
-      {screenSize === 'sm' ? (
-        <img src={workoutClass.primaryPhoto.image.url} alt="Workout Class" className=" h-40 w-64 object-cover" />
-      ) : (
-        renderDesktopPic(workoutClass.primaryPhoto.image.url)
-      )}
+      <div className={classNames('h-auto  w-1/2', { 'sm:w-80': !isVertical, 'sm:w-full': isVertical })}>
+        <img
+          src={workoutClass.primaryPhoto.image.url}
+          alt="Workout Class"
+          className="w-full object-cover sm:object-fill"
+        />
+      </div>
       {screenSize === 'sm' ? renderMobileLayout() : renderLayout()}
       {screenSize !== 'sm' && (
         <div className={cssClasses.ctaButton}>
