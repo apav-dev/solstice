@@ -17,16 +17,15 @@ import { ReactComponent as MagnifyingGlassIcon } from '../icons/magnifying_glass
 const SCREENREADER_INSTRUCTIONS =
   'When autocomplete results are available, use up and down arrows to review and enter to select.';
 
-// TODO: add back default classes
 export const builtInCssClasses: SearchBarCssClasses = {
-  container: 'h-12 sm:mb-12 mt-10 sm:w-5/12',
+  // TODO: change back to default container styles after figuring out what to do with the visual search bard
+  container: 'h-12 mb-3 text-black sm:w-1/3',
   divider: 'border-t border-gray-200 mx-2.5',
   dropdownContainer: 'relative bg-white pt-4 pb-3 z-10',
-  inputContainer: 'inline-flex items-center justify-between w-full text-black',
-  inputDropdownContainer:
-    'bg-white border rounded-full border-gray-200 w-full overflow-hidden text-black font-heading text-2xl',
+  inputContainer: 'inline-flex items-center justify-between w-full',
+  inputDropdownContainer: 'bg-white border rounded-3xl border-gray-200 w-full overflow-hidden',
   inputDropdownContainer___active: 'shadow-lg',
-  inputElement: 'outline-none flex-grow border-none h-full pl-0.5 pr-2 my-4',
+  inputElement: 'outline-none flex-grow border-none h-full pl-0.5 pr-2',
   logoContainer: 'w-7 mx-2.5 my-2',
   optionContainer: 'flex items-stretch mb-3 mx-3.5 cursor-pointer',
   resultIconContainer: 'opacity-20 w-7 h-7 pl-1 mr-4',

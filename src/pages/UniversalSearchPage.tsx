@@ -4,10 +4,8 @@ import { UniversalResultsConfig } from '../config/universalResultsConfig';
 import SpellCheck from '../components/SpellCheck';
 import usePageSetupEffect from '../hooks/usePageSetupEffect';
 import LocationBias from '../components/LocationBias';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAnswersActions } from '@yext/answers-headless-react';
-import { ResponsiveContext } from '../App';
-import SearchBar from '../components/SearchBar';
 
 const universalResultsFilterConfig = {
   show: true,
@@ -23,19 +21,8 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
     answersActions.setQuery('manhattan');
   });
 
-  const screenSize = useContext(ResponsiveContext);
-
   return (
-    <div className="">
-      {screenSize === 'sm' && <div className="mt-8 font-heading text-5xl">Search Results</div>}
-      {screenSize === 'sm' && (
-        <SearchBar
-          placeholder="Search for Gyms, Classes, Trainers"
-          screenReaderInstructionsId="SearchBar__srInstructions"
-          customCssClasses={{ container: 'my-6 m-auto w-full' }}
-          cssCompositionMethod="assign"
-        />
-      )}
+    <div>
       <SpellCheck />
       <DirectAnswer />
       <UniversalResults

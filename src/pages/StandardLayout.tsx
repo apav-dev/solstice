@@ -31,21 +31,18 @@ const StandardLayout: LayoutComponent = ({ page }) => {
   return (
     <>
       <SolsticeHeader />
-      {
-        screenSize !== 'sm' && (
-          <div className="flex items-center justify-between space-x-40">
-            <div className="font-heading text-8xl font-black">{`Search ${
-              isVertical ? verticalKey && verticalKey.charAt(0).toUpperCase() + verticalKey.slice(1) : 'Results'
-            }`}</div>
-            {isVertical ? (
-              <SearchBar placeholder="Search..." screenReaderInstructionsId="SearchBar__srInstructions" />
-            ) : (
-              <SampleVisualSearchBar />
-            )}
-          </div>
-        )
-        // {/* <Navigation links={navLinks} /> */}
-      }
+      <div className="flex items-center justify-between space-x-40">
+        <div className="mt-4 flex w-full flex-col space-y-4 sm:flex-row sm:justify-between">
+          <div className="font-heading text-5xl font-black md:text-7xl">{`Search ${
+            isVertical ? verticalKey && verticalKey.charAt(0).toUpperCase() + verticalKey.slice(1) : 'Results'
+          }`}</div>
+          {isVertical ? (
+            <SearchBar placeholder="Search..." screenReaderInstructionsId="SearchBar__srInstructions" />
+          ) : (
+            <SampleVisualSearchBar />
+          )}
+        </div>
+      </div>
       {page}
     </>
   );
