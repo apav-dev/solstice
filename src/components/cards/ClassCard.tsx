@@ -59,6 +59,7 @@ const builtInCssClasses: TrainerCardCssClasses = {
 export function ClassCard(props: ClassCardProps): JSX.Element {
   const { result } = props;
   const workoutClass = result.rawData as unknown as ClassData;
+  const description = result.description;
   const primaryTrainer = workoutClass.c_trainer && workoutClass.c_trainer.length ? workoutClass.c_trainer[0].name : '';
 
   const screenSize = useContext(ResponsiveContext);
@@ -172,16 +173,17 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
       <div className={classNames('group relative h-auto w-1/2', { 'sm:w-80': !isVertical, 'sm:w-full': isVertical })}>
         <div className="absolute top-0 bottom-0 right-0 left-0 w-full bg-gray-900 object-cover opacity-0 sm:group-hover:opacity-90"></div>
         <img
-          src={workoutClass.primaryPhoto.image.url}
+          src={workoutClass.primaryPhoto?.image.url}
           alt="Workout Class"
           className="w-full object-cover sm:object-fill"
         />
-        <div className="absolute top-4 w-full px-8 md:top-6 xl:top-1/4">
-          <div className="md:text-body w-full text-center font-heading text-sm opacity-0 sm:group-hover:opacity-100 xl:text-lg">
-            This is a class description about a class that is very difficult and will make you extremely sweaty and so
-            so so so sore.
+        {result.description && (
+          <div className="absolute top-4 w-full px-8 md:top-6 xl:top-1/4">
+            <div className="md:text-body w-full text-center font-heading text-sm opacity-0 sm:group-hover:opacity-100 xl:text-lg">
+              {result.description}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {screenSize === 'sm' ? renderMobileLayout() : renderLayout()}
       {screenSize !== 'sm' && (

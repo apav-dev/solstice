@@ -7,17 +7,19 @@ import SampleVisualSearchBar from '../components/VisualAutocomplete/SampleVisual
 import { SolsticeHeader } from '../components/SolsticeHeader';
 import { ResponsiveContext } from '../App';
 import { useContext } from 'react';
+import { universalResultsConfig } from '../config/universalResultsConfig';
+import Navigation from '../components/Navigation';
 
-// const navLinks = [
-//   {
-//     to: '/',
-//     label: 'All'
-//   },
-//   ...Object.entries(universalResultsConfig).map(([verticalKey, config]) => ({
-//     to: verticalKey,
-//     label: config.label || verticalKey
-//   }))
-// ]
+const navLinks = [
+  {
+    to: '/',
+    label: 'All',
+  },
+  ...Object.entries(universalResultsConfig).map(([verticalKey, config]) => ({
+    to: verticalKey,
+    label: config.label || verticalKey,
+  })),
+];
 
 /**
  * A LayoutComponent that provides a SearchBar and Navigation tabs to a given page.
@@ -43,6 +45,15 @@ const StandardLayout: LayoutComponent = ({ page }) => {
           )}
         </div>
       </div>
+      <Navigation
+        links={navLinks}
+        customCssClasses={{
+          navLink:
+            'font-heading text-white whitespace-nowrap py-4 px-1 font-medium text-md border-b-2 border-opacity-0 hover:border-gray-300',
+          activeNavLink: 'text-gold border-gold border-b-2 border-opacity-100 hover:border-gold',
+        }}
+        cssCompositionMethod="assign"
+      />
       {page}
     </>
   );
