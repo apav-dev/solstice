@@ -18,7 +18,7 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
   // TODO: remove after adding landing page
   const answersActions = useAnswersActions();
   useEffect(() => {
-    answersActions.setQuery('manhattan');
+    answersActions.setQuery('manhattan classes');
   });
 
   return (

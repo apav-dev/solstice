@@ -36,7 +36,9 @@ export default function ClassFacets({ isMobile }: ClassFacetsProps): JSX.Element
         searchOnChange={true}
         defaultExpanded={true}
         facetConfigs={{
-          'c_location.neighborhood': { label: 'GYM LOCATION' },
+          'linkedLocation.neighborhood': { label: 'GYM LOCATION' },
+          c_partOfDay: { label: 'TIME' },
+          'c_trainer.linkedLocation.neighborhood': { label: 'GYM LOCATION' },
           c_classType: {
             label: 'ACTIVITY',
             type: 'image',

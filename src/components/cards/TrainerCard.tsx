@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { ResponsiveContext } from '../../App';
 import { useComposedCssClasses } from '../../hooks/useComposedCssClasses';
 import { CardProps } from '../../models/cardComponent';
+import renderCardImg from '../../utils/renderCardImg';
 
 //prettier-ignore
 export interface TrainerCardConfig {
@@ -28,7 +29,7 @@ export interface Image extends SimpleImage {
 }
 
 //prettier-ignore
-interface Logo {
+interface PrimaryPhoto {
   image?: Image
 }
 
@@ -36,7 +37,7 @@ interface Logo {
 export interface TrainerData {
   name?: string,
   c_inspirationalQuote?: string,
-  logo?: Logo
+  primaryPhoto?: PrimaryPhoto
 }
 
 //prettier-ignore
@@ -52,7 +53,7 @@ export interface TrainerCardCssClasses {
 
 //prettier-ignore
 const builtInCssClasses: TrainerCardCssClasses = {
-  container: 'flex flex-col p-4 shadow-sm',
+  container: 'flex flex-col p-4 shadow-sm my-2',
   descriptionContainer: 'w-full text-sm font-heading ',
   name: 'text-xl font-medium font-body font-bold',
   ctaButton: 'flex border rounded-md mt-4 px-4 bg-black justify-center hover:bg-gray-400',
@@ -63,7 +64,7 @@ const builtInCssClasses: TrainerCardCssClasses = {
 export function TrainerCard(props: TrainerCardProps): JSX.Element {
   const { result } = props;
   const trainer = result.rawData as unknown as TrainerData;
-  const trainerImg = trainer.logo?.image?.url ?? '';
+  const trainerImg = trainer.primaryPhoto?.image?.url ?? '';
   // const smallestThumbnail = trainer.logo?.image?.thumbnails[trainer.logo?.image?.thumbnails.length - 1].url
 
   const screenSize = useContext(ResponsiveContext);
@@ -82,7 +83,7 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
 
   return (
     <div className={cssClasses.container}>
-      <div
+      {/* <div
         // style={{ height: isMobile ? '512px' : '256px', width: isMobile ? '512px' : '256px' }
         style={{
           height: screenSize !== 'sm' && !isVertical ? '16rem' : '',
@@ -90,11 +91,12 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
           width: screenSize !== 'sm' && !isVertical ? '20rem' : '',
         }}>
         <img src={trainerImg} alt="Trainer Headshot" style={{ objectFit: 'cover', width: '500px', height: '250px' }} />
-      </div>
+      </div> */}
+      {renderCardImg(isVertical, 'Trainer Headshot', trainerImg, trainer.c_inspirationalQuote)}
       <div className="">
         {/* <div> */}
         <div>{renderName(trainer.name)}</div>
-        <div className="h-6">{renderQuote(trainer.c_inspirationalQuote)}</div>
+        {/* <div className="h-6">{renderQuote(trainer.c_inspirationalQuote)}</div> */}
         {/* </div> */}
       </div>
       <div className="flex flex-col text-black sm:flex-row sm:justify-between">

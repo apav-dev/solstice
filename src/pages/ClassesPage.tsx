@@ -22,10 +22,10 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
       <SpellCheck />
       <ResultsCount />
       <AppliedFilters filterBarType="sentence" />
-      <AlternativeVerticals
+      {/* <AlternativeVerticals
         currentVerticalLabel="Classes"
         verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
-      />
+      /> */}
       <div className="flex space-x-4">
         {screenSize !== 'sm' && <ClassFacets />}
         <VerticalResults
