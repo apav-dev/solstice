@@ -169,19 +169,17 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
   };
 
   return (
-    <div className="my-8 flex  p-4 sm:flex-col">
-      <div className={classNames('group relative h-auto w-1/2', { 'sm:w-80': !isVertical, 'sm:w-full': isVertical })}>
-        <div className="absolute top-0 bottom-0 right-0 left-0 w-full bg-gray-900 object-cover opacity-0 sm:group-hover:opacity-90"></div>
+    <div className="group my-8 flex p-4 sm:flex-col">
+      <div className={classNames('relative h-auto w-1/2', { 'sm:w-80': !isVertical, 'sm:w-full': isVertical })}>
+        <div className="absolute top-0 bottom-0 right-0 left-0 w-full bg-gray-900 object-cover opacity-0 transition duration-300 ease-linear sm:group-hover:opacity-90"></div>
         <img
           src={workoutClass.primaryPhoto?.image.url}
           alt="Workout Class"
           className="w-full object-cover sm:object-fill"
         />
         {result.description && (
-          <div className="absolute top-4 w-full px-8 md:top-6 xl:top-1/4">
-            <div className="md:text-body w-full text-center font-heading text-sm opacity-0 sm:group-hover:opacity-100 xl:text-lg">
-              {result.description}
-            </div>
+          <div className="absolute bottom-0 transform px-8 opacity-0 transition duration-500 group-hover:-translate-y-32 group-hover:opacity-100">
+            <div className="md:text-body w-full text-center font-heading text-sm xl:text-lg">{result.description}</div>
           </div>
         )}
       </div>

@@ -14,6 +14,7 @@ module.exports = {
   },
   variants: {
     extend: {},
+    translate: ({ after }) => after(['group-hover']),
   },
   plugins: [
     require('@tailwindcss/forms')({
