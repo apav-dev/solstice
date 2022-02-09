@@ -1,9 +1,10 @@
 import { useComposedCssClasses } from '../../hooks/useComposedCssClasses';
 import { CardProps } from '../../models/cardComponent';
 
-import { useContext } from 'react';
-import { LocationContext } from '../../sections/LocationSection';
+import { useContext, useEffect } from 'react';
+import { LocationContext } from '../LocationContext';
 import { ResponsiveContext } from '../../App';
+import { LocationActionTypes } from '../locationReducers';
 
 //prettier-ignore
 export interface LocationCardConfig {
@@ -76,8 +77,9 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
 
   const cssClasses = useComposedCssClasses(builtInCssClasses);
 
-  const locationContext = useContext(LocationContext);
   const screenSize = useContext(ResponsiveContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { state, dispatch } = useContext(LocationContext);
 
   function renderTitle(title: string) {
     return <div className={cssClasses.title}>{title}</div>;
@@ -165,7 +167,7 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
   }
 
   function updateLocationId(id?: string) {
-    if (locationContext?.dispatch) locationContext?.dispatch(id || '');
+    if (dispatch) dispatch({ type: LocationActionTypes.SetActiveLocation, payload: { locationId: id || '' } });
   }
 
   return (
