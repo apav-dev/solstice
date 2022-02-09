@@ -165,15 +165,16 @@ export function LocationCard(props: LocationCardProps): JSX.Element {
     return `${hour}:${time.slice(3, 5)}${ampm}`;
   }
 
-  function updateLocationId(id?: string) {
-    if (dispatch) dispatch({ type: LocationActionTypes.SetActiveLocation, payload: { locationId: id || '' } });
-  }
+  const setHoveredLocation = () =>
+    dispatch({ type: LocationActionTypes.SetHoveredLocation, payload: { hoveredLocation: location } });
+
+  const clearHoveredLocation = () => dispatch({ type: LocationActionTypes.ClearHoveredLocation, payload: {} });
 
   return (
     <div
       className={cssClasses.container}
-      onMouseOver={() => updateLocationId(location.id)}
-      onMouseLeave={() => updateLocationId()}>
+      onMouseOver={() => setHoveredLocation()}
+      onMouseLeave={() => clearHoveredLocation()}>
       <div className={cssClasses.header}>
         {/* {configuration.showOrdinal && result.index && renderOrdinal(result.index)} */}
         {renderTitle(location.name || '')}

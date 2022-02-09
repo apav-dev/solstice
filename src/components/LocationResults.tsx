@@ -28,7 +28,6 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
           id: r.id,
           coord: [r.yextDisplayCoordinate?.longitude || 0, r.yextDisplayCoordinate?.latitude || 0],
         }))}
-        activeMarkerId={state.locationId}
       />
     );
   };

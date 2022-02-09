@@ -24,8 +24,7 @@ interface Props {
   markers?: {
     id: string,
     coord: [number, number]
-  }[],
-  activeMarkerId?: string
+  }[]
 }
 
 // prettier-ignore
@@ -101,7 +100,7 @@ export default function Mapbox(props: Props): JSX.Element {
   useEffect(() => {
     props.markers &&
       props.markers.forEach((marker) => {
-        if (marker.id === props.activeMarkerId) {
+        if (marker.id === state.hoveredLocation?.id) {
           if (markers) {
             if (markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'hidden';
             if (markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'visible';
@@ -114,7 +113,7 @@ export default function Mapbox(props: Props): JSX.Element {
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.activeMarkerId]);
+  }, [state.hoveredLocation]);
 
   return (
     <div className="relative">

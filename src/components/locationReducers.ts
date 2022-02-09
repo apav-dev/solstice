@@ -1,3 +1,5 @@
+import { LocationData } from './cards/LocationCard';
+
 // prettier-ignore
 type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -12,7 +14,10 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 export enum LocationActionTypes {
   ToggleMap = 'TOGGLE_MAP',
-  SetActiveLocation = 'SET_ACTIVE_LOCATION',
+  SetHoveredLocation = 'SET_HOVERED_LOCATION',
+  SetSelectedLocation = 'SET_SELECTED_LOCATION',
+  ClearHoveredLocation = 'CLEAR_HOVERED_LOCATION',
+  ClearSelectedLocation = 'CLEAR_SELECTED_LOCATION',
 }
 
 // Map Toggle
@@ -39,18 +44,36 @@ export const toggleShowMapReducer = (state: boolean, action: MapActions | Locati
 
 //prettier-ignore
 type LocationPayload = {
-  [LocationActionTypes.SetActiveLocation]: {
-    locationId: string
-  }
+  [LocationActionTypes.SetHoveredLocation]: {
+    hoveredLocation: LocationData
+  },
+  [LocationActionTypes.SetSelectedLocation]: {
+    selectedLocation: LocationData
+  },
+  [LocationActionTypes.ClearHoveredLocation]: {},
+  [LocationActionTypes.ClearSelectedLocation]: {}
 }
 
 export type LocationActions = ActionMap<LocationPayload>[keyof ActionMap<LocationPayload>];
 
-export const setActiveLocationReducer = (state: string, action: MapActions | LocationActions) => {
+export const hoveredLocationReducer = (state: LocationData | {}, action: MapActions | LocationActions) => {
   switch (action.type) {
-    case LocationActionTypes.SetActiveLocation:
-      return action.payload.locationId;
+    case LocationActionTypes.SetHoveredLocation:
+      return action.payload.hoveredLocation;
+    case LocationActionTypes.ClearHoveredLocation:
+      return {};
     default:
-      return '';
+      return {};
+  }
+};
+
+export const selectedLocationReducer = (state: LocationData | {}, action: MapActions | LocationActions) => {
+  switch (action.type) {
+    case LocationActionTypes.SetSelectedLocation:
+      return action.payload.selectedLocation;
+    case LocationActionTypes.ClearSelectedLocation:
+      return {};
+    default:
+      return {};
   }
 };

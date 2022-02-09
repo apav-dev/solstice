@@ -1,14 +1,21 @@
 import { createContext, Dispatch, useReducer } from 'react';
-import { toggleShowMapReducer, setActiveLocationReducer, MapActions, LocationActions } from './locationReducers';
+import { LocationData } from './cards/LocationCard';
+import {
+  toggleShowMapReducer,
+  hoveredLocationReducer,
+  selectedLocationReducer,
+  MapActions,
+  LocationActions,
+} from './locationReducers';
 
 //prettier-ignore
 type LocationStateType = {
-  locationId: string,
+  hoveredLocation?: LocationData,
+  selectedLocation?: LocationData,
   showMap: boolean
 };
 
 const locationState = {
-  locationId: '',
   showMap: false,
 };
 
@@ -19,11 +26,12 @@ export const LocationContext = createContext<{ state: LocationStateType, dispatc
 });
 
 const mainReducer = (
-  { locationId, showMap }: LocationStateType,
+  { hoveredLocation, selectedLocation, showMap }: LocationStateType,
   action: MapActions | LocationActions
 ): LocationStateType => {
   return {
-    locationId: setActiveLocationReducer(locationId, action),
+    hoveredLocation: hoveredLocationReducer(hoveredLocation ?? {}, action),
+    selectedLocation: selectedLocationReducer(selectedLocation ?? {}, action),
     showMap: toggleShowMapReducer(showMap, action),
   };
 };
