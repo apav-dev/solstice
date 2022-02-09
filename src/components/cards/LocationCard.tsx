@@ -1,7 +1,6 @@
 import { useComposedCssClasses } from '../../hooks/useComposedCssClasses';
 import { CardProps } from '../../models/cardComponent';
-
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { LocationContext } from '../LocationContext';
 import { ResponsiveContext } from '../../App';
 import { LocationActionTypes } from '../locationReducers';

@@ -19,7 +19,9 @@ export enum LocationActionTypes {
 
 // prettier-ignore
 type MapPayload = {
-  [LocationActionTypes.ToggleMap]: boolean
+  [LocationActionTypes.ToggleMap]: {
+    toggleMap: boolean
+  }
 }
 
 export type MapActions = ActionMap<MapPayload>[keyof ActionMap<MapPayload>];
@@ -27,7 +29,7 @@ export type MapActions = ActionMap<MapPayload>[keyof ActionMap<MapPayload>];
 export const toggleShowMapReducer = (state: boolean, action: MapActions | LocationActions) => {
   switch (action.type) {
     case LocationActionTypes.ToggleMap:
-      return state;
+      return action.payload.toggleMap;
     default:
       return false;
   }

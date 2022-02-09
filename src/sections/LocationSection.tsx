@@ -18,16 +18,9 @@ const builtInCssClasses: LocationSectionCssClasses = {
 };
 
 interface LocationSectionConfig extends SectionConfig {
-  customCssClasses?: LocationSectionCssClasses,
-  compositionmethod?: CompositionMethod
+  customCssClasses?: LocationSectionCssClasses;
+  compositionmethod?: CompositionMethod;
 }
-
-interface LocationContextInterface {
-  locationId: string,
-  dispatch?: React.Dispatch<string>
-}
-
-export const LocationContext = React.createContext<LocationContextInterface | null>(null);
 
 const LocationSection: SectionComponent = function (props: LocationSectionConfig): JSX.Element | null {
   const cssClasses = useComposedCssClasses(builtInCssClasses, props.customCssClasses, props.compositionmethod);

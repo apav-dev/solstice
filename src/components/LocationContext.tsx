@@ -9,7 +9,7 @@ type LocationStateType = {
 
 const locationState = {
   locationId: '',
-  showMap: true,
+  showMap: false,
 };
 
 //prettier-ignore

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { useContext } from 'react';
 import { ResponsiveContext } from '../App';
 import { SectionConfig } from '../models/sectionComponent';
@@ -34,8 +35,12 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
 
   return (
     <div className="flex">
-      {/* {!state.showMap ? ( */}
-      <div className="w-full overflow-y-auto pl-1 sm:overflow-auto sm:border lg:w-1/4" style={{ maxHeight: '580px' }}>
+      <div
+        className={classNames('overflow-y-auto pl-1 sm:overflow-auto sm:border lg:w-1/4', {
+          hidden: state.showMap,
+          'w-full': !state.showMap,
+        })}
+        style={{ maxHeight: '580px' }}>
         <VerticalResultsDisplay
           results={screenSize === 'sm' ? results.slice(0, 4) : results}
           CardComponent={cardComponent}
@@ -43,9 +48,9 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
           customCssClasses={{ container: 'px-4 sm:px-0' }}
         />
       </div>
-      {/* ) : ( */}
-      <div className="w-full xl:w-3/4">{renderMap()}</div>
-      {/* )} */}
+      <div className={classNames('w-full xl:w-3/4', { hidden: screenSize !== 'xl' && !state.showMap })}>
+        {renderMap()}
+      </div>
     </div>
   );
 }

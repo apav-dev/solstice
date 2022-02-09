@@ -3,10 +3,13 @@ import { AppliedFiltersDisplay, AppliedFiltersProps } from '../components/Applie
 import { ResultsCountConfig } from '../components/ResultsCount';
 import { useComposedCssClasses, CompositionMethod } from '../hooks/useComposedCssClasses';
 import { ReactComponent as MapIcon } from '../icons/map.svg';
+import { ReactComponent as ListIcon } from '../icons/list.svg';
 import { useAnswersState } from '@yext/answers-headless-react';
 import { DisplayableFilter } from '../models/displayableFilter';
 import { ResponsiveContext } from '../App';
 import { useContext } from 'react';
+import { LocationContext } from '../components/LocationContext';
+import { LocationActionTypes } from '../components/locationReducers';
 
 //prettier-ignore
 interface SectionHeaderCssClasses {
@@ -62,6 +65,8 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
         label: appliedQueryFilter.displayValue,
       };
     }) ?? [];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { state, dispatch } = useContext(LocationContext);
 
   return (
     <div className={cssClasses.sectionHeaderContainer}>
@@ -87,9 +92,11 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
       )}
       {viewMapButton && screenSize !== 'xl' && (
         // TODO: add toggle to flip to map and back
-        <div className="ml-auto flex justify-center space-x-3 py-8 font-heading text-base text-gold hover:underline">
-          <MapIcon />
-          <div className="">SHOW MAP</div>
+        <div
+          className="ml-auto flex justify-center space-x-3 py-8 font-heading text-base text-gold hover:underline"
+          onClick={() => dispatch({ type: LocationActionTypes.ToggleMap, payload: { toggleMap: !state.showMap } })}>
+          {state.showMap ? <ListIcon /> : <MapIcon />}
+          <div>{state.showMap ? 'SHOW LIST' : 'SHOW MAP'}</div>
         </div>
       )}
     </div>

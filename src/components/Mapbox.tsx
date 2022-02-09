@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
 import { ReactComponent as PinIcon } from '../icons/pin.svg';
 import { ReactComponent as ActivePinIcon } from '../icons/active_pin.svg';
 
@@ -6,6 +6,7 @@ import mapboxgl, { Map } from '!mapbox-gl'; // eslint-disable-line import/no-web
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ReactDOM from 'react-dom';
+import { LocationContext } from './LocationContext';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXBhdmxpY2siLCJhIjoiY2t5NHJkODFvMGV3ZDJ0bzRnNDI1ZTNtZiJ9.VA2eTvz6Cf9jX_MG2r6u0g';
 
@@ -37,6 +38,8 @@ export default function Mapbox(props: Props): JSX.Element {
 
   const mapContainer = useRef(null);
   const map = useRef<Map | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { state, dispatch } = useContext(LocationContext);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -47,6 +50,10 @@ export default function Mapbox(props: Props): JSX.Element {
       zoom: 9,
     });
   });
+
+  useEffect(() => {
+    state.showMap && map.current && map.current.resize();
+  }, [state.showMap]);
 
   // TODO: Hide pins that aren't in marker list
   useEffect(() => {
@@ -110,9 +117,14 @@ export default function Mapbox(props: Props): JSX.Element {
   }, [props.activeMarkerId]);
 
   return (
-    <div>
+    <div className="relative">
       {/* TODO: remove inline style */}
-      <div ref={mapContainer} style={{ height: '580px' }} />
+      <div
+        ref={mapContainer}
+        style={{
+          height: '580px',
+        }}
+      />
     </div>
   );
 }
