@@ -1,17 +1,19 @@
 import { createContext, Dispatch, useReducer } from 'react';
-import { LocationData } from './cards/LocationCard';
 import {
   toggleShowMapReducer,
   hoveredLocationReducer,
   selectedLocationReducer,
   MapActions,
   LocationActions,
+  mapLocationsReducer,
 } from './locationReducers';
+import { MapLocationData } from './Mapbox';
 
 //prettier-ignore
 type LocationStateType = {
-  hoveredLocation?: LocationData,
-  selectedLocation?: LocationData,
+  hoveredLocation?: MapLocationData,
+  selectedLocation?: MapLocationData,
+  mapLocations?: MapLocationData[],
   showMap: boolean
 };
 
@@ -26,14 +28,19 @@ export const LocationContext = createContext<{ state: LocationStateType, dispatc
 });
 
 const mainReducer = (
-  { hoveredLocation, selectedLocation, showMap }: LocationStateType,
+  { hoveredLocation, selectedLocation, mapLocations, showMap }: LocationStateType,
   action: MapActions | LocationActions
 ): LocationStateType => {
-  return {
-    hoveredLocation: hoveredLocationReducer(hoveredLocation ?? {}, action),
-    selectedLocation: selectedLocationReducer(selectedLocation ?? {}, action),
+  const newState = {
+    hoveredLocation: hoveredLocationReducer(hoveredLocation, action),
+    selectedLocation: selectedLocationReducer(selectedLocation, action),
+    mapLocations: mapLocationsReducer(mapLocations ?? [], action),
     showMap: toggleShowMapReducer(showMap, action),
   };
+
+  console.log(JSON.stringify(newState));
+
+  return newState;
 };
 
 export const LocationProvider: React.FC = ({ children }: any) => {

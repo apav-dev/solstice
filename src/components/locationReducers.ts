@@ -1,4 +1,5 @@
 import { LocationData } from './cards/LocationCard';
+import { MapLocationData } from './Mapbox';
 
 // prettier-ignore
 type ActionMap<M extends { [index: string]: any }> = {
@@ -18,6 +19,8 @@ export enum LocationActionTypes {
   SetSelectedLocation = 'SET_SELECTED_LOCATION',
   ClearHoveredLocation = 'CLEAR_HOVERED_LOCATION',
   ClearSelectedLocation = 'CLEAR_SELECTED_LOCATION',
+  SetMapLocations = 'SET_MAP_LOCATIONS',
+  ClearMapLocations = 'CLEAR_MAP_LOCATIONS',
 }
 
 // Map Toggle
@@ -36,7 +39,7 @@ export const toggleShowMapReducer = (state: boolean, action: MapActions | Locati
     case LocationActionTypes.ToggleMap:
       return action.payload.toggleMap;
     default:
-      return false;
+      return state;
   }
 };
 
@@ -45,35 +48,50 @@ export const toggleShowMapReducer = (state: boolean, action: MapActions | Locati
 //prettier-ignore
 type LocationPayload = {
   [LocationActionTypes.SetHoveredLocation]: {
-    hoveredLocation: LocationData
+    hoveredLocation: MapLocationData
   },
   [LocationActionTypes.SetSelectedLocation]: {
-    selectedLocation: LocationData
+    selectedLocation: MapLocationData
   },
   [LocationActionTypes.ClearHoveredLocation]: {},
-  [LocationActionTypes.ClearSelectedLocation]: {}
+  [LocationActionTypes.ClearSelectedLocation]: {},
+  [LocationActionTypes.SetMapLocations]: {
+    mapLocations: MapLocationData[]
+  },
+  [LocationActionTypes.ClearMapLocations]: []
 }
 
 export type LocationActions = ActionMap<LocationPayload>[keyof ActionMap<LocationPayload>];
 
-export const hoveredLocationReducer = (state: LocationData | {}, action: MapActions | LocationActions) => {
+export const hoveredLocationReducer = (state: MapLocationData | undefined, action: MapActions | LocationActions) => {
   switch (action.type) {
     case LocationActionTypes.SetHoveredLocation:
       return action.payload.hoveredLocation;
     case LocationActionTypes.ClearHoveredLocation:
-      return {};
+      return undefined;
     default:
-      return {};
+      return state;
   }
 };
 
-export const selectedLocationReducer = (state: LocationData | {}, action: MapActions | LocationActions) => {
+export const selectedLocationReducer = (state: MapLocationData | undefined, action: MapActions | LocationActions) => {
   switch (action.type) {
     case LocationActionTypes.SetSelectedLocation:
       return action.payload.selectedLocation;
     case LocationActionTypes.ClearSelectedLocation:
-      return {};
+      return undefined;
     default:
-      return {};
+      return state;
+  }
+};
+
+export const mapLocationsReducer = (state: MapLocationData[], action: MapActions | LocationActions) => {
+  switch (action.type) {
+    case LocationActionTypes.SetMapLocations:
+      return action.payload.mapLocations;
+    case LocationActionTypes.ClearMapLocations:
+      return [];
+    default:
+      return state;
   }
 };

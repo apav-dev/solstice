@@ -1,10 +1,11 @@
 import classNames from 'classnames';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ResponsiveContext } from '../App';
 import { SectionConfig } from '../models/sectionComponent';
 import { StandardCard } from './cards/StandardCard';
 import { LocationContext } from './LocationContext';
-import Mapbox, { GeoData } from './Mapbox';
+import { LocationActionTypes } from './locationReducers';
+import Mapbox, { MapLocationData } from './Mapbox';
 import { VerticalResultsDisplay } from './VerticalResults';
 
 interface LocationResultsProps extends SectionConfig {}
@@ -17,19 +18,30 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
   const { results, cardConfig } = props;
   const cardComponent = cardConfig?.CardComponent || StandardCard;
 
+  useEffect(() => {
+    const mapLocations: MapLocationData[] = [];
+    for (const result of results) {
+      const location = result.rawData as unknown as MapLocationData;
+      if (result.id && location.yextDisplayCoordinate) {
+        mapLocations.push({
+          id: result.id ?? '',
+          name: location.name,
+          address: location.address,
+          yextDisplayCoordinate: {
+            latitude: location.yextDisplayCoordinate.latitude,
+            longitude: location.yextDisplayCoordinate.longitude,
+          },
+        });
+      }
+    }
+    dispatch({ type: LocationActionTypes.SetMapLocations, payload: { mapLocations } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const renderMap = () => {
-    if (results.length === 0) return null;
+    if (!state.mapLocations) return null;
 
-    const geoResults = results.map((r) => r.rawData as unknown as GeoData);
-
-    return (
-      <Mapbox
-        markers={geoResults.map((r) => ({
-          id: r.id,
-          coord: [r.yextDisplayCoordinate?.longitude || 0, r.yextDisplayCoordinate?.latitude || 0],
-        }))}
-      />
-    );
+    return <Mapbox />;
   };
 
   return (

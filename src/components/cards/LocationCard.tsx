@@ -50,7 +50,7 @@ export interface Hours {
 
 //prettier-ignore
 export interface LocationData {
-  id?: string,
+  id: string,
   address?: Address,
   name?: string,
   hours?: Hours

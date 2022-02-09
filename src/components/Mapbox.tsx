@@ -1,38 +1,28 @@
 import { useRef, useEffect, useState, useContext } from 'react';
 import { ReactComponent as PinIcon } from '../icons/pin.svg';
-import { ReactComponent as ActivePinIcon } from '../icons/active_pin.svg';
-
 import mapboxgl, { Map } from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ReactDOM from 'react-dom';
 import { LocationContext } from './LocationContext';
+import { LocationData } from './cards/LocationCard';
+import { LocationActionTypes } from './locationReducers';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXBhdmxpY2siLCJhIjoiY2t5NHJkODFvMGV3ZDJ0bzRnNDI1ZTNtZiJ9.VA2eTvz6Cf9jX_MG2r6u0g';
 
 // prettier-ignore
-export interface GeoData {
-  id: string,
-  yextDisplayCoordinate: {
+export interface MapLocationData extends LocationData {
+  yextDisplayCoordinate?: {
     latitude: number,
     longitude: number
   }
 }
 
 // prettier-ignore
-interface Props {
-  markers?: {
-    id: string,
-    coord: [number, number]
-  }[]
-}
-
-// prettier-ignore
 type MapMarkers = {
-  [locationId: string]: { marker: mapboxgl.Marker, activeMarker: mapboxgl.Marker }
+  [locationId: string]: mapboxgl.Marker 
 };
 
-export default function Mapbox(props: Props): JSX.Element {
+export default function Mapbox(): JSX.Element {
   const [markers, setMarkers] = useState<MapMarkers>({});
 
   const mapContainer = useRef(null);
@@ -56,35 +46,30 @@ export default function Mapbox(props: Props): JSX.Element {
 
   // TODO: Hide pins that aren't in marker list
   useEffect(() => {
-    if (map === null || map.current === null || !props.markers || props.markers.length === 0) return;
+    if (map === null || map.current === null || !state.mapLocations || state.mapLocations.length === 0) return;
 
     let markerRecord: MapMarkers = markers;
     const bounds = new mapboxgl.LngLatBounds();
 
-    for (const marker of (props.markers || []).values()) {
-      marker.coord && bounds.extend(marker.coord);
+    for (const marker of (state.mapLocations || []).values()) {
+      if (marker.yextDisplayCoordinate) {
+        const coord: [number, number] = [marker.yextDisplayCoordinate.longitude, marker.yextDisplayCoordinate.latitude];
+        marker.yextDisplayCoordinate && bounds.extend(coord);
 
-      if (!markers[marker.id]) {
-        const pin_el = document.createElement('div');
-        const activePin_el = document.createElement('div');
+        if (marker.id && !markers[marker.id]) {
+          const pin_el = generateMapPin(marker);
 
-        pin_el.setAttribute('id', `${marker.id}_pin`);
-        activePin_el.setAttribute('id', `${marker.id}_activePin`);
+          ReactDOM.render(<PinIcon />, pin_el);
 
-        ReactDOM.render(<PinIcon />, pin_el);
-        ReactDOM.render(<ActivePinIcon />, activePin_el);
+          const mapMarker = new mapboxgl.Marker(pin_el);
 
-        const mapMarker = new mapboxgl.Marker(pin_el);
-        const activeMapMarker = new mapboxgl.Marker(activePin_el);
-        activeMapMarker.getElement().style.visibility = 'hidden';
+          markerRecord = {
+            ...markerRecord,
+            [marker.id]: mapMarker,
+          };
 
-        markerRecord = {
-          ...markerRecord,
-          [marker.id]: { marker: mapMarker, activeMarker: activeMapMarker },
-        };
-
-        new mapboxgl.Marker(pin_el).setLngLat(marker.coord).addTo(map.current);
-        new mapboxgl.Marker(activePin_el).setLngLat(marker.coord).addTo(map.current);
+          new mapboxgl.Marker(pin_el).setLngLat(coord).addTo(map.current);
+        }
       }
     }
 
@@ -94,29 +79,61 @@ export default function Mapbox(props: Props): JSX.Element {
     setMarkers(markerRecord);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.markers]);
+  }, [state.mapLocations]);
 
-  // TODO: Cleanup
+  // Handle when user hovers on Location Card
   useEffect(() => {
-    props.markers &&
-      props.markers.forEach((marker) => {
-        if (marker.id === state.hoveredLocation?.id) {
-          if (markers) {
-            if (markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'hidden';
-            if (markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'visible';
-          }
-        } else {
-          if (markers) {
-            if (markers[marker.id]) markers[marker.id].marker.getElement().style.visibility = 'visible';
-            if (markers[marker.id]) markers[marker.id].activeMarker.getElement().style.visibility = 'hidden';
-          }
-        }
-      });
+    Object.entries(markers).forEach((entry) => {
+      const [locationId, marker] = entry;
+
+      if (state.hoveredLocation?.id === locationId) {
+        marker.getElement().style.color = '#f1c553';
+      } else if (state.selectedLocation?.id !== locationId) {
+        marker.getElement().style.color = 'white';
+      }
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.hoveredLocation]);
 
+  // Handle when user clicks on Location Pin
+  useEffect(() => {
+    Object.entries(markers).forEach((entry) => {
+      const [locationId, marker] = entry;
+
+      if (state.selectedLocation?.id === locationId) {
+        marker.getElement().style.color = '#f1c553';
+      } else if (state.hoveredLocation?.id !== locationId) {
+        marker.getElement().style.color = 'white';
+      }
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.selectedLocation]);
+
+  function generateMapPin(marker: MapLocationData) {
+    const pin_el = document.createElement('div');
+
+    pin_el.setAttribute('id', `${marker.id}_pin`);
+    pin_el.addEventListener('click', () => {
+      handlePinClick(marker);
+    });
+    pin_el.addEventListener('mouseover', () =>
+      dispatch({ type: LocationActionTypes.SetHoveredLocation, payload: { hoveredLocation: marker } })
+    );
+    pin_el.addEventListener('mouseleave', () =>
+      dispatch({ type: LocationActionTypes.ClearHoveredLocation, payload: {} })
+    );
+
+    return pin_el;
+  }
+
+  function handlePinClick(selectedLocation: MapLocationData) {
+    dispatch({ type: LocationActionTypes.SetSelectedLocation, payload: { selectedLocation } });
+  }
+
   return (
-    <div className="relative">
+    <div className="relative justify-center">
       {/* TODO: remove inline style */}
       <div
         ref={mapContainer}
@@ -124,6 +141,14 @@ export default function Mapbox(props: Props): JSX.Element {
           height: '580px',
         }}
       />
+      {/* TODO: Mini map card */}
+      {state.selectedLocation && (
+        <div className="absolute bottom-2 left-0 right-0 mx-auto flex h-12 w-20  bg-white">
+          <div className="relative border-2 border-black">
+            <div className="text-black">{state.selectedLocation.name}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
