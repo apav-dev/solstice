@@ -33,7 +33,6 @@ export default function App() {
   };
 
   return (
-    // <div style={{ minWidth: '100vh', backgroundColor: 'black' }}>
     <AnswersHeadlessProvider {...answersHeadlessConfig}>
       <div className="flex justify-center px-2 py-6 text-white sm:px-8">
         <div className="w-full">
@@ -43,6 +42,5 @@ export default function App() {
         </div>
       </div>
     </AnswersHeadlessProvider>
-    // </div>
   );
 }

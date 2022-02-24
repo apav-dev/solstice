@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { LocationContext } from '../LocationContext';
 import { ResponsiveContext } from '../../App';
 import { LocationActionTypes } from '../locationReducers';
+import { SimpleImage } from './TrainerCard';
 
 //prettier-ignore
 export interface LocationCardConfig {
@@ -53,7 +54,8 @@ export interface LocationData {
   id: string,
   address?: Address,
   name?: string,
-  hours?: Hours
+  hours?: Hours,
+  photoGallery?: any
 }
 
 const builtInCssClasses = {

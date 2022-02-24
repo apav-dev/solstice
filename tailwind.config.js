@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         gold: '#f1c553',
       },
+      boxShadow: {
+        gym: 'gray 0px 0px 2px 2px',
+      },
     },
   },
   variants: {

@@ -1,4 +1,3 @@
-import { LocationData } from './cards/LocationCard';
 import { MapLocationData } from './Mapbox';
 
 // prettier-ignore
