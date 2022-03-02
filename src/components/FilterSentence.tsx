@@ -59,7 +59,7 @@ export default function FilterSentences({ displayableFilters }: FilterSentence):
   return (
     <>
       {displayableFilters.length > 0 && (
-        <div className="mb-2 flex flex-grow sm:ml-8">
+        <div className="mb-2 flex flex-grow pl-4 sm:pl-0">
           <div className="font-heading text-4xl sm:text-3xl">{renderFilterSentence()}</div>
           {/* <div className="font-heading text-4xl sm:text-3xl">{renderNeighborhoodsFilters()}</div> */}
         </div>

@@ -10,7 +10,6 @@ import {
   StrengthIcon,
 } from '../utils/faceticons';
 import Facets from './Facets';
-import { Divider } from './StaticFilters';
 
 //prettier-ignore
 interface ClassFacetsProps {
@@ -22,14 +21,14 @@ export default function ClassFacets({ isMobile }: ClassFacetsProps): JSX.Element
     <div className="md:1/5 overflow-y-auto sm:w-1/6">
       <Facets
         customCssClasses={{
-          label: 'sm:text-lg text-2xl font-heading text-gold text-left',
-          container: 'lg:ml-8 overflow-y-auto',
+          container: '',
+          label: 'sm:text-lg text-2xl font-heading text-gold text-left ml-4 sm:ml-0',
           divider: 'bg-transparent',
           labelContainer: 'my-3 sm:mt-3 sm:mb-3',
-          option: 'flex items-center space-x-3 ',
+          option: 'flex items-center sm:pl-4 pl-8',
           optionInput:
             'w-3.5 h-3.5 sm:w-4 sm:h-4  form-checkbox cursor-pointer border border-gray-300 rounded-sm text-gold focus:ring-gold',
-          optionLabel: 'text-white text-heading text-base my-4 sm:my-2',
+          optionLabel: 'text-white text-heading text-base my-4 sm:my-2 pl-3',
           optionsContainer: 'sm:space-y-0',
         }}
         cssCompositionMethod="assign"
@@ -55,11 +54,9 @@ export default function ClassFacets({ isMobile }: ClassFacetsProps): JSX.Element
               other: BoxingIcon,
             },
             facetCss: {
-              // optionsContainer: 'grid grid-cols-2 sm:grid-cols-3 gap-16 sm:gap-4 mr-8 ml-8',
-              optionsContainer:
-                'sm:flex sm:flex-wrap grid grid-cols-3 gap-8 sm:gap-0 sm:mr-0 justify-items-center  sm:ml-0',
-              label: 'sm:text-xl text-2xl font-heading text-gold text-left',
-              labelContainer: 'my-8',
+              optionsContainer: isMobile ? 'grid grid-cols-3 gap-6 justify-items-center' : 'flex flex-wrap',
+              label: 'sm:text-xl text-2xl font-heading text-gold text-left ml-4 sm:ml-0',
+              labelContainer: 'my-3',
             },
             isMobile,
           },
