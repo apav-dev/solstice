@@ -39,8 +39,6 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
   }, [results]);
 
   const renderMap = () => {
-    console.log('render map');
-    console.log(state.mapLocations);
     if (!state.mapLocations) return null;
 
     return <Mapbox />;
@@ -55,7 +53,7 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
         })}
         style={{ maxHeight: '580px' }}>
         <VerticalResultsDisplay
-          results={screenSize === 'sm' ? results.slice(0, 4) : results}
+          results={results}
           CardComponent={cardComponent}
           {...(cardConfig && { cardConfig })}
           customCssClasses={{ container: 'px-4 sm:px-0' }}

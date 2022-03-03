@@ -27,7 +27,7 @@ export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
           customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:w-4/5' }}
         />
       </div>
-      <LocationBias />
+      <LocationBias customCssClasses={{ container: 'p-8' }} />
       {screenSize === 'sm' && <MobileFilterLayout />}
     </div>
   );

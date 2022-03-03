@@ -18,8 +18,8 @@ const builtInCssClasses: LocationSectionCssClasses = {
 };
 
 interface LocationSectionConfig extends SectionConfig {
-  customCssClasses?: LocationSectionCssClasses;
-  compositionmethod?: CompositionMethod;
+  customCssClasses?: LocationSectionCssClasses,
+  compositionmethod?: CompositionMethod
 }
 
 const LocationSection: SectionComponent = function (props: LocationSectionConfig): JSX.Element | null {
@@ -40,7 +40,7 @@ const LocationSection: SectionComponent = function (props: LocationSectionConfig
       <section className={cssClasses.section}>
         {header}
         <LocationResults results={results} verticalKey="locations" cardConfig={cardConfig} />
-        {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
+        {/* {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })} */}
       </section>
     </LocationProvider>
   );

@@ -2,14 +2,13 @@ import { Link } from 'react-router-dom';
 import { AppliedFiltersDisplay, AppliedFiltersProps } from '../components/AppliedFilters';
 import { ResultsCountConfig } from '../components/ResultsCount';
 import { useComposedCssClasses, CompositionMethod } from '../hooks/useComposedCssClasses';
-import { ReactComponent as MapIcon } from '../icons/map.svg';
-import { ReactComponent as ListIcon } from '../icons/list.svg';
 import { useAnswersState } from '@yext/answers-headless-react';
 import { DisplayableFilter } from '../models/displayableFilter';
 import { ResponsiveContext } from '../App';
 import { useContext } from 'react';
 import { LocationContext } from '../components/LocationContext';
 import { LocationActionTypes } from '../components/locationReducers';
+import MapToggleButton from '../components/MapToggleButton';
 
 //prettier-ignore
 interface SectionHeaderCssClasses {
@@ -43,6 +42,7 @@ interface SectionHeaderConfig {
   viewMapButton?: boolean
 }
 
+// TODO: Create Locations Header
 export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
   const {
     label,
@@ -90,15 +90,7 @@ export default function SectionHeader(props: SectionHeaderConfig): JSX.Element {
           </Link>
         </div>
       )}
-      {viewMapButton && screenSize !== 'xl' && (
-        // TODO: add toggle to flip to map and back
-        <div
-          className="ml-auto flex justify-center space-x-3 py-8 font-heading text-base text-gold hover:underline"
-          onClick={() => dispatch({ type: LocationActionTypes.ToggleMap, payload: { toggleMap: !state.showMap } })}>
-          {state.showMap ? <ListIcon /> : <MapIcon />}
-          <div>{state.showMap ? 'SHOW LIST' : 'SHOW MAP'}</div>
-        </div>
-      )}
+      {viewMapButton && screenSize !== 'xl' && <MapToggleButton />}
     </div>
   );
 }

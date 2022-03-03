@@ -38,8 +38,6 @@ const mainReducer = (
     showMap: toggleShowMapReducer(showMap, action),
   };
 
-  console.log(JSON.stringify(newState));
-
   return newState;
 };
 
