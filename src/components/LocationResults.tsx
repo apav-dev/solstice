@@ -36,9 +36,11 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
     }
     dispatch({ type: LocationActionTypes.SetMapLocations, payload: { mapLocations } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [results]);
 
   const renderMap = () => {
+    console.log('render map');
+    console.log(state.mapLocations);
     if (!state.mapLocations) return null;
 
     return <Mapbox />;
