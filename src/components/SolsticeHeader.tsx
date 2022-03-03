@@ -21,7 +21,6 @@ export function SolsticeHeader(): JSX.Element {
   const [isLarge, setIsLarge] = useState(true);
 
   useEffect(() => {
-    console.log(screenSize);
     setIsLarge(screenSize === 'lg' || screenSize === 'xl');
   }, [screenSize]);
 
