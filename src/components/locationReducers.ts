@@ -1,4 +1,4 @@
-import { MapLocationData } from './Mapbox';
+import { MapLocationData } from './mapbox/Mapbox';
 
 // prettier-ignore
 type ActionMap<M extends { [index: string]: any }> = {

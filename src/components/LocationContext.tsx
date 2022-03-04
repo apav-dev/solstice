@@ -7,7 +7,7 @@ import {
   LocationActions,
   mapLocationsReducer,
 } from './locationReducers';
-import { MapLocationData } from './Mapbox';
+import { MapLocationData } from './mapbox/Mapbox';
 
 //prettier-ignore
 type LocationStateType = {

@@ -1,15 +1,16 @@
 import { useRef, useEffect, useState, useContext } from 'react';
-import { ReactComponent as PinIcon } from '../icons/pin.svg';
-import { ReactComponent as MagnifyingGlassIcon } from '../icons/magnifying_glass.svg';
+import { ReactComponent as PinIcon } from '../../icons/pin.svg';
 import mapboxgl, { LngLat, Map } from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ReactDOM from 'react-dom';
-import { LocationContext } from './LocationContext';
-import { LocationData } from './cards/LocationCard';
-import { LocationActionTypes } from './locationReducers';
-import SearchButton from './SearchButton';
+import { LocationContext } from '../LocationContext';
+import { LocationData } from '../cards/LocationCard';
+import { LocationActionTypes } from '../locationReducers';
 import { LngLatBounds } from 'mapbox-gl';
-import { distanceInKmBetweenCoordinates } from './mapbox/mapUtils';
+import { distanceInKmBetweenCoordinates } from './mapUtils';
+import { useAnswersActions, useAnswersState } from '@yext/answers-headless-react';
+import { renderSelectedLocation } from './renderSelectedLocation';
+import { renderSearchAreaButton } from './renderSearchAreaButton';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXBhdmxpY2siLCJhIjoiY2t5NHJkODFvMGV3ZDJ0bzRnNDI1ZTNtZiJ9.VA2eTvz6Cf9jX_MG2r6u0g';
 
@@ -41,6 +42,10 @@ export default function Mapbox(): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { state, dispatch } = useContext(LocationContext);
 
+  const answersActions = useAnswersActions();
+  const searchType = useAnswersState((state) => state.meta.searchType);
+  const mostRecentSearch = useAnswersState((state) => state.query.mostRecentSearch);
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -66,14 +71,6 @@ export default function Mapbox(): JSX.Element {
 
     if (prevMapState && !map.current?.isMoving()) {
       // set showSearchButton to true if zoom changes by more than 2 of if center of map moves more than 2 km
-      console.log(
-        distanceInKmBetweenCoordinates(
-          prevMapState.mapCenter?.lat,
-          prevMapState.mapCenter?.lng,
-          mapState.mapCenter?.lat,
-          mapState.mapCenter?.lng
-        )
-      );
       if (
         Math.abs((prevMapState.zoom || 0) - (mapState?.zoom || 0)) > 2 ||
         distanceInKmBetweenCoordinates(
@@ -121,8 +118,13 @@ export default function Mapbox(): JSX.Element {
       }
     }
 
-    map.current.setCenter(bounds.getCenter());
-    map.current.fitBounds(bounds);
+    if (
+      prevMapState?.mapCenter?.lat === mapState?.mapCenter?.lat &&
+      prevMapState?.mapCenter?.lng === mapState?.mapCenter?.lng
+    ) {
+      map.current.setCenter(bounds.getCenter());
+      map.current.fitBounds(bounds);
+    }
 
     setMarkers(markerRecord);
 
@@ -189,6 +191,19 @@ export default function Mapbox(): JSX.Element {
     dispatch({ type: LocationActionTypes.SetSelectedLocation, payload: { selectedLocation } });
   }
 
+  function handleSearchAreaButtonClick() {
+    setShowSearchButton(false);
+    setPrevMapState(undefined);
+    answersActions.setQuery('');
+    answersActions.setUserLocation({
+      latitude: mapState?.mapCenter?.lat as number,
+      longitude: mapState?.mapCenter?.lng as number,
+    });
+    answersActions.setVertical('locations');
+    answersActions.executeVerticalQuery();
+    answersActions.setQuery(mostRecentSearch || '');
+  }
+
   return (
     <div className="relative justify-center">
       {/* TODO: remove inline style */}
@@ -198,44 +213,13 @@ export default function Mapbox(): JSX.Element {
           height: '580px',
         }}
       />
-      {/* TODO: move to it's own function */}
-      {showSearchButton && (
-        <button
-          className="absolute right-1/2 top-5 translate-x-1/2 transform rounded-md bg-white "
-          aria-label="Search this area"
-          // TODO: turn into handle search function
-          onClick={() => {
-            setShowSearchButton(false);
-            setPrevMapState(undefined);
-          }}>
-          <div className="flex py-1 px-2 font-heading text-black">
-            <div className="h-7 w-7">
-              <MagnifyingGlassIcon />
-            </div>
-            <span className="">Search this area</span>
-          </div>
-        </button>
-      )}
-      {/* TODO: move to it's own function */}
-      {state.selectedLocation && (
-        <div className="absolute bottom-2 left-0 right-0 mx-auto flex w-96 justify-center rounded-xl bg-white">
-          <div className="flex space-x-2 p-2">
-            <div
-              className="h-20 w-full rounded-lg bg-cover shadow-gym"
-              style={{
-                backgroundImage: `url(https://a.mktgcdn.com/p/Yyz-pNtNAlYZKTSQpzQaPrHi_q7-xmZns9UMvK30Vh8/2370x1422.jpg)`,
-              }}
-            />
-            <div className="">
-              <span className="inline-flex font-heading text-sm text-black">{state.selectedLocation.name}</span>
-              <span className="inline-flex font-body text-sm text-black">
-                {`${state.selectedLocation.address?.line1} `}
-              </span>
-              <span className="inline-flex font-body text-sm text-black">{`${state.selectedLocation.address?.city}, ${state.selectedLocation.address?.region} ${state.selectedLocation.address?.postalCode}`}</span>
-            </div>
-          </div>
-        </div>
-      )}
+      {showSearchButton && searchType === 'vertical' && renderSearchAreaButton(handleSearchAreaButtonClick)}
+      {state.selectedLocation &&
+        renderSelectedLocation(
+          state.selectedLocation.name,
+          state.selectedLocation.address?.line1,
+          `${state.selectedLocation.address?.city}, ${state.selectedLocation.address?.region}, ${state.selectedLocation.address?.postalCode}`
+        )}
     </div>
   );
 }

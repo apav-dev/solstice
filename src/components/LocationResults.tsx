@@ -5,7 +5,7 @@ import { SectionConfig } from '../models/sectionComponent';
 import { StandardCard } from './cards/StandardCard';
 import { LocationContext } from './LocationContext';
 import { LocationActionTypes } from './locationReducers';
-import Mapbox, { MapLocationData } from './Mapbox';
+import Mapbox, { MapLocationData } from './mapbox/Mapbox';
 import { VerticalResultsDisplay } from './VerticalResults';
 
 interface LocationResultsProps extends SectionConfig {}
