@@ -8,7 +8,7 @@ import { LocationData } from '../cards/LocationCard';
 import { LocationActionTypes } from '../locationReducers';
 import { LngLatBounds } from 'mapbox-gl';
 import { distanceInKmBetweenCoordinates } from './mapUtils';
-import { useAnswersActions, useAnswersState } from '@yext/answers-headless-react';
+import { Matcher, useAnswersActions, useAnswersState } from '@yext/answers-headless-react';
 import { renderSelectedLocation } from './renderSelectedLocation';
 import { renderSearchAreaButton } from './renderSearchAreaButton';
 
@@ -29,17 +29,15 @@ type MapMarkers = {
 
 export default function Mapbox(): JSX.Element {
   const [markers, setMarkers] = useState<MapMarkers>({});
+  const [bounds, setBounds] = useState<mapboxgl.LngLatBounds>();
   //prettier-ignore
   const [mapState, setMapState] = useState<{ mapCenter?: LngLat, mapBounds?: LngLatBounds, zoom?: number } | undefined>();
   //prettier-ignore
-  const [prevMapState, setPrevMapState] = useState<
-    { mapCenter?: LngLat, mapBounds?: LngLatBounds, zoom?: number } | undefined
-  >();
+  const [prevMapState, setPrevMapState] = useState<{ mapCenter?: LngLat, mapBounds?: LngLatBounds, zoom?: number } | undefined>();
   const [showSearchButton, setShowSearchButton] = useState(false);
 
   const mapContainer = useRef(null);
   const map = useRef<Map | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { state, dispatch } = useContext(LocationContext);
 
   const answersActions = useAnswersActions();
@@ -63,6 +61,29 @@ export default function Mapbox(): JSX.Element {
   }, []);
 
   useEffect(() => {
+    if (map.current && bounds) {
+      state.mapLocations?.forEach((location) => {
+        if (
+          location.yextDisplayCoordinate &&
+          map.current &&
+          !map.current
+            ?.getBounds()
+            .contains([location.yextDisplayCoordinate.longitude, location.yextDisplayCoordinate.latitude])
+        ) {
+          dispatch({ type: LocationActionTypes.ClearSelectedLocation, payload: {} });
+          map.current.setCenter(bounds.getCenter());
+          map.current.fitBounds(bounds, { padding: { top: 25, bottom: 25, left: 25, right: 25 }, maxZoom: 15 });
+        }
+      });
+    }
+  }, [markers]);
+
+  // resize map when showMap is clicked
+  useEffect(() => {
+    state.showMap && map.current && map.current.resize();
+  }, [state.showMap]);
+
+  useEffect(() => {
     if (!mapState) return;
 
     if (!prevMapState) {
@@ -70,7 +91,7 @@ export default function Mapbox(): JSX.Element {
     }
 
     if (prevMapState && !map.current?.isMoving()) {
-      // set showSearchButton to true if zoom changes by more than 2 of if center of map moves more than 2 km
+      // set showSearchButton to true if zoom changes by more than 2 of if center of map moves more than 1 km
       if (
         Math.abs((prevMapState.zoom || 0) - (mapState?.zoom || 0)) > 2 ||
         distanceInKmBetweenCoordinates(
@@ -78,64 +99,66 @@ export default function Mapbox(): JSX.Element {
           prevMapState.mapCenter?.lng,
           mapState.mapCenter?.lat,
           mapState.mapCenter?.lng
-        ) > 2
+        ) > 1
       ) {
         setShowSearchButton(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapState]);
 
   useEffect(() => {
-    state.showMap && map.current && map.current.resize();
-  }, [state.showMap]);
-
-  // TODO: Hide pins that aren't in marker list
-  useEffect(() => {
-    if (map === null || map.current === null || !state.mapLocations || state.mapLocations.length === 0) return;
-
     let markerRecord: MapMarkers = markers;
-    const bounds = new mapboxgl.LngLatBounds();
+    if (map && map.current && state.mapLocations && state.mapLocations.length !== 0) {
+      const bounds = new mapboxgl.LngLatBounds();
 
-    for (const marker of (state.mapLocations || []).values()) {
-      if (marker.yextDisplayCoordinate) {
-        const coord: [number, number] = [marker.yextDisplayCoordinate.longitude, marker.yextDisplayCoordinate.latitude];
-        marker.yextDisplayCoordinate && bounds.extend(coord);
+      // render new map pins
+      for (const marker of (state.mapLocations || []).values()) {
+        if (marker.yextDisplayCoordinate) {
+          const coord: [number, number] = [
+            marker.yextDisplayCoordinate.longitude,
+            marker.yextDisplayCoordinate.latitude,
+          ];
+          marker.yextDisplayCoordinate && bounds.extend(coord);
 
-        if (marker.id && !markers[marker.id]) {
-          const pin_el = generateMapPin(marker);
+          if (marker.id && !markers[marker.id]) {
+            const pin_el = generateMapPin(marker);
 
-          ReactDOM.render(<PinIcon />, pin_el);
+            ReactDOM.render(<PinIcon />, pin_el);
 
-          const mapMarker = new mapboxgl.Marker(pin_el);
+            const mapMarker = new mapboxgl.Marker(pin_el);
 
-          markerRecord = {
-            ...markerRecord,
-            [marker.id]: mapMarker,
-          };
+            markerRecord = {
+              ...markerRecord,
+              [marker.id]: mapMarker,
+            };
 
-          new mapboxgl.Marker(pin_el).setLngLat(coord).addTo(map.current);
+            new mapboxgl.Marker(pin_el).setLngLat(coord).addTo(map.current);
+          }
         }
       }
-    }
 
-    if (
-      prevMapState?.mapCenter?.lat === mapState?.mapCenter?.lat &&
-      prevMapState?.mapCenter?.lng === mapState?.mapCenter?.lng
-    ) {
-      map.current.setCenter(bounds.getCenter());
-      map.current.fitBounds(bounds);
-    }
+      setBounds(bounds);
+      setMarkers(markerRecord);
 
-    setMarkers(markerRecord);
-
-    // event listener to change map state after pins are placed
-    map.current.on('moveend', () => {
-      setMapState({
-        mapBounds: map.current?.getBounds(),
-        mapCenter: map.current?.getCenter(),
-        zoom: Math.floor(map.current?.getZoom() || 0),
+      // event listener to change map state after pins are placed
+      map.current.on('moveend', () => {
+        setMapState({
+          mapBounds: map.current?.getBounds(),
+          mapCenter: map.current?.getCenter(),
+          zoom: Math.floor(map.current?.getZoom() || 0),
+        });
       });
-    });
+    }
+
+    // remove pins not in search results
+    for (const marker of Object.entries(markers)) {
+      const [id, pin] = marker;
+      if (!state.mapLocations || !state.mapLocations.map((ml) => ml.id).includes(id)) {
+        pin.remove();
+        delete markerRecord[id];
+      }
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.mapLocations]);
@@ -192,16 +215,42 @@ export default function Mapbox(): JSX.Element {
   }
 
   function handleSearchAreaButtonClick() {
+    dispatch({ type: LocationActionTypes.ClearSelectedLocation, payload: {} });
     setShowSearchButton(false);
     setPrevMapState(undefined);
+
+    // set blank query with location filter
     answersActions.setQuery('');
+    answersActions.setStaticFilters([
+      {
+        fieldId: 'builtin.location',
+        selected: true,
+        matcher: Matcher.Near,
+        value: {
+          radius:
+            1000 *
+            distanceInKmBetweenCoordinates(
+              mapState?.mapCenter?.lat,
+              mapState?.mapCenter?.lng,
+              mapState?.mapBounds?.getNorthEast().lat,
+              mapState?.mapCenter?.lng
+            ),
+          lat: mapState?.mapCenter?.lat as number,
+          lng: mapState?.mapCenter?.lng as number,
+        },
+      },
+    ]);
     answersActions.setUserLocation({
       latitude: mapState?.mapCenter?.lat as number,
       longitude: mapState?.mapCenter?.lng as number,
     });
     answersActions.setVertical('locations');
+
     answersActions.executeVerticalQuery();
+
+    // reset state back from before button click
     answersActions.setQuery(mostRecentSearch || '');
+    answersActions.setStaticFilters([]);
   }
 
   return (

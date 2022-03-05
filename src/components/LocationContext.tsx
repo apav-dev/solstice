@@ -37,7 +37,6 @@ const mainReducer = (
     mapLocations: mapLocationsReducer(mapLocations ?? [], action),
     showMap: toggleShowMapReducer(showMap, action),
   };
-
   return newState;
 };
 
