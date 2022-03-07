@@ -11,7 +11,7 @@ import DirectAnswer from '../components/DirectAnswer';
 import SpellCheck from '../components/SpellCheck';
 
 export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
-  usePageSetupEffect(verticalKey);
+  usePageSetupEffect({ verticalKey });
   const screenSize = useContext(ResponsiveContext);
 
   return (

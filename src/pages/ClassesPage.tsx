@@ -13,7 +13,7 @@ import MobileFilterLayout from '../components/MobileFilterLayout';
 import ClassFacets from '../components/ClassFacets';
 
 export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
-  usePageSetupEffect(verticalKey);
+  usePageSetupEffect({ verticalKey });
   const screenSize = useContext(ResponsiveContext);
 
   return (

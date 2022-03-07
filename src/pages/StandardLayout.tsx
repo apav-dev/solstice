@@ -12,7 +12,7 @@ import Navigation from '../components/Navigation';
 
 const navLinks = [
   {
-    to: '/',
+    to: '/all',
     label: 'All',
   },
   ...Object.entries(universalResultsConfig).map(([verticalKey, config]) => ({

@@ -35,7 +35,7 @@ const filterSearchFields = [
 ];
 
 export default function LocationsPage({ verticalKey }: { verticalKey: string }) {
-  usePageSetupEffect(verticalKey);
+  usePageSetupEffect({ verticalKey });
 
   const screenSize = useContext(ResponsiveContext);
 
