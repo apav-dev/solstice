@@ -9,6 +9,7 @@ import LocationBias from '../components/LocationBias';
 import ResultsCount from '../components/ResultsCount';
 import DirectAnswer from '../components/DirectAnswer';
 import SpellCheck from '../components/SpellCheck';
+import AlternativeVerticals from '../components/AlternativeVerticals';
 
 export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
   usePageSetupEffect({ verticalKey });
@@ -17,8 +18,22 @@ export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
   return (
     <div className="flex flex-col">
       <DirectAnswer />
-      <SpellCheck />
-      <ResultsCount />
+      <SpellCheck
+        cssCompositionMethod="assign"
+        customCssClasses={{
+          container: 'font-body text-xl',
+          helpText: '',
+          link: 'text-gold font-bold cursor-pointer hover:underline focus:underline',
+        }}
+      />
+      <ResultsCount cssCompositionMethod="assign" customCssClasses={{ text: 'text-sm font-body' }} />
+      <AlternativeVerticals
+        currentVerticalLabel="Locations"
+        verticalsConfig={[
+          { label: 'Classes', verticalKey: 'classes' },
+          { label: 'Locations', verticalKey: 'locations' },
+        ]}
+      />
       <div className="flex justify-center space-x-4 ">
         {screenSize !== 'sm' && <ClassFacets />}
         <VerticalResults

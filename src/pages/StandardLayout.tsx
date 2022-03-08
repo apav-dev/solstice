@@ -39,7 +39,11 @@ const StandardLayout: LayoutComponent = ({ page }) => {
             isVertical ? verticalKey && verticalKey.charAt(0).toUpperCase() + verticalKey.slice(1) : 'Results'
           }`}</div>
           {isVertical ? (
-            <SearchBar placeholder="Search..." screenReaderInstructionsId="SearchBar__srInstructions" />
+            <SearchBar
+              placeholder="Search..."
+              screenReaderInstructionsId="SearchBar__srInstructions"
+              customCssClasses={{ container: 'font-body' }}
+            />
           ) : (
             <SampleVisualSearchBar />
           )}

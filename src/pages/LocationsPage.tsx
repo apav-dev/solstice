@@ -47,8 +47,15 @@ export default function LocationsPage({ verticalKey }: { verticalKey: string }) 
       <div className="flex">
         <div className="flex-grow">
           <DirectAnswer />
-          <SpellCheck />
-          <ResultsCount />
+          <SpellCheck
+            cssCompositionMethod="assign"
+            customCssClasses={{
+              container: 'font-body text-xl',
+              helpText: '',
+              link: 'text-gold font-bold cursor-pointer hover:underline focus:underline',
+            }}
+          />
+          <ResultsCount cssCompositionMethod="assign" customCssClasses={{ text: 'text-sm font-body' }} />
           {/* <AppliedFilters
           hiddenFields={['builtin.entityType']}
           customCssClasses={{
@@ -56,14 +63,13 @@ export default function LocationsPage({ verticalKey }: { verticalKey: string }) 
             removableFilter: 'mb-4',
           }}
         /> */}
-          {/* <AlternativeVerticals
-          currentVerticalLabel="Locations"
-          verticalsConfig={[
-            { label: 'FAQs', verticalKey: 'faqs' },
-            { label: 'Jobs', verticalKey: 'jobs' },
-            { label: 'Events', verticalKey: 'events' },
-          ]}
-        /> */}
+          <AlternativeVerticals
+            currentVerticalLabel="Locations"
+            verticalsConfig={[
+              { label: 'Classes', verticalKey: 'classes' },
+              { label: 'Trainers', verticalKey: 'trainers' },
+            ]}
+          />
           {/* <VerticalResults CardComponent={LocationCard} displayAllResults={true} /> */}
           {results.length > 0 && screenSize === 'sm' && (
             <div className="pb-2">

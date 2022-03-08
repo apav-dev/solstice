@@ -19,13 +19,23 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
   return (
     <div>
       <DirectAnswer />
-      <SpellCheck />
-      <ResultsCount />
+      <SpellCheck
+        cssCompositionMethod="assign"
+        customCssClasses={{
+          container: 'font-body text-xl',
+          helpText: '',
+          link: 'text-gold font-bold cursor-pointer hover:underline focus:underline',
+        }}
+      />
+      <ResultsCount cssCompositionMethod="assign" customCssClasses={{ text: 'text-sm font-body' }} />
       <AppliedFilters filterBarType="sentence" />
-      {/* <AlternativeVerticals
+      <AlternativeVerticals
         currentVerticalLabel="Classes"
-        verticalsConfig={[{ label: 'Locations', verticalKey: 'locations' }]}
-      /> */}
+        verticalsConfig={[
+          { label: 'Locations', verticalKey: 'locations' },
+          { label: 'Trainers', verticalKey: 'trainers' },
+        ]}
+      />
       <div className="flex space-x-4">
         {screenSize !== 'sm' && <ClassFacets />}
         <VerticalResults

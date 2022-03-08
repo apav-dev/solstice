@@ -1,7 +1,5 @@
 import SearchBar from '../components/SearchBar';
 import { SolsticeHeader } from '../components/SolsticeHeader';
-// import {} from '../img';
-// src/img/deadlift.jpg
 export default function HomeLayout() {
   const width = window.innerWidth === window.outerWidth ? window.innerWidth : window.outerWidth;
 
@@ -20,8 +18,7 @@ export default function HomeLayout() {
         <SearchBar
           placeholder="Search for Locations, Classes, Trainers"
           screenReaderInstructionsId="SearchBar__srInstructions"
-          cssCompositionMethod="assign"
-          customCssClasses={{ container: 'h-12 mb-3 text-black sm:w-1/3 font-body' }}
+          customCssClasses={{ container: 'font-body' }}
         />
       </div>
     </div>
