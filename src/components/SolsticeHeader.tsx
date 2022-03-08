@@ -5,7 +5,7 @@ import { ReactComponent as CloseMenuIcon } from '../icons/close_menu.svg';
 import { ReactComponent as SunIcon } from '../icons/sun.svg';
 
 const cssClasses = {
-  container: 'flex px-4 sm:h-24 h-7.5 items-center justify-between',
+  container: 'flex px-4 sm:h-24 items-center justify-between',
   topContainer: 'flex items-center',
   solsticeLabel: 'flex items-center space-x-2 font-heading text-3xl',
   headerContainer: 'flex  items-center font-heading',

@@ -15,6 +15,9 @@ export default function App() {
   useEffect(() => {
     updateDimensions();
 
+    console.log('outer width: ' + window.outerWidth);
+    console.log('inner width: ' + window.innerWidth);
+
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
