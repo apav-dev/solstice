@@ -58,6 +58,9 @@ export default function Mapbox(): JSX.Element {
 
     // disable map rotation using touch rotation gesture
     map.current.touchZoomRotate.disableRotation();
+
+    // Add zoom and rotation controls to the map.
+    map.current.addControl(new mapboxgl.NavigationControl());
   }, []);
 
   useEffect(() => {
