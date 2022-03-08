@@ -7,7 +7,7 @@ import { LocationContext } from '../LocationContext';
 import { LocationData } from '../cards/LocationCard';
 import { LocationActionTypes } from '../locationReducers';
 import { LngLatBounds } from 'mapbox-gl';
-import { distanceInKmBetweenCoordinates } from './mapUtils';
+import { distanceInKmBetweenCoordinates, getGeocodeForQuery } from './mapUtils';
 import { Matcher, useAnswersActions, useAnswersState } from '@yext/answers-headless-react';
 import { renderSelectedLocation } from './renderSelectedLocation';
 import { renderSearchAreaButton } from './renderSearchAreaButton';
@@ -27,6 +27,8 @@ type MapMarkers = {
   [locationId: string]: mapboxgl.Marker 
 };
 
+type MapboxSearchType = 'none' | 'button' | 'google';
+
 export default function Mapbox(): JSX.Element {
   const [markers, setMarkers] = useState<MapMarkers>({});
   const [bounds, setBounds] = useState<mapboxgl.LngLatBounds>();
@@ -35,6 +37,8 @@ export default function Mapbox(): JSX.Element {
   //prettier-ignore
   const [prevMapState, setPrevMapState] = useState<{ mapCenter?: LngLat, mapBounds?: LngLatBounds, zoom?: number } | undefined>();
   const [showSearchButton, setShowSearchButton] = useState(false);
+  const [mapboxSearchType, setMapboxSearchType] = useState<MapboxSearchType>('none');
+  const [newCenter, setFlyTo] = useState<LngLat | undefined>();
 
   const mapContainer = useRef(null);
   const map = useRef<Map | null>(null);
@@ -43,6 +47,7 @@ export default function Mapbox(): JSX.Element {
   const answersActions = useAnswersActions();
   const searchType = useAnswersState((state) => state.meta.searchType);
   const mostRecentSearch = useAnswersState((state) => state.query.mostRecentSearch);
+  const query = useAnswersState((state) => state.query.input);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -79,6 +84,7 @@ export default function Mapbox(): JSX.Element {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markers]);
 
   // resize map when showMap is clicked
@@ -112,37 +118,45 @@ export default function Mapbox(): JSX.Element {
 
   useEffect(() => {
     let markerRecord: MapMarkers = markers;
-    if (map && map.current && state.mapLocations && state.mapLocations.length !== 0) {
-      const bounds = new mapboxgl.LngLatBounds();
+    if (map && map.current) {
+      if (state.mapLocations && state.mapLocations.length !== 0) {
+        const bounds = new mapboxgl.LngLatBounds();
 
-      // render new map pins
-      for (const marker of (state.mapLocations || []).values()) {
-        if (marker.yextDisplayCoordinate) {
-          const coord: [number, number] = [
-            marker.yextDisplayCoordinate.longitude,
-            marker.yextDisplayCoordinate.latitude,
-          ];
-          marker.yextDisplayCoordinate && bounds.extend(coord);
+        // render new map pins
+        for (const marker of (state.mapLocations || []).values()) {
+          if (marker.yextDisplayCoordinate) {
+            const coord: [number, number] = [
+              marker.yextDisplayCoordinate.longitude,
+              marker.yextDisplayCoordinate.latitude,
+            ];
+            marker.yextDisplayCoordinate && bounds.extend(coord);
 
-          if (marker.id && !markers[marker.id]) {
-            const pin_el = generateMapPin(marker);
+            if (marker.id && !markers[marker.id]) {
+              const pin_el = generateMapPin(marker);
 
-            ReactDOM.render(<PinIcon />, pin_el);
+              ReactDOM.render(<PinIcon />, pin_el);
 
-            const mapMarker = new mapboxgl.Marker(pin_el);
+              const mapMarker = new mapboxgl.Marker(pin_el);
 
-            markerRecord = {
-              ...markerRecord,
-              [marker.id]: mapMarker,
-            };
+              markerRecord = {
+                ...markerRecord,
+                [marker.id]: mapMarker,
+              };
 
-            new mapboxgl.Marker(pin_el).setLngLat(coord).addTo(map.current);
+              new mapboxgl.Marker(pin_el).setLngLat(coord).addTo(map.current);
+            }
           }
         }
-      }
 
-      setBounds(bounds);
-      setMarkers(markerRecord);
+        setBounds(bounds);
+        setMarkers(markerRecord);
+        setMapboxSearchType('none');
+      } else if (mapboxSearchType === 'none') {
+        positionMapForNoResults();
+      } else if (mapboxSearchType === 'google') {
+        resizeToPoint();
+        setMapboxSearchType('none');
+      }
 
       // event listener to change map state after pins are placed
       map.current.on('moveend', () => {
@@ -221,6 +235,9 @@ export default function Mapbox(): JSX.Element {
     dispatch({ type: LocationActionTypes.ClearSelectedLocation, payload: {} });
     setShowSearchButton(false);
     setPrevMapState(undefined);
+    const lastQuery = query;
+
+    setMapboxSearchType('button');
 
     // set blank query with location filter
     answersActions.setQuery('');
@@ -252,8 +269,30 @@ export default function Mapbox(): JSX.Element {
     answersActions.executeVerticalQuery();
 
     // reset state back from before button click
-    answersActions.setQuery(mostRecentSearch || '');
+    answersActions.setQuery(lastQuery || '');
     answersActions.setStaticFilters([]);
+  }
+
+  async function positionMapForNoResults() {
+    const googleLocation = await getGeocodeForQuery(query || '');
+
+    if (googleLocation.lng && googleLocation.lat) {
+      setFlyTo(new LngLat(googleLocation.lng, googleLocation.lat));
+    }
+    if (googleLocation.city && googleLocation.state) {
+      answersActions.setQuery(`${googleLocation.city} ${googleLocation.state}`);
+      answersActions.executeVerticalQuery();
+      answersActions.setQuery(mostRecentSearch || '');
+      setMapboxSearchType('google');
+    }
+  }
+
+  function resizeToPoint() {
+    if (map.current && newCenter) {
+      map.current.setCenter(newCenter);
+      map.current.resize();
+      setFlyTo(undefined);
+    }
   }
 
   return (

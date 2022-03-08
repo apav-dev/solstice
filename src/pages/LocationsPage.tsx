@@ -1,20 +1,12 @@
 import ResultsCount from '../components/ResultsCount';
-import AlternativeVerticals from '../components/AlternativeVerticals';
-import AppliedFilters from '../components/AppliedFilters';
 import DirectAnswer from '../components/DirectAnswer';
-import VerticalResults from '../components/VerticalResults';
 import SpellCheck from '../components/SpellCheck';
 import LocationBias from '../components/LocationBias';
-import { StandardCard } from '../components/cards/StandardCard';
 import usePageSetupEffect from '../hooks/usePageSetupEffect';
-import Facets from '../components/Facets';
-import FilterSearch from '../components/FilterSearch';
-import { Divider } from '../components/StaticFilters';
 import { LocationCard } from '../components/cards/LocationCard';
 import { LocationProvider } from '../components/LocationContext';
 import { ResponsiveContext } from '../App';
 import { useContext } from 'react';
-import renderViewAllLink from '../utils/renderViewAllLink';
 import { useAnswersState } from '@yext/answers-headless-react';
 import LocationResults from '../components/LocationResults';
 import MapToggleButton from '../components/MapToggleButton';
@@ -63,13 +55,6 @@ export default function LocationsPage({ verticalKey }: { verticalKey: string }) 
             removableFilter: 'mb-4',
           }}
         /> */}
-          <AlternativeVerticals
-            currentVerticalLabel="Locations"
-            verticalsConfig={[
-              { label: 'Classes', verticalKey: 'classes' },
-              { label: 'Trainers', verticalKey: 'trainers' },
-            ]}
-          />
           {/* <VerticalResults CardComponent={LocationCard} displayAllResults={true} /> */}
           {results.length > 0 && screenSize === 'sm' && (
             <div className="pb-2">

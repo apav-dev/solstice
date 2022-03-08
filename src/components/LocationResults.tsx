@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { useContext, useEffect } from 'react';
 import { ResponsiveContext } from '../App';
 import { SectionConfig } from '../models/sectionComponent';
+import AlternativeVerticals from './AlternativeVerticals';
 import { StandardCard } from './cards/StandardCard';
 import { LocationContext } from './LocationContext';
 import { LocationActionTypes } from './locationReducers';
@@ -52,6 +53,15 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
           'w-full': !state.showMap,
         })}
         style={{ maxHeight: '580px' }}>
+        <AlternativeVerticals
+          currentVerticalLabel="Locations"
+          verticalsConfig={[
+            { label: 'Classes', verticalKey: 'classes' },
+            { label: 'Trainers', verticalKey: 'trainers' },
+          ]}
+          cssCompositionMethod="assign"
+          customCssClasses={{ container: 'flex flex-col justify-between mb-4 p-4 shadow-sm' }}
+        />
         <VerticalResultsDisplay
           results={results}
           CardComponent={cardComponent}
