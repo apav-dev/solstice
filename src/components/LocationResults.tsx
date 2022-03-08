@@ -48,26 +48,42 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
   return (
     <div className="flex">
       <div
-        className={classNames('overflow-y-auto pl-1 sm:overflow-auto sm:border lg:w-1/4', {
+        className={classNames('overflow-y-auto sm:overflow-auto sm:border lg:w-1/4', {
           hidden: state.showMap,
           'w-full': !state.showMap,
         })}
         style={{ maxHeight: '580px' }}>
-        <AlternativeVerticals
-          currentVerticalLabel="Locations"
-          verticalsConfig={[
-            { label: 'Classes', verticalKey: 'classes' },
-            { label: 'Trainers', verticalKey: 'trainers' },
-          ]}
-          cssCompositionMethod="assign"
-          customCssClasses={{ container: 'flex flex-col justify-between mb-4 p-4 shadow-sm' }}
-        />
-        <VerticalResultsDisplay
-          results={results}
-          CardComponent={cardComponent}
-          {...(cardConfig && { cardConfig })}
-          customCssClasses={{ container: 'px-4 sm:px-0' }}
-        />
+        {state.mapLocations && state.mapLocations.length > 0 ? (
+          <VerticalResultsDisplay
+            results={results}
+            CardComponent={cardComponent}
+            {...(cardConfig && { cardConfig })}
+            customCssClasses={{ container: 'px-4 sm:px-0' }}
+          />
+        ) : state.noGymsLocation ? (
+          <div className="inline-block items-center text-center">
+            <span className="font-heading text-xl">
+              Sorry! We don't have any locations in <span className="text-gold">{state.noGymsLocation}</span>
+            </span>
+          </div>
+        ) : (
+          <AlternativeVerticals
+            currentVerticalLabel="Locations"
+            verticalsConfig={[
+              { label: 'Classes', verticalKey: 'classes' },
+              { label: 'Trainers', verticalKey: 'trainers' },
+            ]}
+            cssCompositionMethod="assign"
+            customCssClasses={{
+              container: 'flex flex-col justify-between mb-4 p-4 shadow-sm',
+              noResultsText: 'text-lg font-heading pb-2',
+              categoriesText: 'font-body',
+              suggestions: 'pt-4 ',
+              suggestion: 'pb-4 text-gold font-heading',
+              allCategoriesLink: 'text-gold cursor-pointer hover:underline focus:underline',
+            }}
+          />
+        )}
       </div>
       <div className={classNames('w-full xl:w-3/4', { hidden: screenSize !== 'xl' && !state.showMap })}>
         {renderMap()}

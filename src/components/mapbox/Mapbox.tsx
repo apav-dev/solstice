@@ -120,6 +120,10 @@ export default function Mapbox(): JSX.Element {
     let markerRecord: MapMarkers = markers;
     if (map && map.current) {
       if (state.mapLocations && state.mapLocations.length !== 0) {
+        dispatch({
+          type: LocationActionTypes.ClearNoGymsLocation,
+        });
+
         const bounds = new mapboxgl.LngLatBounds();
 
         // render new map pins
@@ -279,15 +283,25 @@ export default function Mapbox(): JSX.Element {
     if (googleLocation.lng && googleLocation.lat) {
       setFlyTo(new LngLat(googleLocation.lng, googleLocation.lat));
     }
+
     if (googleLocation.city && googleLocation.state) {
-      answersActions.setQuery(`${googleLocation.city} ${googleLocation.state}`);
+      dispatch({
+        type: LocationActionTypes.SetNoGymsLocation,
+        payload: `${googleLocation.city} ${googleLocation.state}`,
+      });
+      answersActions.setQuery(`${googleLocation.city}, ${googleLocation.state}`);
       answersActions.executeVerticalQuery();
       answersActions.setQuery(mostRecentSearch || '');
       setMapboxSearchType('google');
+    } else {
+      dispatch({
+        type: LocationActionTypes.ClearNoGymsLocation,
+      });
     }
   }
 
   function resizeToPoint() {
+    debugger;
     if (map.current && newCenter) {
       map.current.setCenter(newCenter);
       map.current.resize();

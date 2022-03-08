@@ -6,6 +6,7 @@ import {
   MapActions,
   LocationActions,
   mapLocationsReducer,
+  noGymsLocationReducer,
 } from './locationReducers';
 import { MapLocationData } from './mapbox/Mapbox';
 
@@ -14,7 +15,8 @@ type LocationStateType = {
   hoveredLocation?: MapLocationData,
   selectedLocation?: MapLocationData,
   mapLocations?: MapLocationData[],
-  showMap: boolean
+  showMap: boolean,
+  noGymsLocation?: string
 };
 
 const locationState = {
@@ -28,7 +30,7 @@ export const LocationContext = createContext<{ state: LocationStateType, dispatc
 });
 
 const mainReducer = (
-  { hoveredLocation, selectedLocation, mapLocations, showMap }: LocationStateType,
+  { hoveredLocation, selectedLocation, mapLocations, showMap, noGymsLocation }: LocationStateType,
   action: MapActions | LocationActions
 ): LocationStateType => {
   const newState = {
@@ -36,6 +38,7 @@ const mainReducer = (
     selectedLocation: selectedLocationReducer(selectedLocation, action),
     mapLocations: mapLocationsReducer(mapLocations ?? [], action),
     showMap: toggleShowMapReducer(showMap, action),
+    noGymsLocation: noGymsLocationReducer(noGymsLocation, action),
   };
   return newState;
 };
