@@ -1,7 +1,5 @@
 import Geocode from 'react-geocode';
 
-const googleApiKey = 'AIzaSyA3rH4M_B_yOQRvoQ2YuNPxHBDbczTBAAg';
-
 function degreesToRadians(degrees: number) {
   return (degrees * Math.PI) / 180;
 }
@@ -33,33 +31,37 @@ export interface GoogleLocation {
 }
 
 export async function getGeocodeForQuery(query: string): Promise<GoogleLocation> {
-  Geocode.setApiKey(googleApiKey);
-  try {
-    const response = await Geocode.fromAddress(query);
+  if (process.env.REACT_APP_GOOGLE_API_KEY) {
+    Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
+    try {
+      const response = await Geocode.fromAddress(query);
 
-    if (response) {
-      const { lng, lat } = response.results[0].geometry.location;
+      if (response) {
+        const { lng, lat } = response.results[0].geometry.location;
 
-      let city, state;
-      for (let i = 0; i < response.results[0].address_components.length; i++) {
-        for (let j = 0; j < response.results[0].address_components[i].types.length; j++) {
-          switch (response.results[0].address_components[i].types[j]) {
-            case 'locality':
-              city = response.results[0].address_components[i].long_name;
-              break;
-            case 'administrative_area_level_1':
-              state = response.results[0].address_components[i].long_name;
-              break;
+        let city, state;
+        for (let i = 0; i < response.results[0].address_components.length; i++) {
+          for (let j = 0; j < response.results[0].address_components[i].types.length; j++) {
+            switch (response.results[0].address_components[i].types[j]) {
+              case 'locality':
+                city = response.results[0].address_components[i].long_name;
+                break;
+              case 'administrative_area_level_1':
+                state = response.results[0].address_components[i].long_name;
+                break;
+            }
           }
         }
-      }
 
-      return { lng, lat, city, state };
-    } else {
+        return { lng, lat, city, state };
+      } else {
+        return {};
+      }
+    } catch (error) {
+      console.log('Invalid Address');
       return {};
     }
-  } catch (error) {
-    console.log('Invalid Address');
+  } else {
     return {};
   }
 }
