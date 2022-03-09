@@ -56,7 +56,7 @@ export default function LocationsPage({ verticalKey }: { verticalKey: string }) 
           }}
         /> */}
           {/* <VerticalResults CardComponent={LocationCard} displayAllResults={true} /> */}
-          {results.length > 0 && screenSize === 'sm' && (
+          {screenSize === 'sm' && (
             <div className="pb-2">
               <MapToggleButton />
             </div>
