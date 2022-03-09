@@ -20,8 +20,8 @@ export enum LocationActionTypes {
   ClearSelectedLocation = 'CLEAR_SELECTED_LOCATION',
   SetMapLocations = 'SET_MAP_LOCATIONS',
   ClearMapLocations = 'CLEAR_MAP_LOCATIONS',
-  SetNoGymsLocation = 'SET_NO_GYMS_LOCATION',
-  ClearNoGymsLocation = 'CLEAR_NO_GYMS_LOCATIONS',
+  SetNoGymsMessage = 'SET_NO_GYMS_MESSAGE',
+  ClearNoGymsMessage = 'CLEAR_NO_GYMS_MESSAGE',
 }
 
 // Map Toggle
@@ -60,8 +60,8 @@ type LocationPayload = {
     mapLocations: MapLocationData[]
   },
   [LocationActionTypes.ClearMapLocations]: [],
-  [LocationActionTypes.SetNoGymsLocation]: string,
-  [LocationActionTypes.ClearNoGymsLocation]: undefined
+  [LocationActionTypes.SetNoGymsMessage]: string,
+  [LocationActionTypes.ClearNoGymsMessage]: undefined
 }
 
 export type LocationActions = ActionMap<LocationPayload>[keyof ActionMap<LocationPayload>];
@@ -101,9 +101,9 @@ export const mapLocationsReducer = (state: MapLocationData[], action: MapActions
 
 export const noGymsLocationReducer = (state: string | undefined, action: MapActions | LocationActions) => {
   switch (action.type) {
-    case LocationActionTypes.SetNoGymsLocation:
+    case LocationActionTypes.SetNoGymsMessage:
       return action.payload;
-    case LocationActionTypes.ClearNoGymsLocation:
+    case LocationActionTypes.ClearNoGymsMessage:
       return undefined;
     default:
       return state;

@@ -15,7 +15,14 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
 
   return (
     <div>
-      <SpellCheck />
+      <SpellCheck
+        cssCompositionMethod="assign"
+        customCssClasses={{
+          container: 'font-body text-xl',
+          helpText: '',
+          link: 'text-gold font-bold cursor-pointer hover:underline focus:underline',
+        }}
+      />
       <DirectAnswer />
       <UniversalResults
         appliedFiltersConfig={universalResultsFilterConfig}

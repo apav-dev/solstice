@@ -121,7 +121,7 @@ export default function Mapbox(): JSX.Element {
     if (map && map.current) {
       if (state.mapLocations && state.mapLocations.length !== 0) {
         dispatch({
-          type: LocationActionTypes.ClearNoGymsLocation,
+          type: LocationActionTypes.ClearNoGymsMessage,
         });
 
         const bounds = new mapboxgl.LngLatBounds();
@@ -159,6 +159,8 @@ export default function Mapbox(): JSX.Element {
         positionMapForNoResults();
       } else if (mapboxSearchType === 'google') {
         resizeToPoint();
+        setMapboxSearchType('none');
+      } else if (mapboxSearchType === 'button') {
         setMapboxSearchType('none');
       }
 
@@ -275,6 +277,11 @@ export default function Mapbox(): JSX.Element {
     // reset state back from before button click
     answersActions.setQuery(lastQuery || '');
     answersActions.setStaticFilters([]);
+
+    dispatch({
+      type: LocationActionTypes.SetNoGymsMessage,
+      payload: `Sorry! We don't have any locations here.`,
+    });
   }
 
   async function positionMapForNoResults() {
@@ -284,10 +291,19 @@ export default function Mapbox(): JSX.Element {
       setFlyTo(new LngLat(googleLocation.lng, googleLocation.lat));
     }
 
-    if (googleLocation.city && googleLocation.state) {
+    if (googleLocation.city || googleLocation.state) {
+      let noGymsMessage = `Sorry! We don't have any locations in `;
+      if (googleLocation.city && googleLocation.state) {
+        noGymsMessage = noGymsMessage.concat(`${googleLocation.city}, ${googleLocation.state}.`);
+      } else if (googleLocation.city) {
+        noGymsMessage = noGymsMessage.concat(`${googleLocation.city}.`);
+      } else if (googleLocation.state) {
+        noGymsMessage = noGymsMessage.concat(`${googleLocation.state}.`);
+      }
+
       dispatch({
-        type: LocationActionTypes.SetNoGymsLocation,
-        payload: `${googleLocation.city} ${googleLocation.state}`,
+        type: LocationActionTypes.SetNoGymsMessage,
+        payload: noGymsMessage,
       });
       answersActions.setQuery(`${googleLocation.city}, ${googleLocation.state}`);
       answersActions.executeVerticalQuery();
@@ -295,13 +311,12 @@ export default function Mapbox(): JSX.Element {
       setMapboxSearchType('google');
     } else {
       dispatch({
-        type: LocationActionTypes.ClearNoGymsLocation,
+        type: LocationActionTypes.ClearNoGymsMessage,
       });
     }
   }
 
   function resizeToPoint() {
-    debugger;
     if (map.current && newCenter) {
       map.current.setCenter(newCenter);
       map.current.resize();

@@ -60,11 +60,9 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
             {...(cardConfig && { cardConfig })}
             customCssClasses={{ container: 'px-4 sm:px-0' }}
           />
-        ) : state.noGymsLocation ? (
+        ) : state.noGymsMessage ? (
           <div className="inline-block items-center text-center">
-            <span className="font-heading text-xl">
-              Sorry! We don't have any locations in <span className="text-gold">{state.noGymsLocation}</span>
-            </span>
+            <span className="font-heading text-xl">{state.noGymsMessage}</span>
           </div>
         ) : (
           <AlternativeVerticals

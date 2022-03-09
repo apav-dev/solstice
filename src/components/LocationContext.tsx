@@ -16,7 +16,7 @@ type LocationStateType = {
   selectedLocation?: MapLocationData,
   mapLocations?: MapLocationData[],
   showMap: boolean,
-  noGymsLocation?: string
+  noGymsMessage?: string
 };
 
 const locationState = {
@@ -30,7 +30,7 @@ export const LocationContext = createContext<{ state: LocationStateType, dispatc
 });
 
 const mainReducer = (
-  { hoveredLocation, selectedLocation, mapLocations, showMap, noGymsLocation }: LocationStateType,
+  { hoveredLocation, selectedLocation, mapLocations, showMap, noGymsMessage }: LocationStateType,
   action: MapActions | LocationActions
 ): LocationStateType => {
   const newState = {
@@ -38,7 +38,7 @@ const mainReducer = (
     selectedLocation: selectedLocationReducer(selectedLocation, action),
     mapLocations: mapLocationsReducer(mapLocations ?? [], action),
     showMap: toggleShowMapReducer(showMap, action),
-    noGymsLocation: noGymsLocationReducer(noGymsLocation, action),
+    noGymsMessage: noGymsLocationReducer(noGymsMessage, action),
   };
   return newState;
 };
