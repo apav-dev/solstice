@@ -5,6 +5,7 @@ import { CompositionMethod, useComposedCssClasses } from '../hooks/useComposedCs
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
+//prettier-ignore
 interface AlternativeVerticalsCssClasses {
   container?: string,
   alternativeVerticals___loading?: string,
@@ -33,11 +34,13 @@ const builtInCssClasses: AlternativeVerticalsCssClasses = {
   allCategoriesLink: 'text-blue-600 cursor-pointer hover:underline focus:underline',
 };
 
+//prettier-ignore
 interface VerticalConfig {
   label: string,
   verticalKey: string
 }
 
+//prettier-ignore
 interface VerticalSuggestion extends VerticalConfig {
   resultsCount: number
 }
@@ -46,6 +49,7 @@ function isVerticalSuggestion(suggestion: VerticalSuggestion | null): suggestion
   return suggestion?.resultsCount !== undefined;
 }
 
+//prettier-ignore
 interface Props {
   currentVerticalLabel: string,
   verticalsConfig: VerticalConfig[],
@@ -87,10 +91,7 @@ export default function AlternativeVerticals({
         });
 
         return matchingVerticalConfig
-          ? {
-            ...matchingVerticalConfig,
-            resultsCount: alternativeResults.resultsCount,
-          }
+          ? { ...matchingVerticalConfig, resultsCount: alternativeResults.resultsCount }
           : null;
       })
       .filter(isVerticalSuggestion)
@@ -135,7 +136,7 @@ export default function AlternativeVerticals({
   function renderSuggestion(suggestion: VerticalSuggestion) {
     return (
       <li key={suggestion.verticalKey} className={cssClasses.suggestion}>
-        <Link className={cssClasses.suggestionButton} to={`/${suggestion.verticalKey}`}>
+        <Link className={cssClasses.suggestionButton} to={`/${suggestion.verticalKey}?query=${query}`}>
           <div className={cssClasses.verticalIcon}>
             <Star />
           </div>
@@ -149,7 +150,7 @@ export default function AlternativeVerticals({
     return (
       <div className={cssClasses.categoriesText}>
         <span>View results across </span>
-        <Link className={cssClasses.allCategoriesLink} to="/">
+        <Link className={cssClasses.allCategoriesLink} to={`/all?query=${query}`}>
           all search categories.
         </Link>
       </div>

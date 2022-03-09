@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ResponsiveContext } from '../App';
 import { TrainerCard } from '../components/cards/TrainerCard';
 import ClassFacets from '../components/ClassFacets';
@@ -10,10 +10,15 @@ import ResultsCount from '../components/ResultsCount';
 import DirectAnswer from '../components/DirectAnswer';
 import SpellCheck from '../components/SpellCheck';
 import AlternativeVerticals from '../components/AlternativeVerticals';
+import { useAnswersState } from '@yext/answers-headless-react';
 
 export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
   usePageSetupEffect({ verticalKey });
   const screenSize = useContext(ResponsiveContext);
+
+  const trainerFacetOptions = useAnswersState((state) =>
+    state.filters.facets?.map((facet) => facet.options).flatMap((option) => option)
+  );
 
   return (
     <div className="flex flex-col">
@@ -28,14 +33,23 @@ export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
       />
       <ResultsCount cssCompositionMethod="assign" customCssClasses={{ text: 'text-sm font-body' }} />
       <AlternativeVerticals
-        currentVerticalLabel="Locations"
+        currentVerticalLabel="Trainers"
         verticalsConfig={[
           { label: 'Classes', verticalKey: 'classes' },
           { label: 'Locations', verticalKey: 'locations' },
         ]}
+        cssCompositionMethod="assign"
+        customCssClasses={{
+          container: 'flex flex-col justify-between mb-4 p-4 shadow-sm',
+          noResultsText: 'text-lg font-heading pb-2',
+          categoriesText: 'font-body',
+          suggestions: 'pt-4 ',
+          suggestion: 'pb-4 text-gold font-heading',
+          allCategoriesLink: 'text-gold cursor-pointer hover:underline focus:underline',
+        }}
       />
       <div className="flex justify-center space-x-4 ">
-        {screenSize !== 'sm' && <ClassFacets />}
+        {trainerFacetOptions && trainerFacetOptions.length > 0 && screenSize !== 'sm' && <ClassFacets />}
         <VerticalResults
           CardComponent={TrainerCard}
           displayAllResults={true}
@@ -43,7 +57,7 @@ export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
         />
       </div>
       <LocationBias customCssClasses={{ container: 'p-8' }} />
-      {screenSize === 'sm' && <MobileFilterLayout />}
+      {trainerFacetOptions && trainerFacetOptions.length > 0 && screenSize === 'sm' && <MobileFilterLayout />}
     </div>
   );
 }

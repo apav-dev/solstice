@@ -67,6 +67,7 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
         ) : (
           <AlternativeVerticals
             currentVerticalLabel="Locations"
+            displayAllResults={false}
             verticalsConfig={[
               { label: 'Classes', verticalKey: 'classes' },
               { label: 'Trainers', verticalKey: 'trainers' },

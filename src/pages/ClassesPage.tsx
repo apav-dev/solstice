@@ -8,13 +8,18 @@ import LocationBias from '../components/LocationBias';
 import usePageSetupEffect from '../hooks/usePageSetupEffect';
 import { ClassCard } from '../components/cards/ClassCard';
 import { ResponsiveContext } from '../App';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import MobileFilterLayout from '../components/MobileFilterLayout';
 import ClassFacets from '../components/ClassFacets';
+import { useAnswersState } from '@yext/answers-headless-react';
 
 export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
   usePageSetupEffect({ verticalKey });
   const screenSize = useContext(ResponsiveContext);
+
+  const classFacetOptions = useAnswersState((state) => state.filters.facets?.flatMap((facet) => facet.options));
+
+  useEffect(() => console.log(classFacetOptions), []);
 
   return (
     <div>
@@ -35,9 +40,18 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
           { label: 'Locations', verticalKey: 'locations' },
           { label: 'Trainers', verticalKey: 'trainers' },
         ]}
+        cssCompositionMethod="assign"
+        customCssClasses={{
+          container: 'flex flex-col justify-between mb-4 p-4 shadow-sm',
+          noResultsText: 'text-lg font-heading pb-2',
+          categoriesText: 'font-body',
+          suggestions: 'pt-4 ',
+          suggestion: 'pb-4 text-gold font-heading',
+          allCategoriesLink: 'text-gold cursor-pointer hover:underline focus:underline',
+        }}
       />
-      <div className="flex space-x-4">
-        {screenSize !== 'sm' && <ClassFacets />}
+      <div className="flex justify-center space-x-4">
+        {classFacetOptions && classFacetOptions.length > 0 && screenSize !== 'sm' && <ClassFacets />}
         <VerticalResults
           CardComponent={ClassCard}
           displayAllResults={true}
@@ -45,7 +59,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
         />
       </div>
       <LocationBias customCssClasses={{ container: 'p-8' }} />
-      {screenSize === 'sm' && <MobileFilterLayout />}
+      {classFacetOptions && classFacetOptions.length > 0 && screenSize === 'sm' && <MobileFilterLayout />}
     </div>
   );
 }
