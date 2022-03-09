@@ -28,7 +28,7 @@ export default function FilterSentences({ displayableFilters }: FilterSentence):
     let neighborhoodsSegment = '';
 
     const neighborhoodsFilters = displayableFilters.filter(
-      (displayableFilter) => displayableFilter.filter.fieldId === 'c_location.neighborhood'
+      (displayableFilter) => displayableFilter.filter.fieldId === 'c_trainer.linkedLocation.neighborhood'
     );
 
     if (neighborhoodsFilters.length > 0) {
@@ -42,9 +42,28 @@ export default function FilterSentences({ displayableFilters }: FilterSentence):
     return neighborhoodsSegment;
   }
 
+  function renderTimeOfDayFilters() {
+    let timeOfDaySegment = '';
+
+    const timeOfDayFilters = displayableFilters.filter(
+      (displayableFilters) => displayableFilters.filter.fieldId === 'c_partOfDay'
+    );
+
+    if (timeOfDayFilters.length > 0) {
+      for (const [i, timeOfDayFilter] of timeOfDayFilters.entries()) {
+        timeOfDaySegment = timeOfDaySegment.concat(
+          i < timeOfDayFilters.length - 1 ? `${timeOfDayFilter.label}, ` : `${timeOfDayFilter.label}`
+        );
+      }
+    }
+
+    return timeOfDaySegment;
+  }
+
   function renderFilterSentence() {
     const classes = renderClassTypeFilters();
     const neighborhoods = renderNeighborhoodsFilters();
+    const timesOfDay = renderTimeOfDayFilters();
 
     return (
       <div className="text-gold">
@@ -52,6 +71,8 @@ export default function FilterSentences({ displayableFilters }: FilterSentence):
         <span className="text-white">{classes.length === 0 ? 'Classes' : ' classes'}</span>
         <span className="text-white">{neighborhoods.length > 0 && ' in '}</span>
         <span>{neighborhoods}</span>
+        <span className="text-white">{timesOfDay.length > 0 && ' during the '}</span>
+        <span>{timesOfDay}</span>
       </div>
     );
   }

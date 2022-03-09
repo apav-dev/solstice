@@ -289,6 +289,10 @@ export default function Mapbox(): JSX.Element {
 
     if (googleLocation.lng && googleLocation.lat) {
       setFlyTo(new LngLat(googleLocation.lng, googleLocation.lat));
+      answersActions.setUserLocation({
+        latitude: googleLocation.lat,
+        longitude: googleLocation.lng,
+      });
     }
 
     if (googleLocation.city || googleLocation.state) {
