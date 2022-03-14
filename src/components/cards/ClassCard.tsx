@@ -50,10 +50,10 @@ export interface TrainerCardCssClasses {
 const builtInCssClasses: TrainerCardCssClasses = {
   container: 'flex sm:justify-between border-b p-4 shadow-sm max-w-64',
   descriptionContainer: 'w-full text-sm',
-  title: 'text-xl font-medium font-body font-bold',
-  body: 'text-xl font-medium font-body',
-  ctaButton: 'flex justify-center border w-full rounded-md self-center align-middle mt-4 hover:bg-gray-400',
-  ctaButtonText: 'align-middle font-heading font-bold text-base ',
+  title: 'text-lg font-medium font-body font-bold truncate',
+  body: 'text-base font-medium font-body',
+  ctaButton: 'flex justify-center place-items-center border w-full rounded-md mt-4 hover:bg-gray-400 h-9',
+  ctaButtonText: 'font-heading font-bold text-base',
 };
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -89,7 +89,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
     const startHour = +startTimeHour % 12 || 12;
     const endHour = +endTimeHour % 12 || 12;
 
-    return `${startHour}:${interval.start.slice(3, 5)}${startAMPM} - ${endHour}:${interval.end.slice(3, 5)}${endAMPM}`;
+    return `${startHour}${startAMPM} - ${endHour}${endAMPM}`;
   }
 
   function renderClassInterval(hours?: Hours) {
@@ -161,7 +161,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   const renderMobileLayout = () => {
     return (
-      <div className="my-4 ml-4 flex w-2/5 flex-col justify-between">
+      <div className=" ml-4 flex w-2/5 flex-col justify-between">
         {renderTitle(workoutClass.name)}
         {renderTrainerName(primaryTrainer)}
         {renderClassInterval(workoutClass.c_time)}
@@ -170,8 +170,8 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
   };
 
   return (
-    <div className="my-2 flex p-4 sm:flex-col">
-      {renderCardImg(isVertical, 'Workout Class', workoutClass.primaryPhoto?.image.url, result.description)}
+    <div className="my-2 mx-4 flex py-4 sm:flex-col">
+      {renderCardImg(isVertical, 'Workout Class', 'class', workoutClass.primaryPhoto?.image.url, result.description)}
       {screenSize === 'sm' ? renderMobileLayout() : renderLayout()}
       {screenSize !== 'sm' && (
         <div className={cssClasses.ctaButton}>

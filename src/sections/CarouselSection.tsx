@@ -25,7 +25,7 @@ const CarouselSection: SectionComponent = function (props: SectionConfig): JSX.E
         CardComponent={cardComponent}
         {...(cardConfig && { cardConfig })}
         customCssClasses={{
-          container: 'flex flex-col sm:flex-row overflow-x-auto  max-h-fit  snap-x pb-1',
+          container: 'flex flex-col sm:flex-row overflow-x-auto max-h-fit snap-x pb-1',
         }}
       />
       {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}

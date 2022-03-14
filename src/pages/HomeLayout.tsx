@@ -7,7 +7,7 @@ export default function HomeLayout() {
     <div>
       <SolsticeHeader />
       <img
-        className="fixed left-0 top-36	min-h-full w-full"
+        className="fixed left-0 top-28	min-h-full w-full"
         style={{
           minWidth: width,
         }}

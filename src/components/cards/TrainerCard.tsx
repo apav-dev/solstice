@@ -57,7 +57,7 @@ const builtInCssClasses: TrainerCardCssClasses = {
   descriptionContainer: 'w-full text-sm font-heading ',
   name: 'text-xl font-medium font-body font-bold',
   ctaButton: 'flex border rounded-md mt-4 px-4 bg-black justify-center hover:bg-gray-400',
-  ctaButtonText: 'font-heading text-white font-bold text-base  py-3 sm:py-0',
+  ctaButtonText: 'font-heading text-white font-bold text-base px-3 py-3 sm:py-0',
 };
 
 // TODO: format hours, hours to middle, fake CTAs on the right, hours to show current status and then can be expanded, limit to 3 results for now, margin between map
@@ -92,7 +92,7 @@ export function TrainerCard(props: TrainerCardProps): JSX.Element {
         }}>
         <img src={trainerImg} alt="Trainer Headshot" style={{ objectFit: 'cover', width: '500px', height: '250px' }} />
       </div> */}
-      {renderCardImg(isVertical, 'Trainer Headshot', trainerImg, trainer.c_inspirationalQuote)}
+      {renderCardImg(isVertical, 'Trainer Headshot', 'trainer', trainerImg, trainer.c_inspirationalQuote)}
       <div className="">
         {/* <div> */}
         <div>{renderName(trainer.name)}</div>

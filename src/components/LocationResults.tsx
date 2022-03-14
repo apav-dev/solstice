@@ -61,7 +61,7 @@ export default function LocationResults(props: LocationResultsProps): JSX.Elemen
             customCssClasses={{ container: 'px-4 sm:px-0' }}
           />
         ) : state.noGymsMessage ? (
-          <div className="inline-block items-center text-center">
+          <div className="flex h-full items-center px-8 text-center">
             <span className="font-heading text-xl">{state.noGymsMessage}</span>
           </div>
         ) : (

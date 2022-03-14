@@ -8,7 +8,7 @@ import LocationBias from '../components/LocationBias';
 import usePageSetupEffect from '../hooks/usePageSetupEffect';
 import { ClassCard } from '../components/cards/ClassCard';
 import { ResponsiveContext } from '../App';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import MobileFilterLayout from '../components/MobileFilterLayout';
 import ClassFacets from '../components/ClassFacets';
 import { useAnswersState } from '@yext/answers-headless-react';
@@ -18,8 +18,6 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
   const screenSize = useContext(ResponsiveContext);
 
   const classFacetOptions = useAnswersState((state) => state.filters.facets?.flatMap((facet) => facet.options));
-
-  useEffect(() => console.log(classFacetOptions), []);
 
   return (
     <div>
@@ -55,7 +53,7 @@ export default function ClassesPage({ verticalKey }: { verticalKey: string }) {
         <VerticalResults
           CardComponent={ClassCard}
           displayAllResults={true}
-          customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:w-4/5' }}
+          customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:w-4/5 gap-4' }}
         />
       </div>
       <LocationBias customCssClasses={{ container: 'p-8' }} />

@@ -6,7 +6,7 @@ import usePageSetupEffect from '../hooks/usePageSetupEffect';
 import LocationBias from '../components/LocationBias';
 
 const universalResultsFilterConfig = {
-  show: true,
+  show: false,
 };
 
 export default function UniversalSearchPage(props: { universalResultsConfig: UniversalResultsConfig }) {
