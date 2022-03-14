@@ -15,7 +15,7 @@ export default function renderCardImg(
       className={classNames(
         'group relative',
         // { 'h-24 w-40 sm:h-64 sm:w-full': type === 'class' },
-        { 'h-60 w-80 sm:h-64 sm:w-96': type === 'trainer' },
+        { 'h-60 w-80 self-center sm:h-64 sm:w-96': type === 'trainer' },
         { 'h-24 w-40 sm:h-64 sm:w-96': type === 'class' }
       )}>
       <div className="absolute top-0 bottom-0 right-0 left-0 w-full bg-gray-900 object-cover opacity-0 transition duration-300 ease-linear sm:group-hover:opacity-90"></div>

@@ -18,7 +18,7 @@ export default function UniversalSearchPage(props: { universalResultsConfig: Uni
       <SpellCheck
         cssCompositionMethod="assign"
         customCssClasses={{
-          container: 'font-body text-xl',
+          container: 'font-body',
           helpText: '',
           link: 'text-gold font-bold cursor-pointer hover:underline focus:underline',
         }}
