@@ -7,12 +7,14 @@ interface MobileFilterButtonProps {
 
 export const MobileFilterButton = ({ onClick }: MobileFilterButtonProps) => (
   <div
-    className="fixed inset-x-1/3 top-auto bottom-20 m-0 flex h-16 w-2/5 items-center justify-center rounded-3xl bg-gold"
+    className="fixed left-0 right-0 top-auto  bottom-20 m-0 mx-auto flex h-12 w-2/5 items-center justify-center rounded-3xl bg-gold"
     onClick={() => onClick()}>
     {/* TODO: center icon and text */}
-    <div className="flex space-x-4 ">
-      <FilterIcon />
-      <div className=" text-center font-heading text-2xl text-black">Filter</div>
+    <div className="flex space-x-2 ">
+      <div className="flex flex-col justify-center">
+        <FilterIcon />
+      </div>
+      <div className=" text-center font-heading text-lg text-black">FILTER</div>
     </div>
   </div>
 );
