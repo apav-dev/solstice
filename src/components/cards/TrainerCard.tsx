@@ -53,7 +53,7 @@ export interface TrainerCardCssClasses {
 
 //prettier-ignore
 const builtInCssClasses: TrainerCardCssClasses = {
-  container: 'flex flex-col p-4 shadow-sm my-2',
+  container: 'flex flex-col p-4 shadow-sm my-2 align-items-center',
   descriptionContainer: 'w-full text-sm font-heading ',
   name: 'text-xl font-medium font-body font-bold',
   ctaButton: 'flex border rounded-md mt-4 px-4 bg-black justify-center hover:bg-gray-400',

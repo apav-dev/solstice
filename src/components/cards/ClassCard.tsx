@@ -52,7 +52,7 @@ const builtInCssClasses: TrainerCardCssClasses = {
   descriptionContainer: 'w-full text-sm',
   title: 'text-lg font-medium font-body font-bold truncate',
   body: 'text-base font-medium font-body',
-  ctaButton: 'flex justify-center place-items-center border w-full rounded-md mt-4 hover:bg-gray-400 h-9',
+  ctaButton: 'flex justify-center place-items-center border w-full rounded-md mt-4 hover:bg-gray-400 h-9 ',
   ctaButtonText: 'font-heading font-bold text-base',
 };
 
@@ -147,7 +147,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
 
   const renderLayout = () => (
     <div className="flex flex-col ">
-      <div className="flex flex-col  sm:justify-start xl:flex-row xl:space-x-2">
+      <div className="flex flex-col   sm:justify-start xl:flex-row xl:space-x-2">
         {renderTitle(workoutClass.name)}
         {/* TODO: why doesn't tailwind work here? */}
         <span
@@ -170,7 +170,7 @@ export function ClassCard(props: ClassCardProps): JSX.Element {
   };
 
   return (
-    <div className="my-2 mx-4 flex py-4 sm:flex-col">
+    <div className="my-2 mx-4 flex max-w-xl py-4 sm:flex-col">
       {renderCardImg(isVertical, 'Workout Class', 'class', workoutClass.primaryPhoto?.image.url, result.description)}
       {screenSize === 'sm' ? renderMobileLayout() : renderLayout()}
       {screenSize !== 'sm' && (

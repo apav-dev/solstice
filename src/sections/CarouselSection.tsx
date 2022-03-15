@@ -18,18 +18,22 @@ const CarouselSection: SectionComponent = function (props: SectionConfig): JSX.E
 
   // TODO: modify to use standard section
   return (
-    <section>
+    <div>
       {header}
-      <VerticalResultsDisplay
-        results={screenSize === 'sm' ? results.slice(0, 3) : results}
-        CardComponent={cardComponent}
-        {...(cardConfig && { cardConfig })}
-        customCssClasses={{
-          container: 'flex flex-col sm:flex-row sm:overflow-x-auto max-h-fit snap-x pb-1',
-        }}
-      />
-      {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
-    </section>
+
+      <div className="">
+        <VerticalResultsDisplay
+          results={screenSize === 'sm' ? results.slice(0, 3) : results}
+          CardComponent={cardComponent}
+          {...(cardConfig && { cardConfig })}
+          customCssClasses={{
+            container:
+              'grid sm:flex justify-center sm:justify-start  align-items-center sm:flex-row sm:overflow-x-auto max-h-fit snap-x pb-1',
+          }}
+        />
+        {screenSize === 'sm' && renderViewAllLink({ verticalKey: props.verticalKey, latestQuery, label: props.label })}
+      </div>
+    </div>
   );
 };
 export default CarouselSection;

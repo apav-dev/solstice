@@ -156,7 +156,11 @@ export default function Mapbox(): JSX.Element {
         setMarkers(markerRecord);
         setMapboxSearchType('none');
       } else if (mapboxSearchType === 'none') {
-        positionMapForNoResults();
+        // positionMapForNoResults();
+        dispatch({
+          type: LocationActionTypes.SetNoGymsMessage,
+          payload: `Sorry! We don't have any locations here.`,
+        });
       } else if (mapboxSearchType === 'google') {
         resizeToPoint();
         setMapboxSearchType('none');

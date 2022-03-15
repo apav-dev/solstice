@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { ResponsiveContext } from '../App';
 import { TrainerCard } from '../components/cards/TrainerCard';
 import ClassFacets from '../components/ClassFacets';
@@ -53,7 +53,7 @@ export default function TrainersPage({ verticalKey }: { verticalKey: string }) {
         <VerticalResults
           CardComponent={TrainerCard}
           displayAllResults={true}
-          customCssClasses={{ container: 'sm:flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:w-4/5' }}
+          customCssClasses={{ container: 'sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:w-4/5' }}
         />
       </div>
       <LocationBias customCssClasses={{ container: 'p-8' }} />
